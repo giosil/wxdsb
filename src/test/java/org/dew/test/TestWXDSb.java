@@ -57,15 +57,18 @@ public class TestWXDSb extends TestCase {
 	
 	public void testApp() {
 		
-		// findDocuments(sPATIENT_ID);
+		String sOperation = System.getProperty("dew.test.op", "");
 		
-		// retrieveDocumentSet(sPATIENT_ID, sREPOSITORY_ID, sDOC_UNIQUE_ID);
-	
+		if(sOperation.equalsIgnoreCase("findDocuments")) {
+			findDocuments(sPATIENT_ID);
+		}
+		else if(sOperation.equalsIgnoreCase("retrieveDocumentSet")) {
+			retrieveDocumentSet(sPATIENT_ID, sREPOSITORY_ID, sDOC_UNIQUE_ID);
+		}
+		
 	}
 	
-	public static
-	void findDocuments(String patientId)
-	{
+	public static void findDocuments(String patientId) {
 		System.out.println("findDocuments(" + patientId + ")...");
 		
 		if(patientId == null || patientId.length() < 16) {
@@ -133,9 +136,7 @@ public class TestWXDSb extends TestCase {
 		System.out.println("----------------------------");
 	}
 	
-	public static
-	void retrieveDocumentSet(String patientId, String repositoryId, String uniqueId)
-	{
+	public static void retrieveDocumentSet(String patientId, String repositoryId, String uniqueId) {
 		System.out.println("retrieveDocumentSet(" + patientId + "," + repositoryId + "," + uniqueId + ")...");
 		
 		if(patientId == null || patientId.length() < 16) {
