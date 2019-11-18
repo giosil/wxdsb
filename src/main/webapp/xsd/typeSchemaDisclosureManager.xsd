@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema targetNamespace="http://www.fascicolosanitario.gov.it/schema/typeSchemaDisclosureManager"
+    xmlns:tns="http://www.fascicolosanitario.gov.it/schema/typeSchemaDisclosureManager"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.fascicolosanitario.gov.it/schema/typeSchemaDisclosureManager"
+    elementFormDefault="qualified">
+
+	<xsd:complexType name="ErrorType">
+		<xsd:attribute name="codeContext" type="xsd:string" use="required"/>
+		<xsd:attribute name="errorCode" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="Document">
+		<xsd:sequence>
+		<xsd:element name="Value" type="xsd:base64Binary"/>
+		<xsd:element name="MimeType" type="xsd:string"/>
+		<xsd:element name="DocumentType" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DocumentList">
+		<xsd:sequence>
+		<xsd:element name="Document" type="tns:Document" minOccurs="2" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="CommunicationDisclosureRequestType">
+			<!-- Documents  -->
+		<xsd:sequence>
+		<xsd:element name="RegionId" type="xsd:string"/>
+		<xsd:element name="DocumentList" type="tns:DocumentList"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CommunicationDisclosureResponseType">
+		<xsd:sequence>
+			<!-- Status -->
+			<xsd:element name="Status" type="xsd:string"/>
+			<!-- Region id -->
+			<xsd:element name="RegionId" type="xsd:string"/>
+			<!-- Disclosure id -->
+			<xsd:element name="DisclosureId" type="xsd:string"/>
+			<!-- Error -->
+			<xsd:element name="Error" type="tns:ErrorType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RetrieveDisclosureRequestType">
+		<xsd:sequence>
+			<!-- Disclosure id-->
+			<xsd:element name="DisclosureId" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RetrieveDisclosureResponseType">
+		<xsd:sequence>
+			<!-- Status -->
+			<xsd:element name="Status" type="xsd:string"/>
+			<!-- Disclosure id -->
+			<xsd:element name="DisclosureId" type="xsd:string"/>
+			<!-- Document List-->
+			<xsd:element name="DocumentList" type="tns:DocumentList"/>
+			<!-- Error -->
+			<xsd:element name="Error" type="tns:ErrorType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="CommunicationDisclosureRequest" type="CommunicationDisclosureRequestType"/>
+	<xsd:element name="CommunicationDisclosureResponse" type="CommunicationDisclosureResponseType"/>
+
+	<xsd:element name="RetrieveDisclosureRequest" type="RetrieveDisclosureRequestType"/>
+	<xsd:element name="RetrieveDisclosureResponse" type="RetrieveDisclosureResponseType"/>
+
+</xsd:schema>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema targetNamespace="http://www.fascicolosanitario.gov.it/schema/typeSchemaCommunicationConsent"
+    xmlns:tns="http://www.fascicolosanitario.gov.it/schema/typeSchemaCommunicationConsent"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.fascicolosanitario.gov.it/schema/typeSchemaCommunicationConsent"
+    elementFormDefault="qualified">
+
+	
+	
+	
+	
+	<xsd:complexType name="ErrorType">
+		<xsd:attribute name="codeContext" type="xsd:string" use="required"/>
+		<xsd:attribute name="errorCode" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="ConsentList">
+		<xsd:sequence>
+			<xsd:element name="Consent" type="tns:Consent" minOccurs="2" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="Consent">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:boolean"/>
+			<xsd:element name="note" type="xsd:string"/>
+		</xsd:sequence>
+		<xsd:attribute name="date" type="xsd:date"/>
+		<xsd:attribute name="name" type="xsd:string"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="RegisterConsentSetRequestType">
+		<xsd:sequence>
+			<!-- OperatorID -->
+			<xsd:element name="OperatorID" type="xsd:string"/>
+			<!-- OperatorRole -->
+			<xsd:element name="OperatorRole" type="xsd:string"/>
+			<!-- Requestor Tutore-Genitore/Assistito -->
+			<xsd:element name="Requestor" type="xsd:string"/>
+			<!-- PatientId -->
+			<xsd:element name="PatientId" type="xsd:string"/>
+			<!-- Consent List-->
+			<xsd:element name="ConsentList" type="tns:ConsentList"/>
+			<!-- Current Disclosures -->
+			<xsd:element name="IDDisclosure" type="xsd:string"/>
+			<!-- Other -->
+			
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RegisterConsentSetResponseType">
+		<xsd:sequence>
+			<xsd:element name="Status" type="xsd:string"/>
+				<!-- Patient RDA -->
+			<xsd:element name="RDA" type="xsd:string"/>
+			<xsd:element name="Error" type="tns:ErrorType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+		
+	<xsd:complexType name="ConsentQueryRequestType">
+		<xsd:sequence>
+			<!-- PatientId -->
+			<xsd:element name="PatientId" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+	
+	<xsd:complexType name="ConsentQueryResponseType">
+		<xsd:sequence>
+			<xsd:element name="Status" type="xsd:string"/>
+			<!-- PatientId -->
+			<xsd:element name="PatientId" type="xsd:string"/>
+			<!-- Consent List-->
+			<xsd:element name="ConsentList" type="tns:ConsentList"/>
+			<!-- Past Disclosures -->
+			<xsd:element name="DisclosuresIdPast" type="xsd:string"/>
+			<!-- Current Disclosures -->
+			<xsd:element name="DisclosuresIdCurrent" type="xsd:string"/>
+			<xsd:element name="Error" type="tns:ErrorType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+
+	<xsd:element name="RegisterConsentSetRequest" type="RegisterConsentSetRequestType"/>
+	<xsd:element name="RegisterConsentSetResponse" type="RegisterConsentSetResponseType"/>
+	
+	<xsd:element name="ConsentQueryRequest" type="ConsentQueryRequestType"/>
+	<xsd:element name="ConsentQueryResponse" type="ConsentQueryResponseType"/>
+	
+	
+
+</xsd:schema>

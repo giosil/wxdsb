@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema targetNamespace="http://www.fascicolosanitario.gov.it/schema/typeSchemaNotifyConsent"
+    xmlns:tns="http://www.fascicolosanitario.gov.it/schema/typeSchemaNotifyConsent"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.fascicolosanitario.gov.it/schema/typeSchemaNotifyConsent"
+    elementFormDefault="qualified">
+	<xsd:complexType name="ValueListType">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Value" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SlotType">
+		<xsd:sequence>
+			<xsd:element name="ValueList" type="tns:ValueListType" maxOccurs="1" minOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ErrorType">
+		<xsd:attribute name="codeContext" type="xsd:string" use="required"/>
+		<xsd:attribute name="errorCode" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ConsentList">
+		<xsd:sequence>
+			<xsd:element name="Consent" type="tns:Consent" minOccurs="2" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="Consent">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:boolean"/>
+			<xsd:element name="note" type="xsd:string"/>
+		</xsd:sequence>
+		<xsd:attribute name="date" type="xsd:date"/>
+		<xsd:attribute name="name" type="xsd:string"/>
+	</xsd:complexType>
+	
+
+	<xsd:complexType name="NotifyConsentRequestType">
+		<xsd:sequence>
+			<!-- UserId RDE -->
+			<xsd:element name="OrganizationID" type="xsd:string"/>
+			<!-- Id Healthcare Facility -->
+			<xsd:element name="OperatorLocality" type="xsd:string"/>
+			<!-- PatientId -->
+			<xsd:element name="PatientId" type="xsd:string"/>
+			<!-- OperatorId -->
+			<xsd:element name="OperatorId" type="xsd:string"/>
+			<!-- OperatorRole -->
+			<xsd:element name="OperatorRole" type="xsd:string"/>
+			<!-- Parent/Guardian Id -->
+			<xsd:element name="RequestorId" type="xsd:string"/>
+			<!-- Disclosures Id -->
+			<xsd:element name="DisclosuresId" type="xsd:string"/>
+			<!-- Consent List-->
+			<xsd:element name="ConsentList" type="tns:ConsentList"/>
+			<!-- Other -->
+			<xsd:element name="Slot" type="tns:SlotType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NotifyConsentResponseType">
+		<xsd:sequence>
+			<xsd:element name="Status" type="xsd:string"/>
+			<xsd:element name="Error" type="tns:ErrorType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="NotifyConsentRequest" type="NotifyConsentRequestType"/>
+	<xsd:element name="NotifyConsentResponse" type="NotifyConsentResponseType"/>
+
+</xsd:schema>

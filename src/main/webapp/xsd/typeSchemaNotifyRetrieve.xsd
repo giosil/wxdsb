@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema targetNamespace="http://www.fascicolosanitario.gov.it/schema/typeSchemaNotifyRetrieve"
+    xmlns:tns="http://www.fascicolosanitario.gov.it/schema/typeSchemaNotifyRetrieve"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.fascicolosanitario.gov.it/schema/typeSchemaNotifyRetrieve"
+    elementFormDefault="qualified">
+
+	<xsd:complexType name="ValueListType">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Value" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SlotType">
+		<xsd:sequence>
+			<xsd:element name="ValueList" type="tns:ValueListType" maxOccurs="1" minOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ErrorType">
+		<xsd:attribute name="codeContext" type="xsd:string" use="required"/>
+		<xsd:attribute name="errorCode" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="NotifyRetrieveRequestType">
+		<xsd:sequence>
+			<!-- Id RDA -->
+			<xsd:element name="HomeCommunityId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<!-- RepositoryId RCD -->
+			<xsd:element name="RepositoryUniqueId" type="xsd:string"/>
+			<!-- DocumentId RCD -->
+			<xsd:element name="DocumentUniqueId" type="xsd:string"/>
+			<!-- Document Type -->
+			<xsd:element name="TypeCode" type="xsd:string"/>
+			<!-- UserId RDE -->
+			<xsd:element name="RequestorId" type="xsd:string"/>
+			<!-- User Role RDE -->
+			<xsd:element name="RequestorRole" type="xsd:string"/>
+			<!-- Purpose of Use -->
+			<xsd:element name="Pou" type="xsd:string"/>
+			<!-- Id Healthcare Facility RDE -->
+			<xsd:element name="RequestorLocality" type="xsd:string"/>
+			<!-- PatientId -->
+			<xsd:element name="PatientId" type="xsd:string"/>
+			<!-- Other -->
+			<xsd:element name="Slot" type="tns:SlotType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="NotifyRetrieveResponseType">
+		<xsd:sequence>
+			<xsd:element name="Status" type="xsd:string"/>
+			<xsd:element name="Error" type="tns:ErrorType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="NotifyRetrieveRequest" type="NotifyRetrieveRequestType"/>
+	<xsd:element name="NotifyRetrieveResponse" type="NotifyRetrieveResponseType"/>
+
+</xsd:schema>

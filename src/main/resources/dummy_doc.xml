@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3">
+	<realmCode code="IT" />
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+	<templateId root="2.16.840.1.113883.2.9.10.2.10" extension="ITPRF_REF_LABCH-001" />
+	<id root="2.16.840.1.113883.2.9.2.120.4.4" extension="$documentId" assigningAuthorityName="Regione Lazio" />
+	<code code="11502-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" codeSystemVersion="2.19" displayName="Laboratory Report">
+	</code>
+	<title>Referto di Laboratorio</title>
+	<effectiveTime value="20140526161305" />
+	<confidentialityCode code="N" codeSystemName="HL7 Confidentiality" codeSystem="2.16.840.1.113883.5.25" displayName="Normale">
+	</confidentialityCode>
+	<languageCode code="ita-ITA" />
+	<setId root="2.16.840.1.113883.2.9.2.120.4.4" extension="$documentId" assigningAuthorityName="Regione Lazio" />
+	<versionNumber value="1" />
+	<recordTarget>
+		<patientRole>
+			<id root="2.16.840.1.113883.2.9.4.3.2" extension="$patientId" assigningAuthorityName="Ministero Economia e Finanze" />
+			<addr use="HP">
+				<county></county>
+				<city></city>
+				<postalCode></postalCode>
+				<streetName></streetName>
+			</addr>
+			<addr use="H">
+				<county></county>
+				<city></city>
+				<postalCode></postalCode>
+				<streetName></streetName>
+			</addr>
+			<patient>
+				<name>
+					<family>PROVA ANALISI</family>
+					<given>PROVA</given>
+				</name>
+				<administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender" displayName="Male" />
+				<birthTime value="20081103" />
+				<birthplace>
+					<place>
+						<addr>
+							<country></country>
+							<city></city>
+							<censusTract></censusTract>
+						</addr>
+					</place>
+				</birthplace>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20140526161305" />
+		<assignedAuthor>
+			<id root="2.16.840.1.113883.2.9.4.3.2" extension="VRDMRC67T20I257E"
+				assigningAuthorityName="Ministero delle Finanze" />
+			<assignedPerson>
+				<name>
+					<given>ANGELA</given>
+					<family>BERNARDI</family>
+					<prefix>Dott.</prefix>
+				</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="2.16.840.1.113883.2.9.2.12004500" extension="120000" />
+				<name>Azienda Sanitaria</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<legalAuthenticator>
+		<time value="20140526161305" />
+		<signatureCode code="S" />
+		<assignedEntity classCode="ASSIGNED">
+			<id extension="VRDMRC67T20I257E" root="2.16.840.1.113883.2.9.4.3.2"
+				assigningAuthorityName="Ministero Economia e Finanze" />
+			<assignedPerson>
+				<name>
+					<given>VERDI</given>
+					<family>MARCO</family>
+					<prefix>Dott.</prefix>
+				</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.840.1.113883.2.9.2.12004500" extension="120045" />
+				<name>Ospedale</name>
+				<asOrganizationPartOf>
+					<wholeOrganization>
+						<id root="2.16.840.1.113883.2.9.2.12004500" extension="120045" />
+					</wholeOrganization>
+				</asOrganizationPartOf>
+			</representedOrganization>
+		</assignedEntity>
+	</legalAuthenticator>
+	<participant typeCode="REF" contextControlCode="OP">
+		<functionCode code="RIC" />
+		<time value="20140526161143" />
+		<!--20140526161143 DATA Check-IN -->
+		<associatedEntity classCode="QUAL">
+			<scopingOrganization>
+				<name>prova </name>
+			</scopingOrganization>
+		</associatedEntity>
+	</participant>
+	<inFulfillmentOf>
+		<order>
+			<id root="2.16.840.1.113883.2.9.2.12004500" extension="201402037757"
+				assigningAuthorityName="OPENLIS" />
+			<priorityCode code="R" codeSystem="2.16.804.1.1138835.7"
+				codeSystemName="Hl7 ActPriority" />
+		</order>
+	</inFulfillmentOf>
+	<authorization>
+		<consent>
+			<code code='1' codeSystem='2.16.840.1.113883.2.9.2.160112'
+				codeSystemName='Consenso' displayName='Autorizzato' />
+			<statusCode code='completed' />
+		</consent>
+	</authorization>
+	<component>
+		<!-- Data Prelievo -->
+		<structuredBody moodCode="EVN" classCode="DOCBODY">
+			<component typeCode="COMP">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<code code="Chimica" displayName="CHIMICA">
+					</code>
+					<title>CHIMICA</title>
+					<component>
+						<section>
+							<code code="002" codeSystemName="Codifica Interna Laboratorio" displayName="GLICEMIA">
+							</code>
+							<text>
+								<paragraph>
+								</paragraph>
+								<table>
+									<thead>
+										<tr>
+											<th>Esame</th>
+											<th>Esito</th>
+											<th>Abnormal Flag</th>
+											<th>Unita di misura</th>
+											<th>Range di riferimento</th>
+											<th>Metodo</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>GLICEMIA</td>
+											<td>65</td>
+											<td></td>
+											<td>mg/dl</td>
+											<td>60 - 110</td>
+											<td />
+										</tr>
+									</tbody>
+								</table>
+								<footnote></footnote>
+								<paragraph>
+								</paragraph>
+								<!--Inizio Microbiologia sezione humane readable -->
+								<!--Fine Microbiologia sezione humane readable -->
+							</text>
+							<entry typeCode="DRIV">
+								<!-- INIZIO MONO RISULTATO -->
+								<act classCode="ACT" moodCode="EVN">
+									<code code="002" codeSystemName="Codifica Interna Laboratorio" displayName="GLICEMIA">
+									</code>
+									<statusCode code="completed" />
+									<!--(INIZIO) GESTIONE MICROBIOLOGIA MONO RISULTATO -->
+									<!--(FINE) GESTIONE MICROBIOLOGIA MONO RISULTATO -->
+									<entryRelationship typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="002" codeSystemName="Codifica Interna Laboratorio" displayName="GLICEMIA">
+												<!--TRASCODIFICA RISULTATI NON DISPONIBILE -->
+												<!--ANL_COMPLETED -->
+											</code>
+											<statusCode code="completed" />
+											<effectiveTime value="20140526161253" />
+											<value xsi:type="PQ" value="65" unit="mg/dl" />
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+													<value xsi:type="IVL_PQ">
+														<low value="60" unit="mg/dl" />
+														<high value="110" unit="mg/dl" />
+													</value>
+													<interpretationCode code="N" />
+												</observationRange>
+											</referenceRange>
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+													<value xsi:type="ST">60 - 110</value>
+													<interpretationCode code="N" />
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</entryRelationship>
+									<!-- VAL USED -->
+								</act>
+								<!-- FINE MONO RISULTATO -->
+							</entry>
+						</section>
+					</component>
+				</section>
+			</component>
+			<component typeCode="COMP">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<code code="CL" displayName="CHEMILUMINESCENZA">
+					</code>
+					<title>CHEMILUMINESCENZA</title>
+					<component>
+						<section>
+							<code code="1560A" codeSystemName="Codifica Interna Laboratorio" displayName="TRIIODOTIRONINA LIBERA /FT3">
+							</code>
+							<text>
+								<paragraph>
+								</paragraph>
+								<table>
+									<thead>
+										<tr>
+											<th>Esame</th>
+											<th>Esito</th>
+											<th>Abnormal Flag</th>
+											<th>Unita di misura</th>
+											<th>Range di riferimento</th>
+											<th>Metodo</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>TRIIODOTIRONINA LIBERA /FT3</td>
+											<td>6.00</td>
+											<td>*</td>
+											<td>pg/mL</td>
+											<td>1.80 - 4.20</td>
+											<td />
+										</tr>
+									</tbody>
+								</table>
+								<footnote></footnote>
+								<paragraph>
+								</paragraph>
+								<!--Inizio Microbiologia sezione humane readable -->
+								<!--Fine Microbiologia sezione humane readable -->
+							</text>
+							<entry typeCode="DRIV">
+								<!-- INIZIO MONO RISULTATO -->
+								<act classCode="ACT" moodCode="EVN">
+									<code code="1560A" codeSystemName="Codifica Interna Laboratorio" displayName="TRIIODOTIRONINA LIBERA /FT3">
+									</code>
+									<statusCode code="completed" />
+									<!--(INIZIO) GESTIONE MICROBIOLOGIA MONO RISULTATO -->
+									<!--(FINE) GESTIONE MICROBIOLOGIA MONO RISULTATO -->
+									<entryRelationship typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="1560A" codeSystemName="Codifica Interna Laboratorio"
+												displayName="TRIIODOTIRONINA LIBERA /FT3">
+												<!--TRASCODIFICA RISULTATI NON DISPONIBILE -->
+												<!--ANL_COMPLETED -->
+											</code>
+											<statusCode code="completed" />
+											<effectiveTime value="20140526161253" />
+											<value xsi:type="PQ" value="6.00" unit="pg/mL" />
+											<interpretationCode code="A"
+												codeSystem="2.16.840.1.113883.5.83" codeSystemName="HL7 ObservationInterpretazion"
+												displayName="*" />
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+													<value xsi:type="IVL_PQ">
+														<low value="1.80" unit="pg/mL" />
+														<high value="4.20" unit="pg/mL" />
+													</value>
+													<interpretationCode code="N" />
+												</observationRange>
+											</referenceRange>
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+													<value xsi:type="ST">1.80 - 4.20</value>
+													<interpretationCode code="N" />
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</entryRelationship>
+									<!-- VAL USED -->
+								</act>
+								<!-- FINE MONO RISULTATO -->
+							</entry>
+						</section>
+					</component>
+					<component>
+						<section>
+							<code code="1561A" codeSystemName="Codifica Interna Laboratorio" displayName="TIROXINA  LIBERA/ FT4">
+							</code>
+							<text>
+								<paragraph>
+								</paragraph>
+								<table>
+									<thead>
+										<tr>
+											<th>Esame</th>
+											<th>Esito</th>
+											<th>Abnormal Flag</th>
+											<th>Unita di misura</th>
+											<th>Range di riferimento</th>
+											<th>Metodo</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>TIROXINA LIBERA/ FT4</td>
+											<td>4.00</td>
+											<td>*</td>
+											<td>ng/dL</td>
+											<td>0.77 - 1.45</td>
+											<td />
+										</tr>
+									</tbody>
+								</table>
+								<footnote></footnote>
+								<paragraph>
+								</paragraph>
+								<!--Inizio Microbiologia sezione humane readable -->
+								<!--Fine Microbiologia sezione humane readable -->
+							</text>
+							<entry typeCode="DRIV">
+								<!-- INIZIO MONO RISULTATO -->
+								<act classCode="ACT" moodCode="EVN">
+									<code code="1561A" codeSystemName="Codifica Interna Laboratorio" displayName="TIROXINA  LIBERA/ FT4">
+									</code>
+									<statusCode code="completed" />
+									<!--(INIZIO) GESTIONE MICROBIOLOGIA MONO RISULTATO -->
+									<!--(FINE) GESTIONE MICROBIOLOGIA MONO RISULTATO -->
+									<entryRelationship typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="1561A" codeSystemName="Codifica Interna Laboratorio"
+												displayName="TIROXINA  LIBERA/ FT4">
+												<!--TRASCODIFICA RISULTATI NON DISPONIBILE -->
+												<!--ANL_COMPLETED -->
+											</code>
+											<statusCode code="completed" />
+											<effectiveTime value="20140526161253" />
+											<value xsi:type="PQ" value="4.00" unit="ng/dL" />
+											<interpretationCode code="A"
+												codeSystem="2.16.840.1.113883.5.83" codeSystemName="HL7 ObservationInterpretazion"
+												displayName="*" />
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+													<value xsi:type="IVL_PQ">
+														<low value="0.77" unit="ng/dL" />
+														<high value="1.45" unit="ng/dL" />
+													</value>
+													<interpretationCode code="N" />
+												</observationRange>
+											</referenceRange>
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+													<value xsi:type="ST">0.77 - 1.45</value>
+													<interpretationCode code="N" />
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</entryRelationship>
+									<!-- VAL USED -->
+								</act>
+								<!-- FINE MONO RISULTATO -->
+							</entry>
+						</section>
+					</component>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>
