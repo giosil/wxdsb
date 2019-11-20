@@ -30,142 +30,142 @@ import org.dew.xds.util.WSUtil;
 public
 class ITI57Service extends HttpServlet
 {
-	private static final long serialVersionUID = 561326236245014636L;
-	
-	protected static final String REQUEST_NAME = "SubmitObjectsRequest";
-	
-	protected String handlerClass = null;
-	
-	public
-	void init()
-		throws ServletException
-	{
-		handlerClass = getServletContext().getInitParameter("XDS");
-	}
-	
-	protected
-	void doGet(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException
-	{
-		boolean isWSDLRequest = WSUtil.isWSDLRequest(request);
-		if(isWSDLRequest) {
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/wsdl/xds-iti57.jsp");
-			requestDispatcher.forward(request, response);
-		}
-		else {
-			WSUtil.sendHTMLPage(response, REQUEST_NAME, this.getClass().getName());
-		}
-	}
-	
-	protected
-	void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException
-	{
-		AuthAssertion basicAuth = WSUtil.getBasicAuth(request);
-		
-		String sMessageID     = null;
-		String sNsURIEnvelope = null;
-		String requestName    = null;
-		byte[] soapRequest    = null;
-		try {
-			SOAPMessage soapMessage = WSUtil.getSOAPMessage(request);
-			
-			sMessageID = WSUtil.getMessageID(soapMessage);
-			
-			sNsURIEnvelope = WSUtil.getNamespaceURIEnvelope(soapMessage);
-			
-			requestName = WSUtil.getRequestName(soapMessage);
-			
-			soapRequest = WSUtil.getSOAPPartContent(soapMessage);
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-			WSUtil.sendFault(response, sNsURIEnvelope, 0, "Invalid request", null);
-			return;
-		}
-		
-		if(!REQUEST_NAME.equalsIgnoreCase(requestName)) {
-			WSUtil.sendFault(response, sNsURIEnvelope, 1, "Invalid " + REQUEST_NAME, null);
-			return;
-		}
-		
-		List<ExtrinsicObject>       listOfExtrinsicObject = null;
-		Map<String,RegistryPackage> mapRegistryPackages   = null;
-		Map<String,Association>     mapAssociations       = null;
-		try {
-			RIMContentHandler rimContentHandler = new RIMContentHandler();
-			rimContentHandler.load(soapRequest);
-			RegistryObjectList registryObjectList = rimContentHandler.getRegistryObjectList();
-			if(registryObjectList != null) {
-				listOfExtrinsicObject = registryObjectList.getExtrinsicObjects();
-				mapRegistryPackages   = registryObjectList.getRegistryPackagesMap();
-				mapAssociations       = registryObjectList.getAssociationsMap();
-			}
-		}
-		catch(Exception ex) {
-			WSUtil.sendFault(response, sNsURIEnvelope, 2, "Invalid " + REQUEST_NAME, null);
-			return;
-		}
-		
-		if(listOfExtrinsicObject == null || listOfExtrinsicObject.size() == 0) {
-			WSUtil.sendFault(response, sNsURIEnvelope, 2, "Invalid " + REQUEST_NAME, null);
-			return;
-		}
-		
-		XDSDocument[] arrayOfXDSDocument = new XDSDocument[listOfExtrinsicObject.size()];
-		for(int i = 0; i < listOfExtrinsicObject.size(); i++) {
-			ExtrinsicObject extrinsicObject = listOfExtrinsicObject.get(i);
-			
-			XDSDocument xdsDocument = new XDSDocument(extrinsicObject);
-			xdsDocument.setServicePath(request.getServletPath());
-			
-			String registryObjectId = extrinsicObject.getId();
-			if(registryObjectId != null) {
-				RegistryPackage registryPackage = mapRegistryPackages.get(registryObjectId);
-				xdsDocument.setRegistryPackage(registryPackage);
-				
-				Association association = mapAssociations.get(registryObjectId);
-				xdsDocument.setAssociation(association);
-			}
-			
-			arrayOfXDSDocument[i] = xdsDocument;
-		}
-		
-		List<AuthAssertion> listOfAssertion = null;
-		try {
-			AuthContentHandler samlContentHandler = new AuthContentHandler();
-			samlContentHandler.load(soapRequest);
-			listOfAssertion = samlContentHandler.getListOfAssertion();
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		if(listOfAssertion != null) {
-			for(int i = 0; i < listOfAssertion.size(); i++) {
-				AuthAssertion assertion = listOfAssertion.get(i);
-				if(assertion.isSigned()) {
-					if(!assertion.verifySignature()) {
-						WSUtil.sendFault(response, sNsURIEnvelope, 3, "Invalid Assertion", null);
-						return;
-					}
-				}
-			}
-		}
-		
-		RegistryResponse result;
-		try {
-			IXDSb xdsb = ServicesFactory.getXDSbInstance(handlerClass);
-			
-			result = xdsb.updateDocumentSet(arrayOfXDSDocument, WSUtil.toArray(basicAuth, listOfAssertion));
-			
-			if(result == null) result = new RegistryResponse(false);
-		}
-		catch(Exception ex) {
-			WSUtil.sendFault(response, sNsURIEnvelope, 4, ex.getMessage(), null);
-			return;
-		}
-		
-		WSUtil.sendResponse(response, result.toXML(null), sNsURIEnvelope, "urn:ihe:iti:xds-b:2010:XDSDeletetWS:DocumentRegistry_DeleteDocumentSetResponse", sMessageID);
-	}
+  private static final long serialVersionUID = 561326236245014636L;
+  
+  protected static final String REQUEST_NAME = "SubmitObjectsRequest";
+  
+  protected String handlerClass = null;
+  
+  public
+  void init()
+    throws ServletException
+  {
+    handlerClass = getServletContext().getInitParameter("XDS");
+  }
+  
+  protected
+  void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException
+  {
+    boolean isWSDLRequest = WSUtil.isWSDLRequest(request);
+    if(isWSDLRequest) {
+      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/wsdl/xds-iti57.jsp");
+      requestDispatcher.forward(request, response);
+    }
+    else {
+      WSUtil.sendHTMLPage(response, REQUEST_NAME, this.getClass().getName());
+    }
+  }
+  
+  protected
+  void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException
+  {
+    AuthAssertion basicAuth = WSUtil.getBasicAuth(request);
+    
+    String sMessageID     = null;
+    String sNsURIEnvelope = null;
+    String requestName    = null;
+    byte[] soapRequest    = null;
+    try {
+      SOAPMessage soapMessage = WSUtil.getSOAPMessage(request);
+      
+      sMessageID = WSUtil.getMessageID(soapMessage);
+      
+      sNsURIEnvelope = WSUtil.getNamespaceURIEnvelope(soapMessage);
+      
+      requestName = WSUtil.getRequestName(soapMessage);
+      
+      soapRequest = WSUtil.getSOAPPartContent(soapMessage);
+    }
+    catch(Exception ex) {
+      ex.printStackTrace();
+      WSUtil.sendFault(response, sNsURIEnvelope, 0, "Invalid request", null);
+      return;
+    }
+    
+    if(!REQUEST_NAME.equalsIgnoreCase(requestName)) {
+      WSUtil.sendFault(response, sNsURIEnvelope, 1, "Invalid " + REQUEST_NAME, null);
+      return;
+    }
+    
+    List<ExtrinsicObject>       listOfExtrinsicObject = null;
+    Map<String,RegistryPackage> mapRegistryPackages   = null;
+    Map<String,Association>     mapAssociations       = null;
+    try {
+      RIMContentHandler rimContentHandler = new RIMContentHandler();
+      rimContentHandler.load(soapRequest);
+      RegistryObjectList registryObjectList = rimContentHandler.getRegistryObjectList();
+      if(registryObjectList != null) {
+        listOfExtrinsicObject = registryObjectList.getExtrinsicObjects();
+        mapRegistryPackages   = registryObjectList.getRegistryPackagesMap();
+        mapAssociations       = registryObjectList.getAssociationsMap();
+      }
+    }
+    catch(Exception ex) {
+      WSUtil.sendFault(response, sNsURIEnvelope, 2, "Invalid " + REQUEST_NAME, null);
+      return;
+    }
+    
+    if(listOfExtrinsicObject == null || listOfExtrinsicObject.size() == 0) {
+      WSUtil.sendFault(response, sNsURIEnvelope, 2, "Invalid " + REQUEST_NAME, null);
+      return;
+    }
+    
+    XDSDocument[] arrayOfXDSDocument = new XDSDocument[listOfExtrinsicObject.size()];
+    for(int i = 0; i < listOfExtrinsicObject.size(); i++) {
+      ExtrinsicObject extrinsicObject = listOfExtrinsicObject.get(i);
+      
+      XDSDocument xdsDocument = new XDSDocument(extrinsicObject);
+      xdsDocument.setServicePath(request.getServletPath());
+      
+      String registryObjectId = extrinsicObject.getId();
+      if(registryObjectId != null) {
+        RegistryPackage registryPackage = mapRegistryPackages.get(registryObjectId);
+        xdsDocument.setRegistryPackage(registryPackage);
+        
+        Association association = mapAssociations.get(registryObjectId);
+        xdsDocument.setAssociation(association);
+      }
+      
+      arrayOfXDSDocument[i] = xdsDocument;
+    }
+    
+    List<AuthAssertion> listOfAssertion = null;
+    try {
+      AuthContentHandler samlContentHandler = new AuthContentHandler();
+      samlContentHandler.load(soapRequest);
+      listOfAssertion = samlContentHandler.getListOfAssertion();
+    }
+    catch(Exception ex) {
+      ex.printStackTrace();
+    }
+    
+    if(listOfAssertion != null) {
+      for(int i = 0; i < listOfAssertion.size(); i++) {
+        AuthAssertion assertion = listOfAssertion.get(i);
+        if(assertion.isSigned()) {
+          if(!assertion.verifySignature()) {
+            WSUtil.sendFault(response, sNsURIEnvelope, 3, "Invalid Assertion", null);
+            return;
+          }
+        }
+      }
+    }
+    
+    RegistryResponse result;
+    try {
+      IXDSb xdsb = ServicesFactory.getXDSbInstance(handlerClass);
+      
+      result = xdsb.updateDocumentSet(arrayOfXDSDocument, WSUtil.toArray(basicAuth, listOfAssertion));
+      
+      if(result == null) result = new RegistryResponse(false);
+    }
+    catch(Exception ex) {
+      WSUtil.sendFault(response, sNsURIEnvelope, 4, ex.getMessage(), null);
+      return;
+    }
+    
+    WSUtil.sendResponse(response, result.toXML(null), sNsURIEnvelope, "urn:ihe:iti:xds-b:2010:XDSDeletetWS:DocumentRegistry_DeleteDocumentSetResponse", sMessageID);
+  }
 }
