@@ -1,10 +1,12 @@
 package org.dew.test;
 
 import java.io.File;
-
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 import org.dew.auth.AuthAssertion;
+import org.dew.auth.AuthUtil;
 import org.dew.auth.SAMLAssertion;
 import org.dew.auth.SAMLAttributeAssertion;
 
@@ -55,20 +57,26 @@ public class TestWXDSb extends TestCase {
     return new TestSuite(TestWXDSb.class);
   }
   
-  public void testApp() {
+  public void testApp() throws Exception {
     
     String sOperation = System.getProperty("dew.test.op", "");
     
-    if(sOperation.equalsIgnoreCase("findDocuments")) {
+    if(sOperation == null || sOperation.length() == 0) {
+      System.out.println("dew.test.op not setted (ex. -Ddew.test.op=findDocuments)");
+    }
+    else if(sOperation.equalsIgnoreCase("findDocuments")) {
       findDocuments(sPATIENT_ID);
     }
     else if(sOperation.equalsIgnoreCase("retrieveDocumentSet")) {
       retrieveDocumentSet(sPATIENT_ID, sREPOSITORY_ID, sDOC_UNIQUE_ID);
     }
+    else {
+      System.out.println("Unknow dew.test.op=" + sOperation);
+    }
     
   }
   
-  public static void findDocuments(String patientId) {
+  public static void findDocuments(String patientId) throws Exception {
     System.out.println("findDocuments(" + patientId + ")...");
     
     if(patientId == null || patientId.length() < 16) {
@@ -76,6 +84,7 @@ public class TestWXDSb extends TestCase {
     }
     
     XDSbClient xdsbClient = new XDSbClient(sITI18, sITI41, sITI42, sITI43, sITI62);
+    // xdsbClient.setSSLSocketFactory(AuthUtil.getSSLSocketFactoryMutualAuth("authentication.jks", "password"));
     xdsbClient.setTracerRequest(sFOLDER_TRACES + "query_"  + patientId + "_req.xml");
     xdsbClient.setTracerResponse(sFOLDER_TRACES + "query_" + patientId + "_res.xml");
     
@@ -92,10 +101,10 @@ public class TestWXDSb extends TestCase {
     attribAssertion.setPatientConsent(true);
     attribAssertion.setActionId("READ");
     
-    // PrivateKey      privateKey  = AuthUtil.loadPrivateKey("authentication.pem");
-    // X509Certificate certificate = AuthUtil.loadCertificate("authentication.crt");
-    // 
-    // attribAssertion.sign(privateKey, certificate);
+    PrivateKey      privateKey  = AuthUtil.loadPrivateKey("authentication.pem");
+    X509Certificate certificate = AuthUtil.loadCertificate("authentication.crt");
+    
+    attribAssertion.sign(privateKey, certificate);
     
     AuthAssertion[] arrayOfAssertion = new AuthAssertion[]{attribAssertion};
     
@@ -136,7 +145,7 @@ public class TestWXDSb extends TestCase {
     System.out.println("----------------------------");
   }
   
-  public static void retrieveDocumentSet(String patientId, String repositoryId, String uniqueId) {
+  public static void retrieveDocumentSet(String patientId, String repositoryId, String uniqueId) throws Exception {
     System.out.println("retrieveDocumentSet(" + patientId + "," + repositoryId + "," + uniqueId + ")...");
     
     if(patientId == null || patientId.length() < 16) {
@@ -150,6 +159,7 @@ public class TestWXDSb extends TestCase {
     }
     
     XDSbClient xdsbClient = new XDSbClient(sITI18, sITI41, sITI42, sITI43, sITI62);
+    // xdsbClient.setSSLSocketFactory(AuthUtil.getSSLSocketFactoryMutualAuth("authentication.jks", "password"));
     xdsbClient.setTracerRequest(sFOLDER_TRACES + "retrieve_"  + Utils.extractIdFromUniqueId(uniqueId) + "_" + patientId + "_req.xml");
     xdsbClient.setTracerResponse(sFOLDER_TRACES + "retrieve_" + Utils.extractIdFromUniqueId(uniqueId) + "_" + patientId + "_res.xml");
     
@@ -165,10 +175,10 @@ public class TestWXDSb extends TestCase {
     attribAssertion.setPatientConsent(true);
     attribAssertion.setActionId("READ");
     
-    // PrivateKey      privateKey  = AuthUtil.loadPrivateKey("authentication.pem");
-    // X509Certificate certificate = AuthUtil.loadCertificate("authentication.crt");
-    // 
-    // attribAssertion.sign(privateKey, certificate);
+    PrivateKey      privateKey  = AuthUtil.loadPrivateKey("authentication.pem");
+    X509Certificate certificate = AuthUtil.loadCertificate("authentication.crt");
+    
+    attribAssertion.sign(privateKey, certificate);
     
     AuthAssertion[] arrayOfAssertion = new AuthAssertion[]{attribAssertion};
     try {
