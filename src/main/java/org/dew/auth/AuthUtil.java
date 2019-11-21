@@ -26,8 +26,6 @@ import javax.net.ssl.SSLSocketFactory;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import org.bouncycastle.openssl.PEMReader;
-
 import org.dew.xds.util.Base64Coder;
 
 public 
@@ -202,6 +200,7 @@ class AuthUtil
     return (X509Certificate) cf.generateCertificate(bais);
   }
   
+  @SuppressWarnings("deprecation")
   public static
   PrivateKey loadPrivateKey(String sFile)
     throws Exception
@@ -216,11 +215,11 @@ class AuthUtil
     else {
       is = new FileInputStream(sFile);
     }
-    PEMReader pemReader = null;
+    org.bouncycastle.openssl.PEMReader pemReader = null;
     try {
       Security.addProvider(new BouncyCastleProvider());
       
-      pemReader = new PEMReader(new InputStreamReader(is));
+      pemReader = new org.bouncycastle.openssl.PEMReader(new InputStreamReader(is));
       
       Object pemObject = pemReader.readObject();
       if(pemObject instanceof KeyPair) {
