@@ -1,6 +1,6 @@
 # WXDSb - IHE-XDSb implementation
 
-A simple IHE-XDSb implementation.
+A server and client IHE-XDSb implementation.
 
 ## Run locally on Docker
 
