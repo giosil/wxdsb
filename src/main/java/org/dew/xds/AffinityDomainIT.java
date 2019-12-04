@@ -3,6 +3,31 @@ package org.dew.xds;
 public 
 class AffinityDomainIT implements IAffinityDomain 
 {
+  public static final String sDOC_PRESCRIZIONE_FARM      = "57833-6";
+  public static final String sDOC_PROFILO_SANITARIO_SIN  = "60591-5";
+  public static final String sDOC_REFERTO_LABORATORIO    = "11502-2";
+  public static final String sDOC_PRESCRIZIONE_APPAR_MED = "57829-4";
+  public static final String sDOC_LETTERA_DIM_OSP        = "34105-7";
+  public static final String sDOC_VERBALE_PRONTO_SOCC    = "59258-4";
+  public static final String sDOC_REFERTO_RADIOLOGIA     = "68604-8";
+  public static final String sDOC_REFERTO_ANATOMIA_PAT   = "11526-1";
+  public static final String sDOC_REGISTRAZIONE_CONSENSO = "59284-0";
+  public static final String sDOC_CERTIFICATO_MALATTIA   = "28653-4";
+  public static final String sDOC_PRESCRIZIONE_SPEC      = "57832-8";
+  public static final String sDOC_EROGAZIONE_FARM        = "29304-3";
+  public static final String sDOC_REFERTO_SPECIALISTICO  = "11488-4";
+  public static final String sDOC_ESENZIONE_DA_REDDITO   = "57827-8";
+  public static final String sDOC_REFERTO_AMBULATORIALE  = "83798-9";
+  public static final String sDOC_EROGAZIONE_SPEC        = "81223-0";
+  public static final String sDOC_PROMEMORIA_PREN_CUP    = "86530-3";
+  public static final String sDOC_ANNULLAMENTO           = "11506-3";
+  public static final String sDOC_PDTA                   = "60591-6";
+  public static final String sDOC_REFERTO_GENERICO       = "47045-0";
+  public static final String sDOC_EMERGENCY_DATA_SET     = "60592-3";
+  public static final String sDOC_RICHIESTA_DI_RICOVERO  = "57830-2";
+  public static final String sDOC_RICHIESTA_TRASPORTO    = "57834-4";
+  public static final String sDOC_VACCINAZIONI           = "11369-6";
+  
   public String getClassDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.equals("CON")) return "Documento di consenso";
@@ -41,16 +66,31 @@ class AffinityDomainIT implements IAffinityDomain
   
   public String getTypeDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
-    if(code.equals("57833-6")) return "Prescrizione farmaceutica";
-    if(code.equals("60591-5")) return "Profilo Sanitario Sintetico";
-    if(code.equals("11502-2")) return "Referto di Laboratorio";
-    if(code.equals("57829-4")) return "Prescrizione per prodotto o apparecchiature mediche";
-    if(code.equals("34105-7")) return "Lettera di dimissione ospedaliera";
-    if(code.equals("59258-4")) return "Verbale di pronto soccorso";
-    if(code.equals("68604-8")) return "Referto radiologico";
-    if(code.equals("11526-1")) return "Referto di anatomia patologica";
-    if(code.equals("59284-0")) return "Documento dei consensi";
-    return code;
+    if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "Prescrizione farmaceutica";
+    if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "Profilo Sanitario Sintetico";
+    if(code.equals(sDOC_REFERTO_LABORATORIO))    return "Referto di Laboratorio";
+    if(code.equals(sDOC_PRESCRIZIONE_APPAR_MED)) return "Prescrizione apparecchiature medicali";
+    if(code.equals(sDOC_LETTERA_DIM_OSP))        return "Lettera di dimissione ospedaliera";
+    if(code.equals(sDOC_VERBALE_PRONTO_SOCC))    return "Referto di Pronto Soccorso";
+    if(code.equals(sDOC_REFERTO_RADIOLOGIA))     return "Referto di Radiologia";
+    if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "Referto di Anatomia Patologica";
+    if(code.equals(sDOC_REGISTRAZIONE_CONSENSO)) return "Registrazione consenso";
+    if(code.equals(sDOC_CERTIFICATO_MALATTIA))   return "Certificato di malattia";
+    if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "Prescrizione specialistica";
+    if(code.equals(sDOC_EROGAZIONE_FARM))        return "Erogazione farmaceutica";
+    if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "Referto specialistico";
+    if(code.equals(sDOC_ESENZIONE_DA_REDDITO))   return "Esenzione da reddito";
+    if(code.equals(sDOC_REFERTO_AMBULATORIALE))  return "Referto ambulatoriale";
+    if(code.equals(sDOC_EROGAZIONE_SPEC))        return "Erogazione specialistica";
+    if(code.equals(sDOC_PROMEMORIA_PREN_CUP))    return "Promemoria di prenotazione";
+    if(code.equals(sDOC_ANNULLAMENTO))           return "Annullamento";
+    if(code.equals(sDOC_PDTA))                   return "PDTA";
+    if(code.equals(sDOC_REFERTO_GENERICO))       return "Referto Generico";
+    if(code.equals(sDOC_EMERGENCY_DATA_SET))     return "Emergency Data Set";
+    if(code.equals(sDOC_RICHIESTA_DI_RICOVERO))  return "Richiesta di ricovero";
+    if(code.equals(sDOC_RICHIESTA_TRASPORTO))    return "Richiesta di trasporto";
+    if(code.equals(sDOC_VACCINAZIONI))           return "Vaccinazioni";
+    return "Documento sanitario";
   }
   
   public String getFacilityDisplayName(String code) {
