@@ -18,7 +18,7 @@ A programmable server and client IHE-XDSb.
 - `docker stop $(docker ps -a -q -f ancestor=<image_name> -f status=running)` - To stop the running container by image name (Linux)
 - `docker stop @(docker ps -a -q -f ancestor=<image_name> -f status=running)` - To stop the running container by image name (Windows)
 - `docker kill <container_name>` - To send KILL signal to the running container
-- `docker ps -a` - To see all container
+- `docker ps -a` - To see all containers
 - `docker rm <container_name>` - To remove the container
 - `docker inspect <container_name>` - To view info of the container
 - `docker logs <container_name>` - To view stdout / stderr of the container
