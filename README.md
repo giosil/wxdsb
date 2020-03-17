@@ -31,6 +31,12 @@ A programmable server and client IHE-XDSb.
 - `docker rmi <image_name>` - To remove image
 - `docker pull giosil/wxdsb` - To get this image from Docker Hub (https://hub.docker.com/)
 
+### Optimize Virtual hard disks on Windows 10
+
+- Shutdown Docker Desktop
+- `Optimize-VHD -Path "C:\Users\Public\Documents\Hyper-V\Virtual hard disks\DockerDesktop.vhdx" -Mode Full`
+- Start Docker Desktop
+
 ## Contributors
 
 * [Giorgio Silvestris](https://github.com/giosil)
