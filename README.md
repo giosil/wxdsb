@@ -21,6 +21,7 @@ A programmable server and client IHE-XDSb.
 - `docker ps -a` - To see all containers
 - `docker rm <container_name>` - To remove the container
 - `docker inspect <container_name>` - To view info of the container
+- `docker image inspect <image_name>` - To view info of the image
 - `docker logs <container_name>` - To view stdout / stderr of the container
 - `docker logs --follow <container_name>` - To follow stdout / stderr of the container
 - `docker attach <container_name>` - To connect to the container CTRL+P CTRL+Q to exit
