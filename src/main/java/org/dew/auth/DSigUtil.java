@@ -50,13 +50,16 @@ class DSigUtil
     if(boEnveloped) {
       sSInfo += "<ds:Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"></ds:Transform>";
     }
-    sSInfo += "<ds:Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"><ec:InclusiveNamespaces xmlns:ec=\"http://www.w3.org/2001/10/xml-exc-c14n#\" PrefixList=\"xs\"></ec:InclusiveNamespaces></ds:Transform>";
+    sSInfo += "<ds:Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\">";
+    sSInfo += "<ec:InclusiveNamespaces xmlns:ec=\"http://www.w3.org/2001/10/xml-exc-c14n#\" PrefixList=\"xs\"></ec:InclusiveNamespaces>";
+    sSInfo += "</ds:Transform>";
     sSInfo += "</ds:Transforms>";
     sSInfo += "<ds:DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"></ds:DigestMethod>";
     sSInfo += "<ds:DigestValue>" + sDigestValue + "</ds:DigestValue>";
     sSInfo += "</ds:Reference>";
     
-    String sSignedInfoToSign  = "<ds:SignedInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">";
+    // xml-exc-c14n                             ec:InclusiveNamespaces                          PrefixList="xs"
+    String sSignedInfoToSign  = "<ds:SignedInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">";
     sSignedInfoToSign += sSInfo;
     sSignedInfoToSign += "</ds:SignedInfo>";
     
