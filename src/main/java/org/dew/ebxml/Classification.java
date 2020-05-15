@@ -17,7 +17,7 @@ class Classification extends RegistryObject
   {
     this.objectType = RIM.TYPE_CLASSIFICATION;
   }
-
+  
   public Classification(String classificationScheme, String classifiedObject)
   {
     this.objectType = RIM.TYPE_CLASSIFICATION;
@@ -59,7 +59,7 @@ class Classification extends RegistryObject
     if(oClassifiedObject != null) classifiedObject = oClassifiedObject.toString();
     Object oNodeRepresentation = map.get("nodeRepresentation");
     if(oNodeRepresentation != null) nodeRepresentation = Utils.toString(oNodeRepresentation, "");
-
+    
     if(objectType == null || objectType.length() == 0) {
       this.objectType = RIM.TYPE_CLASSIFICATION;
     }
@@ -116,16 +116,13 @@ class Classification extends RegistryObject
     if(name.equals("classificationScheme")) {
       return this.classificationScheme;
     }
-    else
-    if(name.equals("classificationNode")) {
+    else if(name.equals("classificationNode")) {
       return this.classificationNode;
     }
-    else
-    if(name.equals("classifiedObject")) {
+    else if(name.equals("classifiedObject")) {
       return this.classifiedObject;
     }
-    else
-    if(name.equals("nodeRepresentation")) {
+    else if(name.equals("nodeRepresentation")) {
       return this.nodeRepresentation;
     }
     return null;
@@ -138,16 +135,13 @@ class Classification extends RegistryObject
     if(name.equals("classificationScheme")) {
       this.classificationScheme = value;
     }
-    else
-    if(name.equals("classificationNode")) {
+    else if(name.equals("classificationNode")) {
       this.classificationNode = value;
     }
-    else
-    if(name.equals("classifiedObject")) {
+    else if(name.equals("classifiedObject")) {
       this.classifiedObject = value;
     }
-    else
-    if(name.equals("nodeRepresentation")) {
+    else if(name.equals("nodeRepresentation")) {
       this.nodeRepresentation = value;
     }
   }
@@ -160,8 +154,7 @@ class Classification extends RegistryObject
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(600);
@@ -190,7 +183,7 @@ class Classification extends RegistryObject
     }    
     if(objectType != null && objectType.length() > 0) {
       sb.append(" objectType=\"" + objectType + "\"");
-    }    
+    }
     if(status != null && status.length() > 0) {
       sb.append(" status=\"" + status + "\"");
     }
@@ -222,7 +215,7 @@ class Classification extends RegistryObject
     sb.append("</" + namespace + getTagName() + ">");
     return sb.toString();
   }
-
+  
   @Override
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = super.toMap();
@@ -233,7 +226,7 @@ class Classification extends RegistryObject
     if(nodeRepresentation   != null) mapResult.put("nodeRepresentation",   nodeRepresentation);
     return mapResult;
   }
-
+  
   @Override
   public boolean equals(Object object) {
     if(object instanceof Classification) {

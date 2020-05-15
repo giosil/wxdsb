@@ -106,12 +106,10 @@ class ExtrinsicObject extends RegistryObject
     if(name.equals("contentVersionInfo")) {
       return this.contentVersionInfo;
     }
-    else
-    if(name.equals("isOpaque")) {
+    else if(name.equals("isOpaque")) {
       return String.valueOf(this.opaque);
     }
-    else
-    if(name.equals("mimeType")) {
+    else if(name.equals("mimeType")) {
       return this.mimeType;
     }
     return null;
@@ -124,8 +122,7 @@ class ExtrinsicObject extends RegistryObject
     if(name.equals("contentVersionInfo")) {
       this.contentVersionInfo = value;
     }
-    else
-    if(name.equals("isOpaque")) {
+    else if(name.equals("isOpaque")) {
       if(value != null && value.length() > 0) {
         this.opaque = "tysTYS1".indexOf(value.charAt(0)) >= 0;
       }
@@ -133,8 +130,7 @@ class ExtrinsicObject extends RegistryObject
         this.opaque = false;
       }
     }
-    else
-    if(name.equals("opaque")) {
+    else if(name.equals("opaque")) {
       if(value != null && value.length() > 0) {
         this.opaque = "tysTYS1".indexOf(value.charAt(0)) >= 0;
       }
@@ -142,8 +138,7 @@ class ExtrinsicObject extends RegistryObject
         this.opaque = false;
       }
     }
-    else
-    if(name.equals("mimeType")) {
+    else if(name.equals("mimeType")) {
       this.mimeType = value;
     }
   }
@@ -153,8 +148,7 @@ class ExtrinsicObject extends RegistryObject
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(id == null || id.length() == 0) {
@@ -175,7 +169,7 @@ class ExtrinsicObject extends RegistryObject
     }
     if(objectType != null && objectType.length() > 0) {
       sb.append(" objectType=\"" + objectType + "\"");
-    }    
+    }
     if(status != null && status.length() > 0) {
       sb.append(" status=\"" + status + "\"");
     }

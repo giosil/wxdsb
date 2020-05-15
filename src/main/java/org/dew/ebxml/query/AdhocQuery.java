@@ -29,8 +29,7 @@ class AdhocQuery extends RegistryObject
     setPatientId(patientId);
   }
   
-  @SuppressWarnings("rawtypes")
-  public AdhocQuery(Map map)
+  public AdhocQuery(Map<String,Object> map)
   {
     super(map);
   }
@@ -151,7 +150,12 @@ class AdhocQuery extends RegistryObject
   
   public void setUniqueId(String value) {
     if(value == null || value.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryUniqueId", "('" + value + "')"));
+    if(value.startsWith("'")) {
+      addSlot(new Slot("$XDSDocumentEntryUniqueId", "(" + value + ")"));
+    }
+    else {
+      addSlot(new Slot("$XDSDocumentEntryUniqueId", "('" + value.replace(",", "','") + "')"));
+    }
   }
   
   public String getUUID() {
@@ -160,7 +164,12 @@ class AdhocQuery extends RegistryObject
   
   public void setUUID(String value) {
     if(value == null || value.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryEntryUUID", "('" + value + "')"));
+    if(value.startsWith("'")) {
+      addSlot(new Slot("$XDSDocumentEntryEntryUUID", "(" + value + ")"));
+    }
+    else {
+      addSlot(new Slot("$XDSDocumentEntryEntryUUID", "('" + value.replace(",", "','") + "')"));
+    }
   }
   
   public Date getServiceStartTimeFrom() {

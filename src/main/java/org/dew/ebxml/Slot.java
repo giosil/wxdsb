@@ -131,8 +131,7 @@ class Slot implements IElement, Serializable
     if(name.equals("name")) {
       return this.name;
     }
-    else
-    if(name.equals("slotType")) {
+    else if(name.equals("slotType")) {
       return this.slotType;
     }
     return null;
@@ -143,8 +142,7 @@ class Slot implements IElement, Serializable
     if(name.equals("name")) {
       this.name = value;
     }
-    else
-    if(name.equals("slotType")) {
+    else if(name.equals("slotType")) {
       this.slotType = value;
     }
   }
@@ -154,8 +152,7 @@ class Slot implements IElement, Serializable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(120);

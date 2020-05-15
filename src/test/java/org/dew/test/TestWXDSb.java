@@ -76,7 +76,10 @@ public class TestWXDSb extends TestCase {
     
   }
   
-  public static void findDocuments(String patientId) throws Exception {
+  public static 
+  void findDocuments(String patientId) 
+    throws Exception 
+  {
     System.out.println("findDocuments(" + patientId + ")...");
     
     if(patientId == null || patientId.length() < 16) {
@@ -127,8 +130,7 @@ public class TestWXDSb extends TestCase {
       if(result == null) {
         System.out.println("findDocuments -> null");
       }
-      else
-      if(result.length == 0) {
+      else if(result.length == 0) {
         System.out.println("findDocuments -> empty");
       }
       else {
@@ -145,7 +147,10 @@ public class TestWXDSb extends TestCase {
     System.out.println("----------------------------");
   }
   
-  public static void retrieveDocumentSet(String patientId, String repositoryId, String uniqueId) throws Exception {
+  public static 
+  void retrieveDocumentSet(String patientId, String repositoryId, String uniqueId) 
+    throws Exception 
+  {
     System.out.println("retrieveDocumentSet(" + patientId + "," + repositoryId + "," + uniqueId + ")...");
     
     if(patientId == null || patientId.length() < 16) {

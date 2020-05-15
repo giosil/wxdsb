@@ -115,44 +115,37 @@ class RIMContentHandler implements ContentHandler
       slot = null;
       objectRef = null;
     }
-    else
-    if(localName.equals("Classification")) {
+    else if(localName.equals("Classification")) {
       classification = new Classification();
       element = classification;
       if(registryObject == null) {
         registryObject = classification;
       }
     }
-    else
-    if(localName.equals("ExternalIdentifier")) {
+    else if(localName.equals("ExternalIdentifier")) {
       externalIdentifier = new ExternalIdentifier();
       element = externalIdentifier;
       if(registryObject == null) {
         registryObject = externalIdentifier;
       }
     }
-    else
-    if(localName.equals("Association")) {
+    else if(localName.equals("Association")) {
       registryObject = new Association();
       element = registryObject;
     }
-    else
-    if(localName.equals("RegistryPackage")) {
+    else if(localName.equals("RegistryPackage")) {
       registryObject = new RegistryPackage();
       element = registryObject;
     }
-    else
-    if(localName.equals("Slot")) {
+    else if(localName.equals("Slot")) {
       slot = new Slot();
       element = slot;
     }
-    else
-    if(localName.equals("ObjectRef")) {
+    else if(localName.equals("ObjectRef")) {
       objectRef = new ObjectRef();
       element = objectRef;
     }
-    else
-    if(localName.equals("VersionInfo")) {
+    else if(localName.equals("VersionInfo")) {
       if(classification != null) {
         for(int i = 0; i < attributes.getLength(); i++) {
           String sAttrLocalName = attributes.getLocalName(i);
@@ -161,8 +154,7 @@ class RIMContentHandler implements ContentHandler
           }
         }
       }
-      else
-      if(externalIdentifier != null) {
+      else if(externalIdentifier != null) {
         for(int i = 0; i < attributes.getLength(); i++) {
           String sAttrLocalName = attributes.getLocalName(i);
           if(sAttrLocalName.equals("versionName")) {
@@ -170,8 +162,7 @@ class RIMContentHandler implements ContentHandler
           }
         }
       }
-      else
-      if(registryObject != null) {
+      else if(registryObject != null) {
         for(int i = 0; i < attributes.getLength(); i++) {
           String sAttrLocalName = attributes.getLocalName(i);
           if(sAttrLocalName.equals("versionName")) {
@@ -190,8 +181,7 @@ class RIMContentHandler implements ContentHandler
           }
         }
       }
-      else
-      if(externalIdentifier != null) {
+      else if(externalIdentifier != null) {
         for(int i = 0; i < attributes.getLength(); i++) {
           String sAttrLocalName = attributes.getLocalName(i);
           if(sAttrLocalName.equals("value")) {
@@ -199,8 +189,7 @@ class RIMContentHandler implements ContentHandler
           }
         }
       }
-      else
-      if(registryObject != null) {
+      else if(registryObject != null) {
         for(int i = 0; i < attributes.getLength(); i++) {
           String sAttrLocalName = attributes.getLocalName(i);
           if(sAttrLocalName.equals("value")) {
@@ -209,8 +198,7 @@ class RIMContentHandler implements ContentHandler
         }
       }
     }
-    else
-    if(localName.equals("ContentVersionInfo")) {
+    else if(localName.equals("ContentVersionInfo")) {
       if(registryObject instanceof ExtrinsicObject) {
         for(int i = 0; i < attributes.getLength(); i++) {
           String sAttrLocalName = attributes.getLocalName(i);
@@ -220,8 +208,7 @@ class RIMContentHandler implements ContentHandler
         }
       }
     }
-    else
-    if(localName.equalsIgnoreCase("Document")) {
+    else if(localName.equalsIgnoreCase("Document")) {
       for(int i = 0; i < attributes.getLength(); i++) {
         String sAttrLocalName = attributes.getLocalName(i);
         if(sAttrLocalName.equals("id")) {
@@ -265,70 +252,59 @@ class RIMContentHandler implements ContentHandler
     if(sCurrentTag.endsWith("|slot|valuelist|value")) {
       if(slot != null) slot.addValue(sCurrentValue);
     }
-    else
-    if(localName.equals("ExtrinsicObject")) {
+    else if(localName.equals("ExtrinsicObject")) {
       if(registryObject instanceof ExtrinsicObject) {
         listOfIdentifiable.add(registryObject);
         registryObject = null;
       }
     }
-    else
-    if(localName.equals("Slot")) {
+    else if(localName.equals("Slot")) {
       if(slot != null) {
         if(classification != null) {
           classification.addSlot(slot);
         }
-        else
-        if(externalIdentifier != null) {
+        else if(externalIdentifier != null) {
           externalIdentifier.addSlot(slot);
         }
-        else
-        if(registryObject != null) {
+        else if(registryObject != null) {
           registryObject.addSlot(slot);
         }
       }
       slot = null;
     }
-    else
-    if(localName.equals("Classification")) {
+    else if(localName.equals("Classification")) {
       if(registryObject instanceof Classification) {
         listOfIdentifiable.add(registryObject);
         registryObject = null;
       }
-      else
-      if(classification != null && registryObject != null) {
+      else if(classification != null && registryObject != null) {
         registryObject.addClassification(classification);
       }
       classification = null;
     }
-    else
-    if(localName.equals("ExternalIdentifier")) {
+    else if(localName.equals("ExternalIdentifier")) {
       if(registryObject instanceof ExternalIdentifier) {
         listOfIdentifiable.add(registryObject);
         registryObject = null;
       }
-      else
-      if(externalIdentifier != null && registryObject != null) {
+      else if(externalIdentifier != null && registryObject != null) {
         registryObject.addExternalIdentifier(externalIdentifier);
       }
       externalIdentifier = null;
     }
-    else
-    if(localName.equals("Association")) {
+    else if(localName.equals("Association")) {
       if(registryObject instanceof Association) {
         listOfIdentifiable.add(registryObject);
         registryObject = null;
       }
     }
-    else
-    if(localName.equals("RegistryPackage")) {
+    else if(localName.equals("RegistryPackage")) {
       if(registryObject instanceof RegistryPackage) {
         listOfIdentifiable.add(registryObject);
         registryObject = null;
       }
     }
-    else
-    if(localName.equals("ObjectRef")) {
+    else if(localName.equals("ObjectRef")) {
       if(objectRef != null) {
         listOfIdentifiable.add(objectRef);
       }

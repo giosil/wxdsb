@@ -54,32 +54,25 @@ class Utils
     if("Association".equals(sTagName) || check(map, "associationType", "sourceObject", "targetObject")) {
       return new Association(map);
     }
-    else
-    if("Classification".equals(sTagName) || check(map, "classificationScheme", "classifiedObject", "nodeRepresentation")) {
+    else if("Classification".equals(sTagName) || check(map, "classificationScheme", "classifiedObject", "nodeRepresentation")) {
       return new Classification(map);
     }
-    else
-    if("ExternalIdentifier".equals(sTagName) || check(map, "identificationScheme", "registryObject")) {
+    else if("ExternalIdentifier".equals(sTagName) || check(map, "identificationScheme", "registryObject")) {
       return new ExternalIdentifier(map);
     }
-    else
-    if("ExternalLink".equals(sTagName) || check(map, "externalURI")) {
+    else if("ExternalLink".equals(sTagName) || check(map, "externalURI")) {
       return new ExternalLink(map);
     }
-    else
-    if("ExtrinsicObject".equals(sTagName) || check(map, "mimeType", "opaque", "isOpaque")) {
+    else if("ExtrinsicObject".equals(sTagName) || check(map, "mimeType", "opaque", "isOpaque")) {
       return new ExtrinsicObject(map);
     }
-    else
-    if("RegistryPackage".equals(sTagName) || check(map, "status")) {
+    else if("RegistryPackage".equals(sTagName) || check(map, "status")) {
       return new RegistryPackage(map);
     }
-    else
-    if("ObjectRef".equals(sTagName)) {
+    else if("ObjectRef".equals(sTagName)) {
       return new ObjectRef(map);
     }
-    else
-    if("Identifiable".equals(sTagName)) {
+    else if("Identifiable".equals(sTagName)) {
       return new Identifiable(map);
     }
     return null;
@@ -292,20 +285,16 @@ class Utils
     if(sValueLC.indexOf("app") >= 0) {
       return RIM.STATUS_APPROVED;
     }
-    else
-    if(sValueLC.indexOf("dep") >= 0) {
+    else if(sValueLC.indexOf("dep") >= 0) {
       return RIM.STATUS_DEPRECATED;
     }
-    else
-    if(sValueLC.indexOf("sub") >= 0) {
+    else if(sValueLC.indexOf("sub") >= 0) {
       return RIM.STATUS_SUBMITTED;
     }
-    else
-    if(sValueLC.indexOf("wit") >= 0) {
+    else if(sValueLC.indexOf("wit") >= 0) {
       return RIM.STATUS_WITHDRAWN;
     }
-    else
-    if(value.startsWith("urn:")) {
+    else if(value.startsWith("urn:")) {
       return value;
     }
     return RIM.STATUS_APPROVED;
@@ -427,16 +416,13 @@ class Utils
       if(c < 48) {
         sb.append('_');
       }
-      else
-      if(c > 122) {
+      else if(c > 122) {
         sb.append('_');
       }
-      else
-      if(Character.isDigit(c)) {
+      else if(Character.isDigit(c)) {
         sb.append(c);
       }
-      else
-      if(Character.isLetter(c)) {
+      else if(Character.isLetter(c)) {
         sb.append(c);
       }
       else {
@@ -634,12 +620,10 @@ class Utils
     if(iYear < 10) {
       sYear = "000" + sYear;
     }
-    else
-    if(iYear < 100) {
+    else if(iYear < 100) {
       sYear = "00" + sYear;
     }
-    else
-    if(iYear < 1000) {
+    else if(iYear < 1000) {
       sYear = "0" + sYear;
     }
     if(iMill < 10) {
@@ -1106,8 +1090,7 @@ class Utils
     if(iMillis < 10) {
       sMillis = "00" + iMillis;
     }
-    else
-    if(iMillis < 100) {
+    else if(iMillis < 100) {
       sMillis = "0" + iMillis;
     }
     else {

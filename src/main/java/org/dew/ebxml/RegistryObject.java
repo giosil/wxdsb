@@ -109,8 +109,7 @@ class RegistryObject extends Identifiable
         }
       }
     }
-    else
-    if(oClassifications != null && oClassifications.getClass().isArray()) {
+    else if(oClassifications != null && oClassifications.getClass().isArray()) {
       int length = Array.getLength(oClassifications);
       classifications = new ArrayList<Classification>(length);
       for(int i = 0; i < length; i++) {
@@ -133,8 +132,7 @@ class RegistryObject extends Identifiable
         }
       }
     }
-    else
-    if(oExternalIdentifiers != null && oExternalIdentifiers.getClass().isArray()) {
+    else if(oExternalIdentifiers != null && oExternalIdentifiers.getClass().isArray()) {
       int length = Array.getLength(oExternalIdentifiers);
       externalIdentifiers = new ArrayList<ExternalIdentifier>(length);
       for(int i = 0; i < length; i++) {
@@ -394,32 +392,25 @@ class RegistryObject extends Identifiable
     if(name.equals("id")) {
       return this.id;
     }
-    else
-    if(name.equals("home")) {
+    else if(name.equals("home")) {
       return this.home;
     }
-    else
-    if(name.equals("lid")) {
+    else if(name.equals("lid")) {
       return this.lid;
     }
-    else
-    if(name.equals("objectType")) {
+    else if(name.equals("objectType")) {
       return this.objectType;
     }
-    else
-    if(name.equals("status")) {
+    else if(name.equals("status")) {
       return this.status;
     }
-    else
-    if(name.equals("description")) {
+    else if(name.equals("description")) {
       return this.description;
     }
-    else
-    if(name.equals("name")) {
+    else if(name.equals("name")) {
       return this.name;
     }
-    else
-    if(name.equals("versionInfo")) {
+    else if(name.equals("versionInfo")) {
       return this.versionInfo;
     }
     return null;
@@ -431,32 +422,25 @@ class RegistryObject extends Identifiable
     if(name.equals("id")) {
       this.id = value;
     }
-    else
-    if(name.equals("home")) {
+    else if(name.equals("home")) {
       this.home = value;
     }
-    else
-    if(name.equals("lid")) {
+    else if(name.equals("lid")) {
       this.lid = value;
     }
-    else
-    if(name.equals("objectType")) {
+    else if(name.equals("objectType")) {
       this.objectType = value;
     }
-    else
-    if(name.equals("status")) {
+    else if(name.equals("status")) {
       this.status = value;
     }
-    else
-    if(name.equals("description")) {
+    else if(name.equals("description")) {
       this.description = value;
     }
-    else
-    if(name.equals("name")) {
+    else if(name.equals("name")) {
       this.name = value;
     }
-    else
-    if(name.equals("versionInfo")) {
+    else if(name.equals("versionInfo")) {
       this.versionInfo = value;
     }
   }
@@ -466,8 +450,7 @@ class RegistryObject extends Identifiable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(id == null || id.length() == 0) {

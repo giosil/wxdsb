@@ -184,12 +184,10 @@ class AdhocQueryResponse implements IElement, Serializable
     if(name.equals("status")) {
       return status;
     }
-    else
-    if(name.equals("startIndex")) {
+    else if(name.equals("startIndex")) {
       return String.valueOf(this.startIndex);
     }
-    else
-    if(name.equals("totalResultCount")) {
+    else if(name.equals("totalResultCount")) {
       return String.valueOf(this.totalResultCount);
     }
     return null;
@@ -200,8 +198,7 @@ class AdhocQueryResponse implements IElement, Serializable
     if(name.equals("status")) {
       this.status = value;
     }
-    else
-    if(name.equals("startIndex")) {
+    else if(name.equals("startIndex")) {
       try {
         this.startIndex = Integer.parseInt(value);
       }
@@ -209,8 +206,7 @@ class AdhocQueryResponse implements IElement, Serializable
         this.startIndex = 0;
       }
     }
-    else
-    if(name.equals("totalResultCount")) {
+    else if(name.equals("totalResultCount")) {
       try {
         this.totalResultCount = Integer.parseInt(value);
       }

@@ -10,17 +10,48 @@ import org.dew.ebxml.IElement;
 public 
 class ResponseOption implements IElement, Serializable 
 {
-  private static final long serialVersionUID = 4472486712257063220L;
-
+  private static final long serialVersionUID = 5930353500448511440L;
+  
+  public static final String TYPE_LEAF_CLASS = "LeafClass";
+  public static final String TYPE_OBJECT_REF = "ObjectRef";
+  
   protected boolean returnComposedObjects;
   protected String  returnType;
   
   public ResponseOption()
   {
-    returnComposedObjects = false;
-    returnType = "LeafClass";
+    this.returnComposedObjects = false;
+    this.returnType = TYPE_LEAF_CLASS;
   }
-
+  
+  public ResponseOption(String returnType)
+  {
+    this.returnComposedObjects = false;
+    if(returnType == null || returnType.length() == 0) {
+      this.returnType = TYPE_LEAF_CLASS;
+    }
+    else {
+      this.returnType = returnType;
+    }
+  }
+  
+  public ResponseOption(boolean returnComposedObjects)
+  {
+    this.returnComposedObjects = returnComposedObjects;
+    this.returnType = TYPE_LEAF_CLASS;
+  }
+  
+  public ResponseOption(boolean returnComposedObjects, String returnType)
+  {
+    this.returnComposedObjects = returnComposedObjects;
+    if(returnType == null || returnType.length() == 0) {
+      this.returnType = TYPE_LEAF_CLASS;
+    }
+    else {
+      this.returnType = returnType;
+    }
+  }
+  
   public boolean isReturnComposedObjects() {
     return returnComposedObjects;
   }
@@ -46,8 +77,7 @@ class ResponseOption implements IElement, Serializable
     if(name.equals("returnComposedObjects")) {
       return String.valueOf(this.returnComposedObjects);
     }
-    else
-    if(name.equals("returnType")) {
+    else if(name.equals("returnType")) {
       return this.returnType;
     }
     return null;
@@ -63,18 +93,16 @@ class ResponseOption implements IElement, Serializable
         this.returnComposedObjects = false;
       }
     }
-    else
-    if(name.equals("returnType")) {
+    else if(name.equals("returnType")) {
       this.returnType = value;
     }
   }
-
+  
   public String toXML(String namespace) {
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(100);
@@ -85,9 +113,9 @@ class ResponseOption implements IElement, Serializable
     }
     sb.append(">");
     sb.append("</" + namespace + "ResponseOption>");
-    return sb.toString();    
+    return sb.toString();
   }
-
+  
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
     mapResult.put("tagName",               getTagName());
@@ -95,7 +123,7 @@ class ResponseOption implements IElement, Serializable
     mapResult.put("returnType",            returnType);
     return mapResult;
   }
-
+  
   @Override
   public boolean equals(Object object) {
     if(object instanceof ResponseOption) {

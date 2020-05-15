@@ -7,7 +7,7 @@ public
 class ExternalLink extends RegistryObject
 {
   private static final long serialVersionUID = -8934565303636001908L;
-
+  
   protected String externalURI;
   
   public ExternalLink()
@@ -75,8 +75,7 @@ class ExternalLink extends RegistryObject
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(id == null || id.length() == 0) {
@@ -95,7 +94,7 @@ class ExternalLink extends RegistryObject
     }
     if(lid != null && lid.length() > 0) {
       sb.append(" lid=\"" + lid + "\"");
-    }    
+    }
     if(objectType != null && objectType.length() > 0) {
       sb.append(" objectType=\"" + objectType + "\"");
     }

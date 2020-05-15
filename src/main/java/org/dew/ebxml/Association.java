@@ -39,7 +39,7 @@ class Association extends RegistryObject
     if(oSourceObject != null) sourceObject = oSourceObject.toString();
     Object oTargetObject = map.get("targetObject");
     if(oTargetObject != null) targetObject = oTargetObject.toString();
-
+    
     if(objectType == null || objectType.length() == 0) {
       this.objectType = RIM.TYPE_ASSOCIATION;
     }
@@ -82,12 +82,10 @@ class Association extends RegistryObject
     if(name.equals("associationType")) {
       return this.associationType;
     }
-    else
-    if(name.equals("sourceObject")) {
+    else if(name.equals("sourceObject")) {
       return this.sourceObject;
     }
-    else
-    if(name.equals("targetObject")) {
+    else if(name.equals("targetObject")) {
       return this.targetObject;
     }
     return null;
@@ -100,12 +98,10 @@ class Association extends RegistryObject
     if(name.equals("associationType")) {
       this.associationType = value;
     }
-    else
-    if(name.equals("sourceObject")) {
+    else if(name.equals("sourceObject")) {
       this.sourceObject = value;
     }
-    else
-    if(name.equals("targetObject")) {
+    else if(name.equals("targetObject")) {
       this.targetObject = value;
     }
   }
@@ -115,8 +111,7 @@ class Association extends RegistryObject
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(id == null || id.length() == 0) {
@@ -135,7 +130,7 @@ class Association extends RegistryObject
     }
     if(lid != null && lid.length() > 0) {
       sb.append(" lid=\"" + lid + "\"");
-    }    
+    }
     if(objectType != null && objectType.length() > 0) {
       sb.append(" objectType=\"" + objectType + "\"");
     }
@@ -186,7 +181,7 @@ class Association extends RegistryObject
     if(targetObject    != null) mapResult.put("targetObject",    targetObject);
     return mapResult;
   }
-
+  
   @Override
   public boolean equals(Object object) {
     if(object instanceof Association) {

@@ -11,11 +11,13 @@ import org.dew.ebxml.Utils;
 
 import org.dew.ebxml.rs.RegistryError;
 
+import org.dew.xds.XDS;
+
 public 
 class AdhocQueryRequest implements IElement, Serializable
 {
-  private static final long serialVersionUID = -680305588373043807L;
-
+  private static final long serialVersionUID = 3985556758931088168L;
+  
   protected boolean federated;
   protected String  federation;
   protected int     maxResults = -1;
@@ -33,6 +35,21 @@ class AdhocQueryRequest implements IElement, Serializable
   {
     responseOption = new ResponseOption();
     adhocQuery     = new AdhocQuery();
+  }
+
+  public AdhocQueryRequest(boolean returnComposedObjects, String returnType)
+  {
+    responseOption = new ResponseOption(returnComposedObjects, returnType);
+    adhocQuery     = new AdhocQuery();
+  }
+
+  public AdhocQueryRequest(boolean returnComposedObjects, String returnType, String adhocQueryId)
+  {
+    responseOption = new ResponseOption(returnComposedObjects, returnType);
+    adhocQuery     = new AdhocQuery();
+    if(adhocQueryId != null && adhocQueryId.length() > 0 && adhocQueryId.startsWith("urn:uuid:")) {
+      adhocQuery.setId(adhocQueryId);
+    }
   }
 
   public AdhocQueryRequest(String patientId)
@@ -122,6 +139,50 @@ class AdhocQueryRequest implements IElement, Serializable
   public void setRegistryErrorList(List<RegistryError> registryErrorList) {
     this.registryErrorList = registryErrorList;
   }
+  
+  // Response Options
+  
+  public void setReturnComposedObjects(boolean returnComposedObjects) {
+    if(this.responseOption == null) {
+      this.responseOption = new ResponseOption(returnComposedObjects);
+    }
+    else {
+      this.responseOption.setReturnComposedObjects(returnComposedObjects);
+    }
+  }
+
+  public void setReturnType(String returnType) {
+    if(this.responseOption == null) {
+      this.responseOption = new ResponseOption(returnType);
+    }
+    else {
+      this.responseOption.setReturnType(returnType);
+    }
+  }
+  
+  // Utility
+  
+  public AdhocQuery buildFindDocuments(String patientId) {
+    if(responseOption == null) responseOption = new ResponseOption();
+    responseOption.setReturnComposedObjects(false);
+    responseOption.setReturnType(ResponseOption.TYPE_LEAF_CLASS);
+    
+    if(adhocQuery == null) adhocQuery = new AdhocQuery();
+    adhocQuery.setId(XDS.SQ_FIND_DOCUMENTS);
+    adhocQuery.setPatientId(patientId);
+    return adhocQuery;
+  }
+
+  public AdhocQuery buildGetDocuments(String uniqueId) {
+    if(responseOption == null) responseOption = new ResponseOption();
+    responseOption.setReturnComposedObjects(true);
+    responseOption.setReturnType(ResponseOption.TYPE_OBJECT_REF);
+    
+    if(adhocQuery == null) adhocQuery = new AdhocQuery();
+    adhocQuery.setId(XDS.SQ_GET_DOCUMENTS);
+    adhocQuery.setUniqueId(uniqueId);
+    return adhocQuery;
+  }
 
   public String getTagName() {
     return "AdhocQueryRequest";
@@ -132,16 +193,13 @@ class AdhocQueryRequest implements IElement, Serializable
     if(name.equals("federated")) {
       return String.valueOf(this.federated);
     }
-    else
-    if(name.equals("federation")) {
+    else if(name.equals("federation")) {
       return this.federation;
     }
-    else
-    if(name.equals("maxResults")) {
+    else if(name.equals("maxResults")) {
       return String.valueOf(this.maxResults);
     }
-    else
-    if(name.equals("startIndex")) {
+    else if(name.equals("startIndex")) {
       return String.valueOf(this.startIndex);
     }
     return null;
@@ -157,12 +215,10 @@ class AdhocQueryRequest implements IElement, Serializable
         this.federated = false;
       }
     }
-    else
-    if(name.equals("federation")) {
+    else if(name.equals("federation")) {
       this.federation = value;
     }
-    else
-    if(name.equals("maxResults")) {
+    else if(name.equals("maxResults")) {
       try {
         this.maxResults = Integer.parseInt(value);
       }
@@ -170,8 +226,7 @@ class AdhocQueryRequest implements IElement, Serializable
         this.maxResults = 0;
       }
     }
-    else
-    if(name.equals("startIndex")) {
+    else if(name.equals("startIndex")) {
       try {
         this.startIndex = Integer.parseInt(value);
       }
@@ -180,7 +235,7 @@ class AdhocQueryRequest implements IElement, Serializable
       }
     }
   }
-
+  
   public String toXML(String namespace) {
     String sNs = null;
     String sDe = null;
@@ -188,12 +243,10 @@ class AdhocQueryRequest implements IElement, Serializable
       sNs = "ns3:";
       sDe = "xmlns:ns3=\"urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0\"";
     }
-    else
-    if(namespace.length() == 0) {
+    else if(namespace.length() == 0) {
       sNs = "";
     }
-    else
-    if(namespace.endsWith(":")) {
+    else if(namespace.endsWith(":")) {
       sNs = namespace;
     }
     else {
@@ -234,9 +287,9 @@ class AdhocQueryRequest implements IElement, Serializable
       sb.append(adhocQuery.toXML(""));
     }
     sb.append("</" + sNs + getTagName() + ">");
-    return sb.toString();    
+    return sb.toString();   
   }
-
+  
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
     mapResult.put("tagName",        getTagName());
@@ -248,7 +301,7 @@ class AdhocQueryRequest implements IElement, Serializable
     mapResult.put("servicePath",    servicePath); // extra
     return mapResult;
   }
-
+  
   @Override
   public boolean equals(Object object) {
     if(object instanceof AdhocQueryRequest) {

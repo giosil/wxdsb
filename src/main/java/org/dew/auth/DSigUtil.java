@@ -58,8 +58,7 @@ class DSigUtil
     sSInfo += "<ds:DigestValue>" + sDigestValue + "</ds:DigestValue>";
     sSInfo += "</ds:Reference>";
     
-    // xml-exc-c14n                             ec:InclusiveNamespaces                          PrefixList="xs"
-    String sSignedInfoToSign  = "<ds:SignedInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">";
+    String sSignedInfoToSign  = "<ds:SignedInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">";
     sSignedInfoToSign += sSInfo;
     sSignedInfoToSign += "</ds:SignedInfo>";
     
@@ -118,8 +117,7 @@ class DSigUtil
     sSInfo += "<ds:DigestValue>" + sDigestValue + "</ds:DigestValue>";
     sSInfo += "</ds:Reference>";
     
-    // xml-exc-c14n                             ec:InclusiveNamespaces                          PrefixList="xs"
-    String sSignedInfoToSign  = "<ds:SignedInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">";
+    String sSignedInfoToSign  = "<ds:SignedInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">";
     sSignedInfoToSign += sSInfo;
     sSignedInfoToSign += "</ds:SignedInfo>";
     

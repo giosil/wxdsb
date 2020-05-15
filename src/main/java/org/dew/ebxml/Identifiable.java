@@ -51,8 +51,7 @@ class Identifiable implements IElement, Serializable
         slots.add(new Slot(entry.getKey(), entry.getValue()));
       }
     }
-    else
-    if(oSlots instanceof Collection) {
+    else if(oSlots instanceof Collection) {
       Collection col = (Collection) oSlots;
       slots = new ArrayList<Slot>(col.size());
       Iterator iterator = col.iterator();
@@ -63,8 +62,7 @@ class Identifiable implements IElement, Serializable
         }
       }
     }
-    else
-    if(oSlots != null && oSlots.getClass().isArray()) {
+    else if(oSlots != null && oSlots.getClass().isArray()) {
       int length = Array.getLength(oSlots);
       slots = new ArrayList<Slot>(length);
       for(int i = 0; i < length; i++) {
@@ -215,8 +213,7 @@ class Identifiable implements IElement, Serializable
     if(name.equals("id")) {
       return this.id;
     }
-    else
-    if(name.equals("home")) {
+    else if(name.equals("home")) {
       return this.home;
     }
     return null;
@@ -227,8 +224,7 @@ class Identifiable implements IElement, Serializable
     if(name.equals("id")) {
       this.id = value;
     }
-    else
-    if(name.equals("home")) {
+    else if(name.equals("home")) {
       this.home = value;
     }
   }
@@ -237,8 +233,7 @@ class Identifiable implements IElement, Serializable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(id == null || id.length() == 0) {

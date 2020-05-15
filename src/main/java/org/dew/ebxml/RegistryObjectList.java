@@ -189,8 +189,7 @@ class RegistryObjectList implements IElement, Serializable
       if(identifiable instanceof ExtrinsicObject) {
         result++;
       }
-      else
-      if(identifiable instanceof RegistryPackage) {
+      else if(identifiable instanceof RegistryPackage) {
         result++;
       }
     }
@@ -212,8 +211,7 @@ class RegistryObjectList implements IElement, Serializable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     int iSize = listOfIdentifiable != null ? listOfIdentifiable.size() : 0;

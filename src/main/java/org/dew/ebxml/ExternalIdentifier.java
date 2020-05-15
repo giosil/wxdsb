@@ -7,7 +7,7 @@ public
 class ExternalIdentifier extends RegistryObject
 {
   private static final long serialVersionUID = 1683899571388745276L;
-
+  
   protected String identificationScheme;
   protected String registryObject;
   protected String value;
@@ -55,7 +55,7 @@ class ExternalIdentifier extends RegistryObject
     if(oRegistryObject != null) registryObject = oRegistryObject.toString();
     Object oValue = map.get("value");
     if(oValue != null) value = Utils.toString(oValue, "");
-
+    
     if(objectType == null || objectType.length() == 0) {
       this.objectType = RIM.TYPE_EXTERNALIDENTIFIER;
     }
@@ -98,12 +98,10 @@ class ExternalIdentifier extends RegistryObject
     if(name.equals("identificationScheme")) {
       return this.identificationScheme;
     }
-    else
-    if(name.equals("registryObject")) {
+    else if(name.equals("registryObject")) {
       return this.registryObject;
     }
-    else
-    if(name.equals("value")) {
+    else if(name.equals("value")) {
       return this.value;
     }
     return null;
@@ -116,12 +114,10 @@ class ExternalIdentifier extends RegistryObject
     if(name.equals("identificationScheme")) {
       this.identificationScheme = value;
     }
-    else
-    if(name.equals("registryObject")) {
+    else if(name.equals("registryObject")) {
       this.registryObject = value;
     }
-    else
-    if(name.equals("value")) {
+    else if(name.equals("value")) {
       this.value = value;
     }
   }
@@ -131,8 +127,7 @@ class ExternalIdentifier extends RegistryObject
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(id == null || id.length() == 0) {
@@ -151,7 +146,7 @@ class ExternalIdentifier extends RegistryObject
     }
     if(lid != null && lid.length() > 0) {
       sb.append(" lid=\"" + lid + "\"");
-    }    
+    }
     if(objectType != null && objectType.length() > 0) {
       sb.append(" objectType=\"" + objectType + "\"");
     }
@@ -193,7 +188,7 @@ class ExternalIdentifier extends RegistryObject
     sb.append("</" + namespace + getTagName() + ">");
     return sb.toString();
   }
-
+  
   @Override
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = super.toMap();
@@ -203,7 +198,7 @@ class ExternalIdentifier extends RegistryObject
     if(value                != null) mapResult.put("value",                value);
     return mapResult;
   }
-
+  
   @Override
   public boolean equals(Object object) {
     if(object instanceof ExternalIdentifier) {
