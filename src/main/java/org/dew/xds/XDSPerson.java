@@ -443,8 +443,7 @@ class XDSPerson implements Serializable
       }
       return "^^^^^&" + OID.STS11 + "&ISO^^^^" + institution;
     }
-    else
-    if(institution.length() == 7 && institution.endsWith("R")) {
+    else if(institution.length() == 7 && institution.endsWith("R")) {
       if(institutionName != null && institutionName.length() > 0) {
         return institutionName + "^^^^^&" + OID.RIA11 + "&ISO^^^^" + institution;
       }
@@ -498,8 +497,7 @@ class XDSPerson implements Serializable
         this.codingScheme = Utils.extractCodingScheme(value);
       }
     }
-    else
-    if(sPID.startsWith("PID-5|")) {
+    else if(sPID.startsWith("PID-5|")) {
       // PID-5|Rossi^Mario^^^
       List<String> fields = getFields(sPID);
       if(fields != null && fields.size() > 0) {
@@ -509,24 +507,21 @@ class XDSPerson implements Serializable
         }
       }
     }
-    else
-    if(sPID.startsWith("PID-7|")) {
+    else if(sPID.startsWith("PID-7|")) {
       // PID-7|19750303
       List<String> fields = getFields(sPID);
       if(fields != null && fields.size() > 0) {
         this.dateOfBirth = Utils.toDate(fields.get(0));
       }
     }
-    else
-    if(sPID.startsWith("PID-8|")) {
+    else if(sPID.startsWith("PID-8|")) {
       // PID-8|M
       List<String> fields = getFields(sPID);
       if(fields != null && fields.size() > 0) {
         this.gender = fields.get(0);
       }
     }
-    else
-    if(sPID.startsWith("PID-11|")) {
+    else if(sPID.startsWith("PID-11|")) {
       // PID-11|Via Alessandro Manzoni^^Napoli^^80100^Italia
       List<String> fields = getFields(sPID);
       if(fields != null && fields.size() > 0) {

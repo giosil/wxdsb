@@ -20,25 +20,25 @@ class XDSDocumentRequest implements IElement, Serializable
   public XDSDocumentRequest()
   {
   }
-
+  
   public XDSDocumentRequest(String documentUniqueId)
   {
     this.documentUniqueId = documentUniqueId;
   }
-
+  
   public XDSDocumentRequest(String repositoryUniqueId, String documentUniqueId)
   {
     this.repositoryUniqueId = repositoryUniqueId;
     this.documentUniqueId   = documentUniqueId;
   }
-
+  
   public XDSDocumentRequest(String homeCommunityId, String repositoryUniqueId, String documentUniqueId)
   {
     this.homeCommunityId    = homeCommunityId;
     this.repositoryUniqueId = repositoryUniqueId;
     this.documentUniqueId   = documentUniqueId;
   }
-
+  
   public XDSDocumentRequest(XDSDocument xdsDocument)
   {
     if(xdsDocument == null) return;
@@ -46,27 +46,27 @@ class XDSDocumentRequest implements IElement, Serializable
     this.repositoryUniqueId = xdsDocument.getRepositoryUniqueId();
     this.documentUniqueId   = xdsDocument.getUniqueId();
   }
-
+  
   public String getHomeCommunityId() {
     return homeCommunityId;
   }
-
+  
   public void setHomeCommunityId(String homeCommunityId) {
     this.homeCommunityId = homeCommunityId;
   }
-
+  
   public String getRepositoryUniqueId() {
     return repositoryUniqueId;
   }
-
+  
   public void setRepositoryUniqueId(String repositoryUniqueId) {
     this.repositoryUniqueId = repositoryUniqueId;
   }
-
+  
   public String getDocumentUniqueId() {
     return documentUniqueId;
   }
-
+  
   public void setDocumentUniqueId(String documentUniqueId) {
     this.documentUniqueId = documentUniqueId;
   }
@@ -80,12 +80,10 @@ class XDSDocumentRequest implements IElement, Serializable
     if(name.equalsIgnoreCase("homeCommunityId")) {
       return this.homeCommunityId;
     }
-    else
-    if(name.equalsIgnoreCase("repositoryUniqueId")) {
+    else if(name.equalsIgnoreCase("repositoryUniqueId")) {
       return this.repositoryUniqueId;
     }
-    else
-    if(name.equalsIgnoreCase("documentUniqueId")) {
+    else if(name.equalsIgnoreCase("documentUniqueId")) {
       return this.documentUniqueId;
     }
     return null;
@@ -96,12 +94,10 @@ class XDSDocumentRequest implements IElement, Serializable
     if(name.equalsIgnoreCase("homeCommunityId")) {
       this.homeCommunityId = value;
     }
-    else
-    if(name.equalsIgnoreCase("repositoryUniqueId")) {
+    else if(name.equalsIgnoreCase("repositoryUniqueId")) {
       this.repositoryUniqueId = value;
     }
-    else
-    if(name.equalsIgnoreCase("documentUniqueId")) {
+    else if(name.equalsIgnoreCase("documentUniqueId")) {
       this.documentUniqueId = value;
     }
   }
@@ -110,8 +106,7 @@ class XDSDocumentRequest implements IElement, Serializable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(500);

@@ -143,16 +143,13 @@ class XDSDocumentResponse implements IElement, Serializable
     if(name.equalsIgnoreCase("homeCommunityId")) {
       return this.homeCommunityId;
     }
-    else
-    if(name.equalsIgnoreCase("repositoryUniqueId")) {
+    else if(name.equalsIgnoreCase("repositoryUniqueId")) {
       return this.repositoryUniqueId;
     }
-    else
-    if(name.equalsIgnoreCase("documentUniqueId")) {
+    else if(name.equalsIgnoreCase("documentUniqueId")) {
       return this.documentUniqueId;
     }
-    else
-    if(name.equalsIgnoreCase("mimeType")) {
+    else if(name.equalsIgnoreCase("mimeType")) {
       return this.mimeType;
     }
     return null;
@@ -163,16 +160,13 @@ class XDSDocumentResponse implements IElement, Serializable
     if(name.equalsIgnoreCase("homeCommunityId")) {
       this.homeCommunityId = value;
     }
-    else
-    if(name.equalsIgnoreCase("repositoryUniqueId")) {
+    else if(name.equalsIgnoreCase("repositoryUniqueId")) {
       this.repositoryUniqueId = value;
     }
-    else
-    if(name.equalsIgnoreCase("documentUniqueId")) {
+    else if(name.equalsIgnoreCase("documentUniqueId")) {
       this.documentUniqueId = value;
     }
-    else
-    if(name.equalsIgnoreCase("mimeType")) {
+    else if(name.equalsIgnoreCase("mimeType")) {
       this.mimeType = value;
     }
   }
@@ -181,8 +175,7 @@ class XDSDocumentResponse implements IElement, Serializable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(500);
@@ -216,11 +209,11 @@ class XDSDocumentResponse implements IElement, Serializable
   
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
-    mapResult.put("tagName",              getTagName());
-    mapResult.put("homeCommunityId",      homeCommunityId);
-    mapResult.put("repositoryUniqueId",   repositoryUniqueId);
-    mapResult.put("documentUniqueId",     documentUniqueId);
-    mapResult.put("mimeType",             mimeType);
+    mapResult.put("tagName",            getTagName());
+    mapResult.put("homeCommunityId",    homeCommunityId);
+    mapResult.put("repositoryUniqueId", repositoryUniqueId);
+    mapResult.put("documentUniqueId",   documentUniqueId);
+    mapResult.put("mimeType",           mimeType);
     if(registryResponse != null) {
       mapResult.put("registryResponse", registryResponse.toMap());
     }

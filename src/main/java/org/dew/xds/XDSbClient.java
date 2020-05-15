@@ -379,7 +379,6 @@ class XDSbClient implements IXDSb
     StringBuilder sbRequest = new StringBuilder(800);
     sbRequest.append("<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">");
     sbRequest.append("<soap:Header>");
-    
     sbRequest.append("<To xmlns=\"http://www.w3.org/2005/08/addressing\">" + urlITI18 + "</To>");
     sbRequest.append("<Action xmlns=\"http://www.w3.org/2005/08/addressing\">urn:ihe:iti:2007:RegistryStoredQuery</Action>");
     sbRequest.append("<ReplyTo xmlns=\"http://www.w3.org/2005/08/addressing\">");

@@ -108,20 +108,16 @@ class XDRContentHandler implements ContentHandler
     if(localName.equalsIgnoreCase("HomeCommunityId")) {
       homeCommunityId = sCurrentValue;
     }
-    else
-    if(localName.equalsIgnoreCase("RepositoryUniqueId")) {
+    else if(localName.equalsIgnoreCase("RepositoryUniqueId")) {
       repositoryUniqueId = sCurrentValue;
     }
-    else
-    if(localName.equalsIgnoreCase("DocumentUniqueId")) {
+    else if(localName.equalsIgnoreCase("DocumentUniqueId")) {
       documentUniqueId = sCurrentValue;
     }
-    else
-    if(localName.equalsIgnoreCase("mimeType")) {
+    else if(localName.equalsIgnoreCase("mimeType")) {
       mimeType = sCurrentValue;
     }
-    else
-    if(localName.equalsIgnoreCase("Document")) {
+    else if(localName.equalsIgnoreCase("Document")) {
       String sBase64 = sCurrentValue != null ? sCurrentValue.trim() : "";
       if(sBase64 != null && sBase64.length() > 3) {
         try{ document = Base64Coder.decodeLines(sCurrentValue); } catch(Throwable th) {} 
