@@ -243,8 +243,7 @@ class SAMLAttributeAssertion extends SAMLAssertion
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(subjectRole != null && subjectRole.length() > 0) {

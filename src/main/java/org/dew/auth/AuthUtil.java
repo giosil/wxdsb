@@ -307,19 +307,16 @@ class AuthUtil
     if(iYear < 10) {
       sYear = "000" + sYear;
     }
-    else
-    if(iYear < 100) {
+    else if(iYear < 100) {
       sYear = "00" + sYear;
     }
-    else
-    if(iYear < 1000) {
+    else if(iYear < 1000) {
       sYear = "0" + sYear;
     }
     if(iMill < 10) {
       sMill = "00" + sMill; 
     }
-    else
-    if(iMill < 100) {
+    else if(iMill < 100) {
       sMill = "0" + sMill; 
     }
     if(offset) {
@@ -443,8 +440,7 @@ class AuthUtil
         prefix = sOrgId + "_";
       }
     }
-    else
-    if(assertion0 instanceof SAMLAssertion) {
+    else if(assertion0 instanceof SAMLAssertion) {
       String sIssuer = ((SAMLAssertion) assertion0).getIssuer();
       if(sIssuer != null && sIssuer.length() > 0) {
         prefix = sIssuer + "_";

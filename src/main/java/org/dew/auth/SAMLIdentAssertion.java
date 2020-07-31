@@ -163,8 +163,7 @@ class SAMLIdentAssertion extends SAMLAssertion
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     String sDecNsId = "";
@@ -236,11 +235,11 @@ class SAMLIdentAssertion extends SAMLAssertion
   public String toString() {
     return "SAMLIdentAssertion(" + subjectId + ")";
   }
-
+  
   class IdentityItem implements Serializable
   {
     private static final long serialVersionUID = 6723495336157668240L;
-
+    
     protected String  value;
     protected boolean current;
     protected Date    beginDate;
