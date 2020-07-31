@@ -239,12 +239,8 @@ class DSigUtil
     if(signatureValue == null || signatureValue.length == 0) return false;
     if(certificate    == null) return false;
     
-    // ATTENZIONE: octectString contiene il digest dell'elemento firmato.
-    // Tuttavia il digestValue presente nelle asserzioni NON E' tale digest.
-    // Esso e' piuttosto il digest del riferimento (Reference) presente nel SignedInfo.
-    // Il digest estratto dalla firma invece viene calcolato dal SignedInfo.
-    // Per questo motivo nella verifica della firma non viene passato il digest
-    // (al piu' bisognerebbe passare il contenuto esatto e canonicalizzato del SignedInfo).
+    // ATTENZIONE: nella verifica della firma andrebbe passato il digest
+    // che deve essere determinato dalla forma canonica del SignedInfo.
     
     Signature signature = Signature.getInstance("SHA1withRSA");
     signature.initVerify(certificate);
@@ -271,9 +267,18 @@ class DSigUtil
     
     // signatureValue = Encryption RSA of (ASN.1 of SHA1 digest)
     
-    Cipher cipher = Cipher.getInstance("RSA");
-    cipher.init(Cipher.DECRYPT_MODE, certificate);
-    byte[] asn1Digest = cipher.doFinal(signatureValue);
+    byte[] asn1Digest = null;
+    try {
+      Cipher cipher = Cipher.getInstance("RSA");
+      cipher.init(Cipher.DECRYPT_MODE, certificate);
+      asn1Digest = cipher.doFinal(signatureValue);
+    }
+    catch(Exception ex) {
+      System.out.println("DSigUtil.checkSignature: " + ex);
+    }
+    if(asn1Digest == null || asn1Digest.length == 0) {
+      return false;
+    }
     
     // asn1Digest = 
     //     SEQUENCE(2 elem)
