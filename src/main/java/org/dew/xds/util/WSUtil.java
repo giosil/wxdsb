@@ -26,6 +26,7 @@ import javax.servlet.ServletOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -104,8 +105,7 @@ class WSUtil
             }
           }
         }
-        else
-        if("SOAPAction".equalsIgnoreCase(sHeaderName)) {
+        else if("SOAPAction".equalsIgnoreCase(sHeaderName)) {
           sSOAPAction = request.getHeader(sHeaderName);
           headers.addHeader(sHeaderName, sSOAPAction);
         }
@@ -303,7 +303,6 @@ class WSUtil
             isContent = sLine.length() == 0;
           }
         }
-        System.out.println(sLine);
         if(sLine.startsWith("--uuid:")) {
           if(sUUIDPart == null) {
             sUUIDPart = sLine;
@@ -697,8 +696,7 @@ class WSUtil
           }
         }
       }
-      else
-      if("SOAPAction".equalsIgnoreCase(sHeaderName)) {
+      else if("SOAPAction".equalsIgnoreCase(sHeaderName)) {
         headers.addHeader(sHeaderName, sHeaderValue);
       }
     }
