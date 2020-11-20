@@ -595,8 +595,11 @@ class Utils
     return formatISO8601_Z(cal, true);
   }
   
-  public static String formatISO8601_Z(Calendar cal, boolean millis) {
-    if(cal == null) return "";
+  public static String formatISO8601_Z(Calendar dateTime, boolean millis) {
+    if(dateTime == null) return "";
+    
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeInMillis(dateTime.getTimeInMillis());
     
     int iZoneOffset = cal.get(Calendar.ZONE_OFFSET);
     cal.add(Calendar.MILLISECOND, -iZoneOffset);
