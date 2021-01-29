@@ -1,9 +1,16 @@
 package org.dew.test;
 
 import java.io.File;
+
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.dew.auth.AuthAssertion;
 import org.dew.auth.AuthUtil;
@@ -50,7 +57,29 @@ public class TestWXDSb extends TestCase {
       if(!folder.exists()) folder.mkdirs();
     }
     catch(Exception ex) {
+      ex.printStackTrace();
     }
+    
+    // Trust all certificates
+    try {
+      TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+          public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null;}
+          public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+          public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+        }
+      };
+      SSLContext sc = SSLContext.getInstance("SSL");
+      sc.init(null, trustAllCerts, new java.security.SecureRandom());
+      
+      HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+    }
+    catch(Throwable th) {
+      th.printStackTrace();
+      return;
+    }
+    
+    // Disable Server Name Indication (SNI) extension of Transport Layer Security (TLS) 
+    System.setProperty("jsse.enableSNIExtension", "false");
   }
   
   public static Test suite() {
