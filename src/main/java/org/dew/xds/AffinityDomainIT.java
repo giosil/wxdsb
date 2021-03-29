@@ -27,6 +27,8 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_RICHIESTA_DI_RICOVERO  = "57830-2";
   public static final String sDOC_RICHIESTA_TRASPORTO    = "57834-4";
   public static final String sDOC_VACCINAZIONI           = "11369-6";
+  public static final String sDOC_CERTIFICATO_VACCINALE  = "82593-5";
+  public static final String sDOC_SCHEDA_VACCINALE       = "87273-9";
   
   public String getClassDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
@@ -37,6 +39,10 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("RIC")) return "Richiesta";
     if(code.equals("SUM")) return "Sommario";
     if(code.equals("TAC")) return "Taccuino";
+    if(code.equals("PRS")) return "Prescrizione";
+    if(code.equals("PRE")) return "Prestazioni";
+    if(code.equals("ESE")) return "Esenzione";
+    if(code.equals("PDC")) return "Certificato";
     return code;
   }
   
@@ -90,6 +96,8 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_RICHIESTA_DI_RICOVERO))  return "Richiesta di ricovero";
     if(code.equals(sDOC_RICHIESTA_TRASPORTO))    return "Richiesta di trasporto";
     if(code.equals(sDOC_VACCINAZIONI))           return "Vaccinazioni";
+    if(code.equals(sDOC_CERTIFICATO_VACCINALE))  return "Certificato Vaccinale";
+    if(code.equals(sDOC_SCHEDA_VACCINALE))       return "Scheda Vaccinale";
     return "Documento sanitario";
   }
   
@@ -98,6 +106,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.startsWith("O")) return "Ospedale";
     if(code.startsWith("P")) return "Prevenzione";
     if(code.startsWith("T")) return "Territorio";
+    if(code.startsWith("S")) return "SistemaTS";
     return code;
   }
   
@@ -198,3 +207,4 @@ class AffinityDomainIT implements IAffinityDomain
     return code;
   }
 }
+

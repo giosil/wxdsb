@@ -24,11 +24,11 @@ import org.dew.ebxml.Slot;
 public
 class XDSDocument implements Serializable
 {
-  private static final long serialVersionUID = 243673773084831988L;
+  private static final long serialVersionUID = -6590236644908408699L;
   
   protected static final List<String> SLOT_NAMES = Arrays.asList(new String[]{"creationTime", "hash", "languageCode", "homeCommunityId", "repositoryUniqueId", "serviceStartTime", "serviceStopTime", "size", "sourcePatientId", "sourcePatientInfo", "legalAuthenticator", "versionNumber", "originalConfidenzialityCode"});
   
-  protected IAffinityDomain affinityDomain = new AffinityDomainIT();
+  protected IAffinityDomain affinityDomain = AffinityDomainFactory.getDefaultInstance();
   
   protected String    uniqueId;
   protected String    setId;
