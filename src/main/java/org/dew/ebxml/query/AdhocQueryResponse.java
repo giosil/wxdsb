@@ -1,6 +1,7 @@
 package org.dew.ebxml.query;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,13 +10,14 @@ import java.util.Map;
 import org.dew.ebxml.IElement;
 import org.dew.ebxml.RegistryObjectList;
 import org.dew.ebxml.rs.RegistryError;
+
 import org.dew.xds.XDS;
 import org.dew.xds.XDSDocument;
 
 public 
 class AdhocQueryResponse implements IElement, Serializable 
 {
-  private static final long serialVersionUID = -7672298596222229487L;
+  private static final long serialVersionUID = 6620260171130097606L;
   
   protected String status;
   protected int startIndex;
@@ -34,7 +36,10 @@ class AdhocQueryResponse implements IElement, Serializable
   {
     this.registryErrorList  = registryErrorList;
     this.registryObjectList = new RegistryObjectList();
-    if(registryErrorList != null && registryErrorList.size() > 0) {
+    
+    // Da IHE_ITI_TF_VOL3, [ITI-18] Stored Query Responses: status failure in presenza di almeno un RegistryError con severity Error.
+    int countErrors = countErrors();
+    if(countErrors > 0) {
       this.status = XDS.REG_RESP_STATUS_FAILURE;
     }
     else {
@@ -49,7 +54,10 @@ class AdhocQueryResponse implements IElement, Serializable
     if(registryObjectList != null) {
       this.totalResultCount = registryObjectList.getTotalResultCount();
     }
-    if(registryErrorList != null && registryErrorList.size() > 0) {
+    
+    // Da IHE_ITI_TF_VOL3, [ITI-18] Stored Query Responses: status failure in presenza di almeno un RegistryError con severity Error.
+    int countErrors = countErrors();
+    if(countErrors > 0) {
       this.status = XDS.REG_RESP_STATUS_FAILURE;
     }
     else {
@@ -100,7 +108,8 @@ class AdhocQueryResponse implements IElement, Serializable
   public AdhocQueryResponse(XDSDocument[] arrayOfXDSDocument)
   {
     if(arrayOfXDSDocument == null || arrayOfXDSDocument.length == 0) {
-      this.status             = XDS.REG_RESP_STATUS_FAILURE;
+      // Da IHE_ITI_TF_VOL3, [ITI-18] Stored Query Responses: status failure in presenza di almeno un RegistryError con severity Error.
+      this.status             = XDS.REG_RESP_STATUS_SUCCESS;
       this.registryErrorList  = new ArrayList<RegistryError>();
       this.registryErrorList.add(new RegistryError("No results from the query", "QND1", XDS.ERR_SEVERITY_WARNING));
       this.registryObjectList = new RegistryObjectList();
@@ -220,7 +229,13 @@ class AdhocQueryResponse implements IElement, Serializable
     StringBuffer sb = new StringBuffer();
     if(registryErrorList != null && registryErrorList.size() > 0) {
       if(status == null || status.length() == 0) {
-        status = XDS.REG_RESP_STATUS_FAILURE;
+        int countErrors = countErrors();
+        if(countErrors > 0) {
+          status = XDS.REG_RESP_STATUS_FAILURE;
+        }
+        else {
+          status = XDS.REG_RESP_STATUS_SUCCESS;
+        }
       }
       sb.append("<ns6:AdhocQueryResponse xmlns:ns6=\"urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0\" xmlns:ns5=\"urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0\" xmlns:ns4=\"urn:ihe:iti:xds-b:2007\" xmlns:ns3=\"urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0\" xmlns:ns2=\"urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0\" status=\"" + status + "\">");
       sb.append("<ns3:RegistryErrorList>");
@@ -259,6 +274,36 @@ class AdhocQueryResponse implements IElement, Serializable
     mapResult.put("registryErrorList",  registryErrorList);
     mapResult.put("registryObjectList", registryObjectList);
     return mapResult;
+  }
+  
+  public int countErrors() {
+    if(registryErrorList == null || registryErrorList.size() == 0) {
+      return 0;
+    }
+    int result = 0;
+    for(int i = 0; i < registryErrorList.size(); i++) {
+      RegistryError registryError = registryErrorList.get(i);
+      if(registryError == null) continue;
+      String severity = registryError.getSeverity();
+      if(severity == null || severity.length() == 0) continue;
+      if(severity.equals(XDS.ERR_SEVERITY_ERROR)) result++;
+    }
+    return result;
+  }
+  
+  public int countWarnings() {
+    if(registryErrorList == null || registryErrorList.size() == 0) {
+      return 0;
+    }
+    int result = 0;
+    for(int i = 0; i < registryErrorList.size(); i++) {
+      RegistryError registryError = registryErrorList.get(i);
+      if(registryError == null) continue;
+      String severity = registryError.getSeverity();
+      if(severity == null || severity.length() == 0) continue;
+      if(severity.equals(XDS.ERR_SEVERITY_WARNING)) result++;
+    }
+    return result;
   }
   
   @Override

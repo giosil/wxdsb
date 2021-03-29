@@ -7,13 +7,14 @@ import java.util.Map;
 
 import org.dew.ebxml.IElement;
 import org.dew.ebxml.Utils;
+
 import org.dew.xds.XDS;
 
 public 
 class RegistryError implements IElement, Serializable
 {
-  private static final long serialVersionUID = 8590244590214472821L;
-
+  private static final long serialVersionUID = -1166029158350233700L;
+  
   protected String codeContext;
   protected String errorCode;
   protected String severity;
@@ -48,10 +49,9 @@ class RegistryError implements IElement, Serializable
       this.errorCode = errorCode;
     }
     if(severity == null || severity.length() == 0) {
-      this.severity = XDS.ERR_SEVERITY_ERROR;    
+      this.severity = XDS.ERR_SEVERITY_ERROR;
     }
-    else 
-    if(severity.length() < 25) {
+    else if(severity.length() < 25) {
       if(severity.endsWith("Warning") || severity.endsWith("warning")) {
         this.severity = XDS.ERR_SEVERITY_WARNING;
       }
@@ -86,10 +86,9 @@ class RegistryError implements IElement, Serializable
 
   public void setSeverity(String severity) {
     if(severity == null || severity.length() == 0) {
-      this.severity = XDS.ERR_SEVERITY_ERROR;    
+      this.severity = XDS.ERR_SEVERITY_ERROR;   
     }
-    else 
-    if(severity.length() < 25) {
+    else if(severity.length() < 25) {
       if(severity.endsWith("Warning") || severity.endsWith("warning")) {
         this.severity = XDS.ERR_SEVERITY_WARNING;
       }
@@ -111,38 +110,33 @@ class RegistryError implements IElement, Serializable
     if(name.equals("codeContext")) {
       return this.codeContext;
     }
-    else
-    if(name.equals("errorCode")) {
+    else if(name.equals("errorCode")) {
       return this.errorCode;
     }
-    else
-    if(name.equals("severity")) {
+    else if(name.equals("severity")) {
       return this.severity;
     }
     return null;
   }
-
+  
   public void setAttribute(String name, String value) {
     if(name == null) return;
     if(name.equals("codeContext")) {
       this.codeContext = value;
     }
-    else
-    if(name.equals("errorCode")) {
+    else if(name.equals("errorCode")) {
       this.errorCode = value;
     }
-    else
-    if(name.equals("severity")) {
+    else if(name.equals("severity")) {
       this.severity = value;
     }
   }
-
+  
   public String toXML(String namespace) {
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(500);
@@ -160,7 +154,7 @@ class RegistryError implements IElement, Serializable
     sb.append("</" + namespace + getTagName() + ">");
     return sb.toString();
   }
-
+  
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
     mapResult.put("tagName", getTagName());
