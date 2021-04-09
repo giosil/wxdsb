@@ -16,4 +16,14 @@ interface IAffinityDomain
   public String getPracticeDisplayName(String code);
   
   public String getContentTypeDisplayName(String code);
+  
+  public String getClassByType(String type, String defaultValue);
+  
+  public String getPracticeByType(String type, String defaultValue);
+  
+  public String getFacilityByType(String type, String defaultValue);
+  
+  public String getContentTypeByType(String type, String defaultValue);
+  
+  public String getFormatByType(String type, String mimeType, String defaultValue);
 }

@@ -206,5 +206,161 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equalsIgnoreCase("ERP")) return "Erogazione Prestazione Prenotata";
     return code;
   }
+  
+  public String getClassByType(String type, String defaultValue) {
+    if(type == null || type.length() == 0) {
+      return defaultValue;
+    }
+    if(sDOC_REFERTO_LABORATORIO.equals(type)) {
+      return "REF";
+    }
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+      return "RIC";
+    }
+    if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
+      return "RIC";
+    }
+    if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
+      return "RIC";
+    }
+    if(sDOC_REGISTRAZIONE_CONSENSO.equals(type)) {
+      return "CON";
+    }
+    if(sDOC_PROFILO_SANITARIO_SIN.equals(type)) {
+      return "SUM";
+    }
+    if(sDOC_VACCINAZIONI.equals(type)) {
+      return "SUM";
+    }
+    if(sDOC_CERTIFICATO_VACCINALE.equals(type)) {
+      return "PDC";
+    }
+    if(sDOC_SCHEDA_VACCINALE.equals(type)) {
+      return "PDC";
+    }
+    if(sDOC_LETTERA_DIM_OSP.equals(type)) {
+      return "LDO";
+    }
+    if(sDOC_PDTA.equals(type)) {
+      return "WOR";
+    }
+    return defaultValue;
+  }
+  
+  public String getPracticeByType(String type, String defaultValue) {
+    if(type == null || type.length() == 0) {
+      return defaultValue;
+    }
+    if(sDOC_REFERTO_LABORATORIO.equals(type)) {
+      return "AD_PSC100"; // Laboratorio Analisi Chimico Cliniche
+    }
+    if(sDOC_REFERTO_ANATOMIA_PAT.equals(type)) {
+      return "AD_PSC003"; // Anatomia e Istologia Patologica
+    }
+    if(sDOC_REFERTO_RADIOLOGIA.equals(type)) {
+      return "AD_PSC069"; // Radiologia
+    }
+    if(sDOC_REFERTO_AMBULATORIALE.equals(type)) {
+      return "AD_PSC107"; // Poliambulatorio
+    }
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+      return "AD_PSC130"; // Medicina di Base
+    }
+    if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
+      return "AD_PSC130"; // Medicina di Base
+    }
+    if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
+      return "AD_PSC130"; // Medicina di Base
+    }
+    if(sDOC_REGISTRAZIONE_CONSENSO.equals(type)) {
+      return "AD_PSC199"; // Raccolta Consenso
+    }
+    if(sDOC_PROFILO_SANITARIO_SIN.equals(type)) {
+      return "AD_PSC130"; // Medicina di Base
+    }
+    if(sDOC_VACCINAZIONI.equals(type)) {
+      return "AD_PSC020"; // Immunologia
+    }
+    if(sDOC_CERTIFICATO_VACCINALE.equals(type)) {
+      return "AD_PSC020"; // Immunologia
+    }
+    if(sDOC_SCHEDA_VACCINALE.equals(type)) {
+      return "AD_PSC020"; // Immunologia
+    }
+    if(sDOC_LETTERA_DIM_OSP.equals(type)) {
+      return "AD_PSC026"; // Medicina Generale
+    }
+    if(sDOC_VERBALE_PRONTO_SOCC.equals(type)) {
+      return "AD_PSC106"; // Pronto Soccorso e OBI
+    }
+    if(sDOC_PDTA.equals(type)) {
+      return "AD_PSC131"; // Assistenza Territoriale
+    }
+    return defaultValue;
+  }
+  
+  public String getFacilityByType(String type, String defaultValue) {
+    if(type == null || type.length() == 0) {
+      return defaultValue;
+    }
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+      return "Territorio";
+    }
+    if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
+      return "Territorio";
+    }
+    if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
+      return "Territorio";
+    }
+    if(sDOC_PROFILO_SANITARIO_SIN.equals(type)) {
+      return "Territorio";
+    }
+    return "Ospedale";
+  }
+  
+  public String getContentTypeByType(String type, String defaultValue) {
+    if(type == null || type.length() == 0) {
+      return defaultValue;
+    }
+    if(sDOC_LETTERA_DIM_OSP.equals(type)) {
+      return "DIS";
+    }
+    return "ERP";
+  }
+  
+  public String getFormatByType(String type, String mimeType, String defaultValue) {
+    if(mimeType == null || mimeType.length() == 0) {
+      if(type == null || type.length() == 0) {
+        return defaultValue;
+      }
+    }
+    if(mimeType != null && mimeType.indexOf("pdf") >= 0) {
+      return "PDF";
+    }
+    if(mimeType != null && mimeType.equals("text/plain")) {
+      return "TXT";
+    }
+    if(sDOC_REFERTO_LABORATORIO.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.1";
+    }
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.2";
+    }
+    if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.2";
+    }
+    if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.2";
+    }
+    if(sDOC_REGISTRAZIONE_CONSENSO.equals(type)) {
+      return "1.3.6.1.4.1.19376.1.5.3.1.1.7";
+    }
+    if(sDOC_PROFILO_SANITARIO_SIN.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.2.4.1.1";
+    }
+    if(sDOC_LETTERA_DIM_OSP.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.5";
+    }
+    return defaultValue;
+  }
 }
-
