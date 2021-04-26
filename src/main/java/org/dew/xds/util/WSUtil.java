@@ -307,8 +307,7 @@ class WSUtil
           if(sUUIDPart == null) {
             sUUIDPart = sLine;
           }
-          else 
-          if(sUUIDPart.equals(sLine)){
+          else if(sUUIDPart.equals(sLine)){
             isSecondPart = true;
           }
         }
@@ -322,8 +321,7 @@ class WSUtil
       if(content.length <= iBytesToRemove) {
         return new byte[0];
       }
-      else
-      if(content.length > iBytesToRemove) {
+      else if(content.length > iBytesToRemove) {
         return Arrays.copyOf(content, content.length - iBytesToRemove);
       }
     }
@@ -752,12 +750,12 @@ class WSUtil
     StringBuilder sb = new StringBuilder(iLength);
     for(int i = 0; i < iLength; i++) {
       char c = sValue.charAt(i);
-      if(c == '<')  sb.append("&lt;");   else
-      if(c == '>')  sb.append("&gt;");   else
-      if(c == '&')  sb.append("&amp;");  else
-      if(c == '"')  sb.append("&quot;"); else
-      if(c == '\'') sb.append("&apos;"); else
-      if(c > 127) {
+      if(c == '<')  sb.append("&lt;");
+      else if(c == '>')  sb.append("&gt;");
+      else if(c == '&')  sb.append("&amp;");
+      else if(c == '"')  sb.append("&quot;");
+      else if(c == '\'') sb.append("&apos;");
+      if(c > 126) {
         int code = (int) c;
         sb.append("&#" + code + ";");
       }
@@ -787,5 +785,56 @@ class WSUtil
       result[index] = listOfAssertion.get(i);
     }
     return result;
+  }
+  
+  public static 
+  int byteArrayIndexOf(byte[] source, byte[] target) 
+  {
+    return byteArrayIndexOf(source, 0, source.length, target, 0, target.length, 0);
+  }
+  
+  public static 
+  int byteArrayIndexOf(byte[] source, byte[] target, int fromIndex) 
+  {
+    return byteArrayIndexOf(source, 0, source.length, target, 0, target.length, fromIndex);
+  }
+  
+  // Preso dalla classe String e riadattato (char[] -> byte[])
+  public static 
+  int byteArrayIndexOf(byte[] source, int sourceOffset, int sourceCount, byte[] target, int targetOffset, int targetCount, int fromIndex)
+  {
+    if (fromIndex >= sourceCount) {
+      return (targetCount == 0 ? sourceCount : -1);
+    }
+    if (fromIndex < 0) {
+      fromIndex = 0;
+    }
+    if (targetCount == 0) {
+      return fromIndex;
+    }
+    
+    byte first = target[targetOffset];
+    int max = sourceOffset + (sourceCount - targetCount);
+    
+    for (int i = sourceOffset + fromIndex; i <= max; i++) {
+      /* Look for first character. */
+      if (source[i] != first) {
+        while (++i <= max && source[i] != first);
+      }
+      
+      /* Found first character, now look at the rest of v2 */
+      if (i <= max) {
+        int j = i + 1;
+        int end = j + targetCount - 1;
+        for (int k = targetOffset + 1; j < end && source[j]
+            == target[k]; j++, k++);
+        
+        if (j == end) {
+          /* Found whole string. */
+          return i - sourceOffset;
+        }
+      }
+    }
+    return -1;
   }
 }
