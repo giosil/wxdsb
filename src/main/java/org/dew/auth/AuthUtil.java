@@ -2,6 +2,7 @@ package org.dew.auth;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +32,8 @@ import org.dew.xds.util.Base64Coder;
 public 
 class AuthUtil 
 {
+  public static String CFG_FOLDER = System.getProperty("user.home") + File.separator + "cfg";
+  
   public static
   X509Certificate getX509Certificate(String base64)
   {
@@ -161,16 +164,36 @@ class AuthUtil
   X509Certificate loadCertificate(String sFile)
     throws Exception
   {
-    int iFileSep = sFile.indexOf('/');
-    if(iFileSep < 0) iFileSep = sFile.indexOf('\\');
     InputStream is = null;
-    if(iFileSep < 0) {
-      URL url = Thread.currentThread().getContextClassLoader().getResource(sFile);
-      is = url.openStream();
+    // Si cerca prima nella cartella di configurazione
+    File file = new File(CFG_FOLDER + File.separator + sFile);
+    if(file.exists()) {
+      is = new FileInputStream(file);
     }
     else {
-      is = new FileInputStream(sFile);
+      URL url = null;
+      try {
+        // Poi si cerca la versione ext
+        url = Thread.currentThread().getContextClassLoader().getResource("ext_" + sFile);
+      }
+      catch(Exception ex) {
+      }
+      if(url == null) {
+        try {
+          // Infine si cerca all'interno del pacchetto
+          url = Thread.currentThread().getContextClassLoader().getResource(sFile);
+        }
+        catch(Exception ex) {
+        }
+      }
+      if(url != null) {
+        is = url.openStream();
+      }
+      else {
+        return null;
+      }
     }
+    
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
       int n;
@@ -205,16 +228,36 @@ class AuthUtil
   PrivateKey loadPrivateKey(String sFile)
     throws Exception
   {
-    int iFileSep = sFile.indexOf('/');
-    if(iFileSep < 0) iFileSep = sFile.indexOf('\\');
     InputStream is = null;
-    if(iFileSep < 0) {
-      URL url = Thread.currentThread().getContextClassLoader().getResource(sFile);
-      is = url.openStream();
+    // Si cerca prima nella cartella di configurazione
+    File file = new File(CFG_FOLDER + File.separator + sFile);
+    if(file.exists()) {
+      is = new FileInputStream(file);
     }
     else {
-      is = new FileInputStream(sFile);
+      URL url = null;
+      try {
+        // Poi si cerca la versione ext
+        url = Thread.currentThread().getContextClassLoader().getResource("ext_" + sFile);
+      }
+      catch(Exception ex) {
+      }
+      if(url == null) {
+        try {
+          // Infine si cerca all'interno del pacchetto
+          url = Thread.currentThread().getContextClassLoader().getResource(sFile);
+        }
+        catch(Exception ex) {
+        }
+      }
+      if(url != null) {
+        is = url.openStream();
+      }
+      else {
+        return null;
+      }
     }
+    
     org.bouncycastle.openssl.PEMReader pemReader = null;
     try {
       Security.addProvider(new BouncyCastleProvider());
@@ -238,15 +281,34 @@ class AuthUtil
   SSLSocketFactory getSSLSocketFactoryMutualAuth(String sFile, String sPassword)
     throws Exception
   {
-    int iFileSep = sFile.indexOf('/');
-    if(iFileSep < 0) iFileSep = sFile.indexOf('\\');
     InputStream is = null;
-    if(iFileSep < 0) {
-      URL url = Thread.currentThread().getContextClassLoader().getResource(sFile);
-      is = url.openStream();
+    // Si cerca prima nella cartella di configurazione
+    File file = new File(CFG_FOLDER + File.separator + sFile);
+    if(file.exists()) {
+      is = new FileInputStream(file);
     }
     else {
-      is = new FileInputStream(sFile);
+      URL url = null;
+      try {
+        // Poi si cerca la versione ext
+        url = Thread.currentThread().getContextClassLoader().getResource("ext_" + sFile);
+      }
+      catch(Exception ex) {
+      }
+      if(url == null) {
+        try {
+          // Infine si cerca all'interno del pacchetto
+          url = Thread.currentThread().getContextClassLoader().getResource(sFile);
+        }
+        catch(Exception ex) {
+        }
+      }
+      if(url != null) {
+        is = url.openStream();
+      }
+      else {
+        return null;
+      }
     }
     
     Security.addProvider(new BouncyCastleProvider());
