@@ -16,7 +16,9 @@ class XDSDocumentRequest implements IElement, Serializable
   protected String homeCommunityId;
   protected String repositoryUniqueId;
   protected String documentUniqueId;
-  
+  // TRANSMISSION_USING_MTOM_XOP
+  protected boolean enclosedDocument;
+
   public XDSDocumentRequest()
   {
   }
@@ -71,6 +73,14 @@ class XDSDocumentRequest implements IElement, Serializable
     this.documentUniqueId = documentUniqueId;
   }
   
+  public boolean isEnclosedDocument() {
+    return enclosedDocument;
+  }
+
+  public void setEnclosedDocument(boolean enclosedDocument) {
+    this.enclosedDocument = enclosedDocument;
+  }
+  
   public String getTagName() {
     return "DocumentRequest";
   }
@@ -86,6 +96,9 @@ class XDSDocumentRequest implements IElement, Serializable
     else if(name.equalsIgnoreCase("documentUniqueId")) {
       return this.documentUniqueId;
     }
+    else if(name.equalsIgnoreCase("enclosedDocument")) {
+      return String.valueOf(enclosedDocument);
+    }
     return null;
   }
   
@@ -99,6 +112,9 @@ class XDSDocumentRequest implements IElement, Serializable
     }
     else if(name.equalsIgnoreCase("documentUniqueId")) {
       this.documentUniqueId = value;
+    }
+    else if(name.equalsIgnoreCase("enclosedDocument")) {
+      this.enclosedDocument = value != null && value.equalsIgnoreCase("true");
     }
   }
   

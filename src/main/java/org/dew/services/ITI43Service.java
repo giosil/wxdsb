@@ -28,8 +28,8 @@ import org.dew.xds.util.WSUtil;
 public
 class ITI43Service extends HttpServlet
 {
-  private static final long serialVersionUID = -2213010474919954474L;
-  
+  private static final long serialVersionUID = 3052102488083561346L;
+
   protected static final String REQUEST_NAME = "RetrieveDocumentSetRequest";
   
   protected boolean TRANSMISSION_USING_MTOM_XOP = false;
@@ -125,6 +125,8 @@ class ITI43Service extends HttpServlet
     XDSDocumentResponse xdsDocumentResponse = null;
     try {
       IXDSb xdsb = ServicesFactory.getXDSbInstance(handlerClass);
+      
+      xdsDocumentRequest.setEnclosedDocument(!TRANSMISSION_USING_MTOM_XOP);
       
       xdsDocumentResponse = xdsb.retrieveDocumentSet(xdsDocumentRequest, WSUtil.toArray(basicAuth, listOfAssertion));
     }
