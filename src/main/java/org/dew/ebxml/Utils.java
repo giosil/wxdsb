@@ -17,7 +17,6 @@ import java.util.Map;
 import org.dew.xds.XDS;
 import org.dew.xds.util.Base64Coder;
 
-@SuppressWarnings("rawtypes")
 public 
 class Utils 
 {
@@ -30,12 +29,12 @@ class Utils
     StringBuffer sb = new StringBuffer(iLength);
     for(int i = 0; i < iLength; i++) {
       char c = sValue.charAt(i);
-      if(c == '<')  sb.append("&lt;");   else
-      if(c == '>')  sb.append("&gt;");   else
-      if(c == '&')  sb.append("&amp;");  else
-      if(c == '"')  sb.append("&quot;"); else
-      if(c == '\'') sb.append("&apos;"); else
-      if(c > 127) {
+      if(c == '<')  sb.append("&lt;");
+      else if(c == '>')  sb.append("&gt;");
+      else if(c == '&')  sb.append("&amp;");
+      else if(c == '"')  sb.append("&quot;");
+      else if(c == '\'') sb.append("&apos;");
+      else if(c > 126) {
         int code = (int) c;
         sb.append("&#" + code + ";");
       }
@@ -47,7 +46,7 @@ class Utils
   }
   
   public static 
-  Identifiable createRegistryObject(Map map) 
+  Identifiable createRegistryObject(Map<String, Object> map) 
   {
     if(map == null || map.isEmpty()) return null;
     String sTagName = (String) map.get("tagName");
@@ -437,9 +436,9 @@ class Utils
   {
     if(object == null) return null;
     if(object instanceof Collection) {
-      Collection collection = (Collection) object;
+      Collection<?> collection = (Collection<?>) object;
       List<String> result = new ArrayList<String>(collection.size());
-      Iterator iterator = collection.iterator();
+      Iterator<?> iterator = collection.iterator();
       while(iterator.hasNext()) {
         result.add(toString(iterator.next(), ""));
       }
@@ -1070,22 +1069,19 @@ class Utils
       if(c0 != ' ' && !Character.isDigit(c0)) return null;
     }
     if(sHH.length() == 0) sHH = "00";
-    else
-    if(sHH.length() == 1) sHH = "0" + sHH;
+    else if(sHH.length() == 1) sHH = "0" + sHH;
     int iHH = 0;
     try { iHH = Integer.parseInt(sHH); } catch(Throwable th) { return "000000"; }
     if(iHH < 0 || iHH > 23) return "000000";
     // Check Minutes
     if(sMM.length() == 0) sMM = "00";
-    else
-    if(sMM.length() == 1) sMM = "0" + sMM;
+    else if(sMM.length() == 1) sMM = "0" + sMM;
     int iMM = 0;
     try { iMM = Integer.parseInt(sMM); } catch(Throwable th) { return "000000"; }
     if(iMM < 0 || iMM > 59) return "000000";
     // Check Seconds
     if(sSS.length() == 0) sSS = "00";
-    else
-    if(sSS.length() == 1) sSS = "0" + sSS;
+    else if(sSS.length() == 1) sSS = "0" + sSS;
     int iSS = 0;
     try { iSS = Integer.parseInt(sSS); } catch(Throwable th) { return "000000"; }
     if(iSS < 0 || iSS > 59) return "000000";
@@ -1106,10 +1102,10 @@ class Utils
   }
   
   private static 
-  boolean check(Map map, Object... keys) 
+  boolean check(Map<String, Object> map, String... keys) 
   {
     if(map == null) return false;
-    for(Object key : keys) {
+    for(String key : keys) {
       Object value = map.get(key);
       if(value != null) return true;
     }
@@ -1121,10 +1117,10 @@ class Utils
   {
     if(oValue == null) return true;
     if(oValue instanceof Collection) {
-      return ((Collection) oValue).isEmpty();
+      return ((Collection<?>) oValue).isEmpty();
     }
     if(oValue instanceof Map) {
-      return ((Map) oValue).isEmpty();
+      return ((Map<?,?>) oValue).isEmpty();
     }
     String sValue = oValue.toString();
     if(sValue == null || sValue.trim().length() == 0 || sValue.equals("null")) {
