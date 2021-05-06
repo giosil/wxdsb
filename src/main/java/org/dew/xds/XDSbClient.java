@@ -110,6 +110,10 @@ class XDSbClient implements IXDSb
   }
   
   public void setTracerRequest(String filePath) {
+    if(this.tracerRequest != null) {
+      try { this.tracerRequest.flush(); } catch(Exception ex) {}
+      try { this.tracerRequest.close(); } catch(Exception ex) {}
+    }
     if(filePath == null || filePath.length() == 0) {
       this.tracerRequest = null;
       this.tracerReqName = null;
@@ -150,6 +154,10 @@ class XDSbClient implements IXDSb
   }
   
   public void setTracerResponse(String filePath) {
+    if(this.tracerResponse != null) {
+      try { this.tracerResponse.flush(); } catch(Exception ex) {}
+      try { this.tracerResponse.close(); } catch(Exception ex) {}
+    }
     if(filePath == null || filePath.length() == 0) {
       this.tracerResponse = null;
       this.tracerResName  = null;
@@ -179,6 +187,19 @@ class XDSbClient implements IXDSb
         this.tracerResName  = null;
       }
     }
+  }
+  
+  public void disableTracer() {
+    if(this.tracerRequest != null) {
+      try { this.tracerRequest.flush(); } catch(Exception ex) {}
+      try { this.tracerRequest.close(); } catch(Exception ex) {}
+    }
+    this.tracerRequest = null;
+    if(this.tracerResponse != null) {
+      try { this.tracerResponse.flush(); } catch(Exception ex) {}
+      try { this.tracerResponse.close(); } catch(Exception ex) {}
+    }
+    this.tracerResponse = null;
   }
   
   public void setTracerPrefix(String sPrefix) {

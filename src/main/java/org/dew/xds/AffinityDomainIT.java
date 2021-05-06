@@ -42,7 +42,8 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("PRS")) return "Prescrizione";
     if(code.equals("PRE")) return "Prestazioni";
     if(code.equals("ESE")) return "Esenzione";
-    if(code.equals("PDC")) return "Certificato";
+    if(code.equals("PDC")) return "Piano di cura";
+    if(code.equals("VAC")) return "Vaccino";
     return code;
   }
   
@@ -233,10 +234,10 @@ class AffinityDomainIT implements IAffinityDomain
       return "SUM";
     }
     if(sDOC_CERTIFICATO_VACCINALE.equals(type)) {
-      return "PDC";
+      return "VAC";
     }
     if(sDOC_SCHEDA_VACCINALE.equals(type)) {
-      return "PDC";
+      return "VAC";
     }
     if(sDOC_LETTERA_DIM_OSP.equals(type)) {
       return "LDO";
