@@ -24,7 +24,7 @@ import org.dew.ebxml.Slot;
 public
 class XDSDocument implements Serializable
 {
-  private static final long serialVersionUID = -6590236644908408699L;
+  private static final long serialVersionUID = -4135488387453769312L;
   
   protected static final List<String> SLOT_NAMES = Arrays.asList(new String[]{"creationTime", "hash", "languageCode", "homeCommunityId", "repositoryUniqueId", "serviceStartTime", "serviceStopTime", "size", "sourcePatientId", "sourcePatientInfo", "legalAuthenticator", "versionNumber", "originalConfidenzialityCode"});
   
@@ -137,7 +137,7 @@ class XDSDocument implements Serializable
     this.repositoryUniqueId    = (String) map.get("repositoryUniqueId");
     this.serviceStartTime      = Utils.toDate(map.get("serviceStartTime"));
     this.serviceStopTime       = Utils.toDate(map.get("serviceStopTime"));
-    this.size                  = Utils.toInt(map.get("setId"));
+    this.size                  = Utils.toInt(map.get("size"));
     
     this.mimeType              = (String) map.get("mimeType");
     this.opaque                = Utils.toBoolean(map.get("opaque"), false);
@@ -189,12 +189,13 @@ class XDSDocument implements Serializable
     this.servicePath           = (String) map.get("servicePath");
     this.contentURI            = (String) map.get("contentURI");
     
+    setReferenceIdList(map.get("referenceIdList"));
+    
     Object oRegistryPackage = map.get("registryPackage");
     if(oRegistryPackage instanceof Map) {
       this.registryPackage = new RegistryPackage((Map) oRegistryPackage);
     }
-    else
-    if(oRegistryPackage instanceof RegistryPackage) {
+    else if(oRegistryPackage instanceof RegistryPackage) {
       this.registryPackage = (RegistryPackage) oRegistryPackage;
     }
     
@@ -202,8 +203,7 @@ class XDSDocument implements Serializable
     if(oAssociation instanceof Map) {
       this.association = new Association((Map) oAssociation);
     }
-    else
-    if(oAssociation instanceof Association) {
+    else if(oAssociation instanceof Association) {
       this.association = (Association) oAssociation;
     }
     
@@ -336,6 +336,11 @@ class XDSDocument implements Serializable
     
     mapResult.put("servicePath",               servicePath);
     mapResult.put("contentURI",                contentURI);
+    
+    List<String> referenceIdList = getReferenceIdList();
+    if(referenceIdList != null) {
+      mapResult.put("referenceIdList", referenceIdList);
+    }
     
     if(registryObject != null) {
       mapResult.put("registryObject", registryObject.toMap());
@@ -1287,6 +1292,48 @@ class XDSDocument implements Serializable
     if(name == null || name.length() == 0) return null;
     if(attributes == null) return null;
     return attributes.get(name);
+  }
+  
+  public void setReferenceIdList(List<String> listValues) {
+    if(attributes == null) attributes = new HashMap<String, Object>();
+    if(listValues == null || listValues.size() == 0) {
+      attributes.remove("urn:ihe:iti:xds:2013:referenceIdList");
+    }
+    else {
+      List<String> listReferenceId = new ArrayList<String>(listValues.size());
+      for(int i = 0; i < listValues.size(); i++) {
+        String value = listValues.get(i);
+        if(value == null || value.length() == 0) continue;
+        if(value.indexOf('^') >= 0) {
+          listReferenceId.add(value);
+        }
+        else {
+          listReferenceId.add(value + "^^^&2.16.840.1.113883.2.9.4.3.8&ISO^urn:ihe:iti:xds:2013:order");
+        }
+      }
+      attributes.put("urn:ihe:iti:xds:2013:referenceIdList", listReferenceId);
+    }
+  }
+  
+  @SuppressWarnings("unchecked")
+  public void setReferenceIdList(Object values) {
+    if(values instanceof List) {
+      setReferenceIdList((List<String>) values);
+    }
+    else {
+      setReferenceIdList(Utils.toListOfString(values));
+    }
+  }
+  
+  @SuppressWarnings("unchecked")
+  public List<String> getReferenceIdList() {
+    if(attributes == null) return null;
+    Object values = attributes.get("urn:ihe:iti:xds:2013:referenceIdList");
+    if(values == null) return null;
+    if(values instanceof List) {
+      return (List<String>) values;
+    }
+    return Utils.toListOfString(values);
   }
   
   public Object getAttributeContains(String name) {

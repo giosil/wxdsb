@@ -453,12 +453,12 @@ class Utils
       }
       return result;
     }
-    List<String> result = new ArrayList<String>(1);
-    result.add(toString(object, ""));
-    return result;
+    return stringToList(object.toString());
   }
   
-  public static String toString(Object object, String sDefault) {
+  public static 
+  String toString(Object object, String sDefault) 
+  {
     if(object == null) return sDefault;
     if(object instanceof String) {
       return (String) object;
@@ -478,7 +478,9 @@ class Utils
     return object.toString();
   }
   
-  public static String formatDate(Date date) {
+  public static 
+  String formatDate(Date date) 
+  {
     if(date == null) return "";
     Calendar cal = Calendar.getInstance();
     cal.setTimeInMillis(date.getTime());
@@ -490,7 +492,9 @@ class Utils
     return iYear + sMonth + sDay;
   }
   
-  public static String formatXsDate(Date date) {
+  public static 
+  String formatXsDate(Date date) 
+  {
     if(date == null) return "";
     Calendar cal = Calendar.getInstance();
     cal.setTimeInMillis(date.getTime());
@@ -502,7 +506,9 @@ class Utils
     return iYear + "-" + sMonth + "-" + sDay;
   }
   
-  public static String formatDateTime(Date date) {
+  public static 
+  String formatDateTime(Date date) 
+  {
     if(date == null) return "";
     Calendar cal = Calendar.getInstance();
     cal.setTimeInMillis(date.getTime());
@@ -523,7 +529,9 @@ class Utils
     return iYear + sMonth + sDay + sHour + sMin + sSec;
   }
   
-  public static String formatTime(Date date) {
+  public static 
+  String formatTime(Date date) 
+  {
     if(date == null) return "";
     Calendar cal = Calendar.getInstance();
     cal.setTimeInMillis(date.getTime());
@@ -541,7 +549,9 @@ class Utils
     return iYear + sMonth + sDay + sHour + sMin + sSec;
   }
   
-  public static String formatDateTime(Calendar cal) {
+  public static 
+  String formatDateTime(Calendar cal) 
+  {
     if(cal == null) return "";
     int iYear  = cal.get(Calendar.YEAR);
     int iMonth = cal.get(Calendar.MONTH) + 1;
@@ -560,7 +570,9 @@ class Utils
     return iYear + sMonth + sDay + sHour + sMin + sSec;
   }
   
-  public static String formatTime(Calendar cal) {
+  public static 
+  String formatTime(Calendar cal) 
+  {
     if(cal == null) return "";
     int iYear  = cal.get(Calendar.YEAR);
     int iMonth = cal.get(Calendar.MONTH) + 1;
@@ -576,25 +588,33 @@ class Utils
     return iYear + sMonth + sDay + sHour + sMin + sSec;
   }
   
-  public static String formatISO8601_Z(Date date) {
+  public static 
+  String formatISO8601_Z(Date date) 
+  {
     if(date == null) return "";
     Calendar cal = Calendar.getInstance();
     cal.setTimeInMillis(date.getTime());
     return formatISO8601_Z(cal, true);
   }
   
-  public static String formatISO8601_Z(Date date, boolean millis) {
+  public static 
+  String formatISO8601_Z(Date date, boolean millis) 
+  {
     if(date == null) return "";
     Calendar cal = Calendar.getInstance();
     cal.setTimeInMillis(date.getTime());
     return formatISO8601_Z(cal, millis);
   }
   
-  public static String formatISO8601_Z(Calendar cal) {
+  public static 
+  String formatISO8601_Z(Calendar cal) 
+  {
     return formatISO8601_Z(cal, true);
   }
   
-  public static String formatISO8601_Z(Calendar dateTime, boolean millis) {
+  public static 
+  String formatISO8601_Z(Calendar dateTime, boolean millis) 
+  {
     if(dateTime == null) return "";
     
     Calendar cal = Calendar.getInstance();
@@ -631,8 +651,7 @@ class Utils
     if(iMill < 10) {
       sMill = "00" + sMill; 
     }
-    else
-    if(iMill < 100) {
+    else if(iMill < 100) {
       sMill = "0" + sMill; 
     }
     if(millis) {
@@ -641,7 +660,9 @@ class Utils
     return sYear + "-" + sMonth + "-" + sDay + "T" + sHour + ":" + sMin + ":" + sSec + "Z";
   }
   
-  public static Date getCurrentDate() {
+  public static 
+  Date getCurrentDate() 
+  {
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.HOUR_OF_DAY, 0);
     cal.set(Calendar.MINUTE,      0);
@@ -650,7 +671,9 @@ class Utils
     return cal.getTime();
   }
   
-  public static boolean toBoolean(Object object, boolean bDefault) {
+  public static
+  boolean toBoolean(Object object, boolean bDefault) 
+  {
     if(object == null) return bDefault;
     if(object instanceof Boolean) {
       return ((Boolean) object).booleanValue();
@@ -664,7 +687,9 @@ class Utils
     return "YySsTt1Jj".indexOf(c0) >= 0;
   }
   
-  public static Date toDate(Object object) {
+  public static 
+  Date toDate(Object object) 
+  {
     if(object == null) return null;
     if(object instanceof Date) {
       return (Date) object;
@@ -740,9 +765,11 @@ class Utils
     Calendar cal = stringToCalendar(object.toString());
     if(cal == null) return toSQLTimestamp(oDefault, null);
     return new java.sql.Timestamp(cal.getTimeInMillis());
-  }  
+  } 
   
-  public static int toInt(Object object) {
+  public static 
+  int toInt(Object object) 
+  {
     if(object == null) return 0;
     if(object instanceof Number) {
       return ((Number) object).intValue();
@@ -920,8 +947,7 @@ class Utils
     }
     // Check Day
     if(sDay.length() == 0) sDay = "01";
-    else
-    if(sDay.length() == 1) sDay = "0" + sDay;
+    else if(sDay.length() == 1) sDay = "0" + sDay;
     int iDay = 0;
     try { iDay = Integer.parseInt(sDay); } catch(Throwable th) { return null; }
     if(iDay < 1 || iDay > 31) return null;
@@ -931,8 +957,7 @@ class Utils
       if(sMonth == null) return null;
     }
     if(sMonth.length() == 0) sMonth = "01";
-    else
-    if(sMonth.length() == 1) sMonth = "0" + sMonth;
+    else if(sMonth.length() == 1) sMonth = "0" + sMonth;
     int iMonth = 0;
     try { iMonth = Integer.parseInt(sMonth); } catch(Throwable th) { return null; }
     if(iMonth < 1 || iMonth > 12) return null;
@@ -1113,6 +1138,29 @@ class Utils
   }
   
   public static
+  List<String> stringToList(String text)
+  {
+    if(text == null || text.length() == 0) {
+      return new ArrayList<String>(0);
+    }
+    if(text.startsWith("[") && text.endsWith("]")) {
+      text = text.substring(1, text.length()-1);
+    }
+    List<String> listResult = new ArrayList<String>();
+    int iIndexOf = 0;
+    int iBegin   = 0;
+    iIndexOf     = text.indexOf(',');
+    while(iIndexOf >= 0) {
+      listResult.add(text.substring(iBegin, iIndexOf).trim());
+      iBegin = iIndexOf + 1;
+      iIndexOf = text.indexOf(',', iBegin);
+    }
+    listResult.add(text.substring(iBegin).trim());
+    return listResult;
+  }
+  
+  @SuppressWarnings("unchecked")
+  public static
   boolean isBlank(Object oValue)
   {
     if(oValue == null) return true;
@@ -1120,7 +1168,7 @@ class Utils
       return ((Collection<?>) oValue).isEmpty();
     }
     if(oValue instanceof Map) {
-      return ((Map<?,?>) oValue).isEmpty();
+      return ((Map<String, Object>) oValue).isEmpty();
     }
     String sValue = oValue.toString();
     if(sValue == null || sValue.trim().length() == 0 || sValue.equals("null")) {
