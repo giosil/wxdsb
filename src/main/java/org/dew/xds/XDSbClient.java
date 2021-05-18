@@ -506,6 +506,17 @@ class XDSbClient implements IXDSb
     if(arrayOfXDSDocument == null || arrayOfXDSDocument.length == 0) {
       throw new RuntimeException("Invalid arrayOfXDSDocument");
     }
+    // Check Documents
+    for(int i = 0; i < arrayOfXDSDocument.length; i++) {
+      XDSDocument xdsDocument = arrayOfXDSDocument[i];
+      if(xdsDocument == null) {
+        throw new RuntimeException("Invalid arrayOfXDSDocument[" + i + "]");
+      }
+      byte[] content = xdsDocument.getContent();
+      if(content == null || content.length == 0) {
+        throw new RuntimeException("Invalid arrayOfXDSDocument[" + i + "].content");
+      }
+    }
     
     String boundary = "uuid:" + UUID.randomUUID();
     String sContId  = UUID.randomUUID().toString();
