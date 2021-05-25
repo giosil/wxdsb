@@ -3,7 +3,18 @@ package org.dew.xds;
 public 
 class AffinityDomainIT implements IAffinityDomain 
 {
+  public static final String sROOT_OID_TAXCODE           = "2.16.840.1.113883.2.9.4.3.2";
+  public static final String sROOT_OID_CONFIDENTIALITY   = "2.16.840.1.113883.5.25";
+  public static final String sROOT_OID_TYPE_CODE         = "2.16.840.1.113883.6.1";
+  public static final String sROOT_OID_ICD9_CM           = "2.16.840.1.113883.6.2";
+  public static final String sROOT_OID_ICD10             = "2.16.840.1.113883.6.3";
+  public static final String sROOT_OID_SNOMED            = "2.16.840.1.113883.6.5";
+  public static final String sROOT_OID_SNOMED_CT         = "2.16.840.1.113883.6.96";
+  public static final String sROOT_OID_ICD9_DIAGNOSIS    = "2.16.840.1.113883.6.103";
+  public static final String sROOT_OID_ICD9_PROCEDURES   = "2.16.840.1.113883.6.104";
+  
   public static final String sDOC_PRESCRIZIONE_FARM      = "57833-6";
+  public static final String sDOC_PRESCRIZIONE_FARM_OBS  = "29305-0"; // Obsoleto
   public static final String sDOC_PROFILO_SANITARIO_SIN  = "60591-5";
   public static final String sDOC_REFERTO_LABORATORIO    = "11502-2";
   public static final String sDOC_PRESCRIZIONE_APPAR_MED = "57829-4";
@@ -30,6 +41,7 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_CERTIFICATO_VACCINALE  = "82593-5";
   public static final String sDOC_SCHEDA_VACCINALE       = "87273-9";
   
+  @Override
   public String getClassDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.equals("CON")) return "Documento di consenso";
@@ -47,6 +59,7 @@ class AffinityDomainIT implements IAffinityDomain
     return code;
   }
   
+  @Override
   public String getConfidentialityDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.equals("U")) return "Unrestricted";
@@ -58,6 +71,7 @@ class AffinityDomainIT implements IAffinityDomain
     return code;
   }
   
+  @Override
   public String getFormatDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.equals("2.16.840.1.113883.10.20.1"))        return "Documento CCD";
@@ -71,9 +85,11 @@ class AffinityDomainIT implements IAffinityDomain
     return code;
   }
   
+  @Override
   public String getTypeDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "Prescrizione farmaceutica";
+    if(code.equals(sDOC_PRESCRIZIONE_FARM_OBS))  return "Prescrizione farmaceutica";
     if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "Profilo Sanitario Sintetico";
     if(code.equals(sDOC_REFERTO_LABORATORIO))    return "Referto di Laboratorio";
     if(code.equals(sDOC_PRESCRIZIONE_APPAR_MED)) return "Prescrizione apparecchiature medicali";
@@ -102,6 +118,7 @@ class AffinityDomainIT implements IAffinityDomain
     return "Documento sanitario";
   }
   
+  @Override
   public String getFacilityDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.startsWith("O")) return "Ospedale";
@@ -111,6 +128,7 @@ class AffinityDomainIT implements IAffinityDomain
     return code;
   }
   
+  @Override
   public String getPracticeDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.equals("AD_PSC001")) return "Allergologia";
@@ -199,6 +217,7 @@ class AffinityDomainIT implements IAffinityDomain
     return code;
   }
   
+  @Override
   public String getContentTypeDisplayName(String code) {
     if(code == null || code.length() == 0) return "";
     if(code.equalsIgnoreCase("PHR")) return "Personal Health Record Update";
@@ -208,6 +227,7 @@ class AffinityDomainIT implements IAffinityDomain
     return code;
   }
   
+  @Override
   public String getClassByType(String type, String defaultValue) {
     if(type == null || type.length() == 0) {
       return defaultValue;
@@ -215,7 +235,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_REFERTO_LABORATORIO.equals(type)) {
       return "REF";
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
       return "RIC";
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -248,6 +268,7 @@ class AffinityDomainIT implements IAffinityDomain
     return defaultValue;
   }
   
+  @Override
   public String getPracticeByType(String type, String defaultValue) {
     if(type == null || type.length() == 0) {
       return defaultValue;
@@ -264,7 +285,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_REFERTO_AMBULATORIALE.equals(type)) {
       return "AD_PSC107"; // Poliambulatorio
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
       return "AD_PSC130"; // Medicina di Base
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -300,11 +321,12 @@ class AffinityDomainIT implements IAffinityDomain
     return defaultValue;
   }
   
+  @Override
   public String getFacilityByType(String type, String defaultValue) {
     if(type == null || type.length() == 0) {
       return defaultValue;
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
       return "Territorio";
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -319,6 +341,7 @@ class AffinityDomainIT implements IAffinityDomain
     return "Ospedale";
   }
   
+  @Override
   public String getContentTypeByType(String type, String defaultValue) {
     if(type == null || type.length() == 0) {
       return defaultValue;
@@ -329,6 +352,7 @@ class AffinityDomainIT implements IAffinityDomain
     return "ERP";
   }
   
+  @Override
   public String getFormatByType(String type, String mimeType, String defaultValue) {
     if(mimeType == null || mimeType.length() == 0) {
       if(type == null || type.length() == 0) {
@@ -344,7 +368,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_REFERTO_LABORATORIO.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.1";
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.2";
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -363,5 +387,73 @@ class AffinityDomainIT implements IAffinityDomain
       return "2.16.840.1.113883.2.9.10.1.5";
     }
     return defaultValue;
+  }
+  
+  @Override
+  public String getTemplateIdRoot(String code) {
+    if(code == null || code.length() == 0) {
+      return "";
+    }
+    if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "2.16.840.1.113883.2.9.10.2.6";
+    if(code.equals(sDOC_PRESCRIZIONE_FARM_OBS))  return "2.16.840.1.113883.2.9.10.2.6";
+    if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_REFERTO_LABORATORIO))    return "2.16.840.1.113883.2.9.10.2.16";
+    if(code.equals(sDOC_PRESCRIZIONE_APPAR_MED)) return "2.16.840.1.113883.2.9.10.2.7";
+    if(code.equals(sDOC_LETTERA_DIM_OSP))        return "2.16.840.1.113883.2.9.10.2.10.99";
+    if(code.equals(sDOC_VERBALE_PRONTO_SOCC))    return "2.16.840.1.113883.2.9.10.1.6.1";
+    if(code.equals(sDOC_REFERTO_RADIOLOGIA))     return "2.16.840.1.113883.2.9.10.2.16";
+    if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "2.16.840.1.113883.2.9.10.2.16";
+    if(code.equals(sDOC_REGISTRAZIONE_CONSENSO)) return "2.16.840.1.113883.2.9.10.2.27";
+    if(code.equals(sDOC_CERTIFICATO_MALATTIA))   return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "2.16.840.1.113883.2.9.10.2.7";
+    if(code.equals(sDOC_EROGAZIONE_FARM))        return "2.16.840.1.113883.2.9.10.2.6";
+    if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "2.16.840.1.113883.2.9.10.2.19";
+    if(code.equals(sDOC_ESENZIONE_DA_REDDITO))   return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_REFERTO_AMBULATORIALE))  return "2.16.840.1.113883.2.9.10.1.9.1";
+    if(code.equals(sDOC_EROGAZIONE_SPEC))        return "2.16.840.1.113883.2.9.10.2.7";
+    if(code.equals(sDOC_PROMEMORIA_PREN_CUP))    return "2.16.840.1.113883.2.9.10.2.24";
+    if(code.equals(sDOC_ANNULLAMENTO))           return "2.16.840.1.113883.2.9.10.2.25";
+    if(code.equals(sDOC_REFERTO_GENERICO))       return "2.16.840.1.113883.2.9.10.1.9.1";
+    if(code.equals(sDOC_EMERGENCY_DATA_SET))     return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_RICHIESTA_DI_RICOVERO))  return "2.16.840.1.113883.2.9.10.2.7";
+    if(code.equals(sDOC_RICHIESTA_TRASPORTO))    return "2.16.840.1.113883.2.9.10.2.7";
+    if(code.equals(sDOC_VACCINAZIONI))           return "2.16.840.1.113883.2.9.10.2.6";
+    if(code.equals(sDOC_SCHEDA_VACCINALE))       return "2.16.840.1.113883.2.9.10.1.6.1";
+    if(code.equals(sDOC_CERTIFICATO_VACCINALE))  return "2.16.840.1.113883.2.9.10.1.6.1";
+    return "";
+  }
+  
+  @Override
+  public String getTemplateId(String code) {
+    if(code == null || code.length() == 0) {
+      return "";
+    }
+    if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "ITPRF_PRESC_FARMA-001";
+    if(code.equals(sDOC_PRESCRIZIONE_FARM_OBS))  return "ITPRF_PRESC_FARMA-001";
+    if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "ITPRF_PSUM_SSI-001";
+    if(code.equals(sDOC_REFERTO_LABORATORIO))    return "ITPRF_REF_LABCH-001";
+    if(code.equals(sDOC_PRESCRIZIONE_APPAR_MED)) return "ITPRF_PRESC_MED-001";
+    if(code.equals(sDOC_LETTERA_DIM_OSP))        return "ITPRF_LETTDIM-001";
+    if(code.equals(sDOC_VERBALE_PRONTO_SOCC))    return "ITPRF_REFER_PS-001";
+    if(code.equals(sDOC_REFERTO_RADIOLOGIA))     return "ITPRF_REF_RADIO-001";
+    if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "ITPRF_REF_LABIST-001";
+    if(code.equals(sDOC_REGISTRAZIONE_CONSENSO)) return "ITPRF_GEST_CONS-001";
+    if(code.equals(sDOC_CERTIFICATO_MALATTIA))   return "ITPRF_CERT_INPS-001";
+    if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "ITPRF_PRESC_SPEC-001";
+    if(code.equals(sDOC_EROGAZIONE_FARM))        return "ITPRF_EROG_FARMA-001";
+    if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "ITPRF_REF_SPEC-001";
+    if(code.equals(sDOC_ESENZIONE_DA_REDDITO))   return "ITPRF_ESE_RED-001";
+    if(code.equals(sDOC_REFERTO_AMBULATORIALE))  return "ITPRF_REF_AMB-001";
+    if(code.equals(sDOC_EROGAZIONE_SPEC))        return "ITPRF_EROG_SPEC-001";
+    if(code.equals(sDOC_PROMEMORIA_PREN_CUP))    return "ITPRF_PRENOTAZIONE-001";
+    if(code.equals(sDOC_ANNULLAMENTO))           return "ITPRF_ANNULLAMENTO-001";
+    if(code.equals(sDOC_REFERTO_GENERICO))       return "ITPRF_REF_GEN-001";
+    if(code.equals(sDOC_EMERGENCY_DATA_SET))     return "ITPRF_PSUM_EDS-001";
+    if(code.equals(sDOC_RICHIESTA_DI_RICOVERO))  return "ITPRF_PRESC_RICO-001";
+    if(code.equals(sDOC_RICHIESTA_TRASPORTO))    return "ITPRF_PRESC_TRAS-001";
+    if(code.equals(sDOC_VACCINAZIONI))           return "ITPRF_VACC-001";
+    if(code.equals(sDOC_SCHEDA_VACCINALE))       return "ITPRF_SCHEDA_VAC-001";
+    if(code.equals(sDOC_CERTIFICATO_VACCINALE))  return "ITPRF_CERT_VAC-001";
+    return "";
   }
 }

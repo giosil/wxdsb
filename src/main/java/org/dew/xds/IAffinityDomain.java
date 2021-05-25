@@ -26,4 +26,8 @@ interface IAffinityDomain
   public String getContentTypeByType(String type, String defaultValue);
   
   public String getFormatByType(String type, String mimeType, String defaultValue);
+  
+  public String getTemplateIdRoot(String type);
+  
+  public String getTemplateId(String type);
 }
