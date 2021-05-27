@@ -38,6 +38,10 @@ A programmable server and client IHE-XDSb.
 - `Optimize-VHD -Path "C:\Users\Public\Documents\Hyper-V\Virtual hard disks\DockerDesktop.vhdx" -Mode Full`
 - Start Docker Desktop
 
+### Trace HTTP traffic
+
+`tcpdump -i eth0 -A port 8080 -s 65535 -w tcpdump.log &`
+
 ## Contributors
 
 * [Giorgio Silvestris](https://github.com/giosil)
