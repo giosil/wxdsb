@@ -141,8 +141,7 @@ class AuthContentHandler implements ContentHandler
       listName      = null;
       indexListItem = 0;
     }
-    else
-    if(localName.equals("Conditions")) {
+    else if(localName.equals("Conditions")) {
       for(int i = 0; i < attributes.getLength(); i++) {
         String sAttrLocalName = attributes.getLocalName(i);
         if(sAttrLocalName.equalsIgnoreCase("NotBefore")) {
@@ -160,8 +159,7 @@ class AuthContentHandler implements ContentHandler
           }
       }
     }
-    else
-    if(localName.equals("Attribute")) {
+    else if(localName.equals("Attribute")) {
       for(int i = 0; i < attributes.getLength(); i++) {
         String sAttrLocalName = attributes.getLocalName(i);
         if(sAttrLocalName.equalsIgnoreCase("Name") || sAttrLocalName.equalsIgnoreCase("AttributeName")) {
@@ -169,8 +167,7 @@ class AuthContentHandler implements ContentHandler
         }
       }
     }
-    else
-    if(localName.equals("AttributeValue")) {
+    else if(localName.equals("AttributeValue")) {
       if(attributeName.indexOf("List") >= 0 || attributeName.indexOf("list") >= 0) {
         if(attributeName.equals(listName)) {
           indexListItem++;
@@ -184,8 +181,7 @@ class AuthContentHandler implements ContentHandler
         listName = null;
       }
     }
-    else
-    if(localName.equals("CF")) {
+    else if(localName.equals("CF")) {
       if(assertion.getClass().equals(SAMLAssertion.class)) {
         assertion = new SAMLIdentAssertion(assertion);
       }
@@ -202,8 +198,7 @@ class AuthContentHandler implements ContentHandler
         }
       }
     }
-    else
-    if(localName.equals("RDA")) {
+    else if(localName.equals("RDA")) {
       if(assertion.getClass().equals(SAMLAssertion.class)) {
         assertion = new SAMLIdentAssertion(assertion);
       }
@@ -220,8 +215,7 @@ class AuthContentHandler implements ContentHandler
         }
       }
     }
-    else
-    if(sCurrentTag.endsWith("security|usernametoken")) {
+    else if(sCurrentTag.endsWith("security|usernametoken")) {
       if(wssUsernameToken == null) {
         wssUsernameToken = new WSSUsernameToken();
         listOfAssertion.add(wssUsernameToken);
@@ -245,14 +239,12 @@ class AuthContentHandler implements ContentHandler
         assertion.setIssuer(sCurrentValue);
       }
     }
-    else
-    if(sCurrentTag.endsWith("|subject|nameid")) {
+    else if(sCurrentTag.endsWith("|subject|nameid")) {
       if(assertion != null) {
         assertion.setSubjectId(sCurrentValue);
       }
     }
-    else
-    if(sCurrentTag.endsWith("|attributestatement|attribute|attributevalue")) {
+    else if(sCurrentTag.endsWith("|attributestatement|attribute|attributevalue")) {
       if(assertion != null && attributeName != null && attributeName.length() > 0) {
         if(attributeName.startsWith("urn:oasis:names:tc:xacml") || attributeName.startsWith("urn:oasis:names:tc:xspa")) {
           if(assertion.getClass().equals(SAMLAssertion.class)) {
@@ -267,36 +259,30 @@ class AuthContentHandler implements ContentHandler
         }
       }
     }
-    else
-    if(sCurrentTag.endsWith("assertion|signature|signedinfo|reference|digestvalue")) {
+    else if(sCurrentTag.endsWith("assertion|signature|signedinfo|reference|digestvalue")) {
       if(assertion != null && sCurrentValue.length() > 1) {
         try{ assertion.setDigestValue(Base64Coder.decode(sCurrentValue)); } catch(Exception ex) {}
       }
     }
-    else
-    if(sCurrentTag.endsWith("assertion|signature|signaturevalue")) {
+    else if(sCurrentTag.endsWith("assertion|signature|signaturevalue")) {
       if(assertion != null && sCurrentValue.length() > 1) {
-        try{ assertion.setSignatureValue(Base64Coder.decode(sCurrentValue)); } catch(Exception ex) {}
+        try{ assertion.setSignatureValue(Base64Coder.decodeLines(sCurrentValue)); } catch(Exception ex) {}
       }
     }
-    else
-    if(sCurrentTag.endsWith("assertion|signature|keyinfo|x509data|x509certificate")) {
+    else if(sCurrentTag.endsWith("assertion|signature|keyinfo|x509data|x509certificate")) {
       if(assertion != null && sCurrentValue.length() > 1) {
         try{ assertion.setCertificate(AuthUtil.getX509Certificate(sCurrentValue)); } catch(Exception ex) {}
       }
     }
-    else
-    if(sCurrentTag.endsWith("security|timestamp|created")) {
+    else if(sCurrentTag.endsWith("security|timestamp|created")) {
       if(wssBinarySecurityToken == null) wssBinarySecurityToken = new WSSBinarySecurityToken();
       wssBinarySecurityToken.setCreated(Utils.toDate(sCurrentValue));
     }
-    else
-    if(sCurrentTag.endsWith("security|timestamp|expires")) {
+    else if(sCurrentTag.endsWith("security|timestamp|expires")) {
       if(wssBinarySecurityToken == null) wssBinarySecurityToken = new WSSBinarySecurityToken();
       wssBinarySecurityToken.setExpires(Utils.toDate(sCurrentValue));
     }
-    else
-    if(sCurrentTag.endsWith("security|binarysecuritytoken")) {
+    else if(sCurrentTag.endsWith("security|binarysecuritytoken")) {
       if(wssBinarySecurityToken == null) wssBinarySecurityToken = new WSSBinarySecurityToken();
       try{ wssBinarySecurityToken.setCertificate(AuthUtil.getX509Certificate(sCurrentValue)); } catch(Exception ex) {}
       if(xmlBinSecToken != null && xmlBinSecToken.length() > 2) {
@@ -304,28 +290,23 @@ class AuthContentHandler implements ContentHandler
       }
       listOfAssertion.add(wssBinarySecurityToken);
     }
-    else
-    if(sCurrentTag.endsWith("security|usernametoken|username")) {
+    else if(sCurrentTag.endsWith("security|usernametoken|username")) {
       if(wssUsernameToken == null) {
         wssUsernameToken = new WSSUsernameToken();
         listOfAssertion.add(wssUsernameToken);
       }
       wssUsernameToken.setSubjectId(sCurrentValue);
     }
-    else
-    if(sCurrentTag.endsWith("security|usernametoken|password")) {
+    else if(sCurrentTag.endsWith("security|usernametoken|password")) {
       if(wssUsernameToken != null) wssUsernameToken.setPassword(sCurrentValue);
     }
-    else
-    if(sCurrentTag.endsWith("security|usernametoken|nonce")) {
+    else if(sCurrentTag.endsWith("security|usernametoken|nonce")) {
       if(wssUsernameToken != null) wssUsernameToken.setNonce(sCurrentValue);
     }
-    else
-    if(sCurrentTag.endsWith("security|usernametoken|created")) {
+    else if(sCurrentTag.endsWith("security|usernametoken|created")) {
       if(wssUsernameToken != null) wssUsernameToken.setCreated(Utils.toDate(sCurrentValue));
     }
-    else
-    if(localName.equals("Assertion")) {
+    else if(localName.equals("Assertion")) {
       if(assertion != null) {
         assertion.checkAttributes();
         if(listOfXmlSource != null && listOfXmlSource.size() > listOfAssertion.size()) {
@@ -336,8 +317,7 @@ class AuthContentHandler implements ContentHandler
       assertion = null;
       attributeName = null;
     }
-    else
-    if(localName.equals("Attribute")) {
+    else if(localName.equals("Attribute")) {
       attributeName = null;
     }
     
