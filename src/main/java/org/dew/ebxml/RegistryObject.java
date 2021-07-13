@@ -77,8 +77,8 @@ class RegistryObject extends Identifiable
     this.xopIncludeHref = registryObject.getXopIncludeHref();
   }
   
-  @SuppressWarnings("rawtypes")
-  public RegistryObject(Map map)
+  @SuppressWarnings("unchecked")
+  public RegistryObject(Map<String, Object> map)
   {
     super(map);
     
@@ -99,13 +99,13 @@ class RegistryObject extends Identifiable
     
     Object oClassifications = map.get("classifications");
     if(oClassifications instanceof Collection) {
-      Collection col = (Collection) oClassifications;
+      Collection<?> col = (Collection<?>) oClassifications;
       classifications = new ArrayList<Classification>(col.size());
-      Iterator iterator = col.iterator();
+      Iterator<?> iterator = col.iterator();
       while(iterator.hasNext()) {
         Object item = iterator.next();
         if(item instanceof Map) {
-          classifications.add(new Classification((Map) item));
+          classifications.add(new Classification((Map<String, Object>) item));
         }
       }
     }
@@ -115,20 +115,20 @@ class RegistryObject extends Identifiable
       for(int i = 0; i < length; i++) {
         Object item = Array.get(oClassifications, i);
         if(item instanceof Map) {
-          classifications.add(new Classification((Map) item));
+          classifications.add(new Classification((Map<String, Object>) item));
         }
       }
     }
     
     Object oExternalIdentifiers = map.get("externalIdentifiers");
     if(oExternalIdentifiers instanceof Collection) {
-      Collection col = (Collection) oExternalIdentifiers;
+      Collection<?> col = (Collection<?>) oExternalIdentifiers;
       externalIdentifiers = new ArrayList<ExternalIdentifier>(col.size());
-      Iterator iterator = col.iterator();
+      Iterator<?> iterator = col.iterator();
       while(iterator.hasNext()) {
         Object item = iterator.next();
         if(item instanceof Map) {
-          externalIdentifiers.add(new ExternalIdentifier((Map) item));
+          externalIdentifiers.add(new ExternalIdentifier((Map<String, Object>) item));
         }
       }
     }
@@ -138,7 +138,7 @@ class RegistryObject extends Identifiable
       for(int i = 0; i < length; i++) {
         Object item = Array.get(oExternalIdentifiers, i);
         if(item instanceof Map) {
-          externalIdentifiers.add(new ExternalIdentifier((Map) item));
+          externalIdentifiers.add(new ExternalIdentifier((Map<String, Object>) item));
         }
       }
     }

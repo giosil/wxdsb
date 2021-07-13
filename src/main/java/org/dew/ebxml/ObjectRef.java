@@ -18,8 +18,7 @@ class ObjectRef extends Identifiable
     this.id = id;
   }
   
-  @SuppressWarnings("rawtypes")
-  public ObjectRef(Map map)
+  public ObjectRef(Map<String, Object> map)
   {
     super(map);
   }

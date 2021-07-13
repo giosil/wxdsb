@@ -44,8 +44,7 @@ class Classification extends RegistryObject
     this.nodeRepresentation   = classification.getNodeRepresentation();
   }
   
-  @SuppressWarnings("rawtypes")
-  public Classification(Map map)
+  public Classification(Map<String, Object> map)
   {
     super(map);
     

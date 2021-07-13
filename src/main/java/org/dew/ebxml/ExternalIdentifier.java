@@ -42,8 +42,7 @@ class ExternalIdentifier extends RegistryObject
     this.value                = externalIdentifier.getValue();
   }
   
-  @SuppressWarnings("rawtypes")
-  public ExternalIdentifier(Map map)
+  public ExternalIdentifier(Map<String, Object> map)
   {
     super(map);
     

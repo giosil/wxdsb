@@ -26,8 +26,7 @@ class Association extends RegistryObject
     this.targetObject = targetObject;
   }
   
-  @SuppressWarnings("rawtypes")
-  public Association(Map map)
+  public Association(Map<String, Object> map)
   {
     super(map);
     

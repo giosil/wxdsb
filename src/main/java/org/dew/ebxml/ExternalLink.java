@@ -22,8 +22,7 @@ class ExternalLink extends RegistryObject
     this.externalURI = externalURI;
   }
   
-  @SuppressWarnings("rawtypes")
-  public ExternalLink(Map map)
+  public ExternalLink(Map<String, Object> map)
   {
     super(map);
     

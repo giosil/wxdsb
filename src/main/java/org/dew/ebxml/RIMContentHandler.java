@@ -171,8 +171,7 @@ class RIMContentHandler implements ContentHandler
         }
       }
     }
-    else
-    if(localName.equals("LocalizedString")) {
+    else if(localName.equals("LocalizedString")) {
       if(classification != null) {
         for(int i = 0; i < attributes.getLength(); i++) {
           String sAttrLocalName = attributes.getLocalName(i);

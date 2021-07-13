@@ -32,8 +32,8 @@ class Identifiable implements IElement, Serializable
     this.id = id;
   }
   
-  @SuppressWarnings("rawtypes")
-  public Identifiable(Map map)
+  @SuppressWarnings("unchecked")
+  public Identifiable(Map<String, Object> map)
   {
     if(map == null) return;
     
@@ -43,22 +43,22 @@ class Identifiable implements IElement, Serializable
     if(oId != null) id = oId.toString();
     Object oSlots = map.get("slots");
     if(oSlots instanceof Map) {
-      Map mapSlots = (Map) oSlots;
+      Map<String, Object> mapSlots = (Map<String, Object>) oSlots;
       slots = new ArrayList<Slot>(mapSlots.size());
-      Iterator iterator = mapSlots.entrySet().iterator();
+      Iterator<Map.Entry<String, Object>> iterator = mapSlots.entrySet().iterator();
       while(iterator.hasNext()) {
-        Map.Entry entry = (Map.Entry) iterator.next();
+        Map.Entry<String, Object> entry = iterator.next();
         slots.add(new Slot(entry.getKey(), entry.getValue()));
       }
     }
     else if(oSlots instanceof Collection) {
-      Collection col = (Collection) oSlots;
+      Collection<?> col = (Collection<?>) oSlots;
       slots = new ArrayList<Slot>(col.size());
-      Iterator iterator = col.iterator();
+      Iterator<?> iterator = col.iterator();
       while(iterator.hasNext()) {
         Object item = iterator.next();
         if(item instanceof Map) {
-          slots.add(new Slot((Map) item));
+          slots.add(new Slot((Map<String, Object>) item));
         }
       }
     }
@@ -68,7 +68,7 @@ class Identifiable implements IElement, Serializable
       for(int i = 0; i < length; i++) {
         Object item = Array.get(oSlots, i);
         if(item instanceof Map) {
-          slots.add(new Slot((Map) item));
+          slots.add(new Slot((Map<String, Object>) item));
         }
       }
     }

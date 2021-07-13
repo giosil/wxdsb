@@ -122,8 +122,8 @@ class XDSDocument implements Serializable
     }
   }
   
-  @SuppressWarnings("rawtypes")
-  public XDSDocument(Map map)
+  @SuppressWarnings("unchecked")
+  public XDSDocument(Map<String, Object> map)
   {
     if(map == null) return;
     
@@ -193,7 +193,7 @@ class XDSDocument implements Serializable
     
     Object oRegistryPackage = map.get("registryPackage");
     if(oRegistryPackage instanceof Map) {
-      this.registryPackage = new RegistryPackage((Map) oRegistryPackage);
+      this.registryPackage = new RegistryPackage((Map<String, Object>) oRegistryPackage);
     }
     else if(oRegistryPackage instanceof RegistryPackage) {
       this.registryPackage = (RegistryPackage) oRegistryPackage;
@@ -201,7 +201,7 @@ class XDSDocument implements Serializable
     
     Object oAssociation = map.get("association");
     if(oAssociation instanceof Map) {
-      this.association = new Association((Map) oAssociation);
+      this.association = new Association((Map<String, Object>) oAssociation);
     }
     else if(oAssociation instanceof Association) {
       this.association = (Association) oAssociation;
@@ -232,7 +232,7 @@ class XDSDocument implements Serializable
       this.legalAuthenticator = new XDSPerson(legalAuthenticatorId);
     }
     
-    Iterator iterator = map.keySet().iterator();
+    Iterator<String> iterator = map.keySet().iterator();
     while(iterator.hasNext()) {
       String key = iterator.next().toString();
       if(key.indexOf('.') >= 0 && key.indexOf(':') >= 0) {
@@ -1121,7 +1121,7 @@ class XDSDocument implements Serializable
     // Classification format code
     Classification clsFormatCode = registryObject.getClassification(XDS.CLS_FORMAT_CODE);
     if(clsFormatCode != null) {
-      this.formatCode       = Utils.extractCode(clsFormatCode.getNodeRepresentation());
+      this.formatCode       = clsFormatCode.getNodeRepresentation();
       this.formatCodeScheme = clsFormatCode.getCodingScheme();
     }
     // Classification facility code

@@ -81,8 +81,7 @@ class Slot implements IElement, Serializable
     }
   }
   
-  @SuppressWarnings("rawtypes")
-  public Slot(Map map)
+  public Slot(Map<String, Object> map)
   {
     if(map == null) return;
     this.name   = Utils.toString(map.get("name"), null);

@@ -32,8 +32,7 @@ class RegistryPackage extends RegistryObject
     this.objectType = RIM.TYPE_REGISTRYPACKAGE;
   }
   
-  @SuppressWarnings("rawtypes")
-  public RegistryPackage(Map map)
+  public RegistryPackage(Map<String, Object> map)
   {
     super(map);
     

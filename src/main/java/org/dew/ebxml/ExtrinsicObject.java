@@ -47,8 +47,7 @@ class ExtrinsicObject extends RegistryObject
     }
   }
   
-  @SuppressWarnings("rawtypes")
-  public ExtrinsicObject(Map map)
+  public ExtrinsicObject(Map<String, Object> map)
   {
     super(map);
     
