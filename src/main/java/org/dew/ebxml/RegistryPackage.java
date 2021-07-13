@@ -67,7 +67,7 @@ class RegistryPackage extends RegistryObject
     }
     if(lid != null && lid.length() > 0) {
       sb.append(" lid=\"" + lid + "\"");
-    }    
+    }
     if(objectType != null && objectType.length() > 0) {
       sb.append(" objectType=\"" + objectType + "\"");
     }

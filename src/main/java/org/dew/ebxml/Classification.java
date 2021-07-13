@@ -179,7 +179,7 @@ class Classification extends RegistryObject
     if(nodeRepresentation != null) {
       // nodeRepresentation can be empty
       sb.append(" nodeRepresentation=\"" + Utils.normalizeString(nodeRepresentation) + "\"");
-    }    
+    }
     if(objectType != null && objectType.length() > 0) {
       sb.append(" objectType=\"" + objectType + "\"");
     }
