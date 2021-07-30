@@ -530,6 +530,32 @@ class Utils
   }
   
   public static 
+  String formatDateTime(Date date, boolean hhmm) 
+  {
+    if(date == null) return "";
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeInMillis(date.getTime());
+    int iYear  = cal.get(Calendar.YEAR);
+    int iMonth = cal.get(Calendar.MONTH) + 1;
+    int iDay   = cal.get(Calendar.DATE);
+    int iHour  = cal.get(Calendar.HOUR_OF_DAY);
+    int iMin   = cal.get(Calendar.MINUTE);
+    int iSec   = cal.get(Calendar.SECOND);
+    String sMonth = iMonth < 10 ? "0" + iMonth : String.valueOf(iMonth);
+    String sDay   = iDay   < 10 ? "0" + iDay   : String.valueOf(iDay);
+    String sHour  = iHour  < 10 ? "0" + iHour  : String.valueOf(iHour);
+    String sMin   = iMin   < 10 ? "0" + iMin   : String.valueOf(iMin);
+    String sSec   = iSec   < 10 ? "0" + iSec   : String.valueOf(iSec);
+    if(hhmm) {
+      return iYear + sMonth + sDay + sHour + sMin;
+    }
+    if(iHour == 0 && iMin == 0 && iSec == 0) {
+      return iYear + sMonth + sDay;
+    }
+    return iYear + sMonth + sDay + sHour + sMin + sSec;
+  }
+  
+  public static 
   String formatTime(Date date) 
   {
     if(date == null) return "";
@@ -564,6 +590,30 @@ class Utils
     String sHour  = iHour  < 10 ? "0" + iHour  : String.valueOf(iHour);
     String sMin   = iMin   < 10 ? "0" + iMin   : String.valueOf(iMin);
     String sSec   = iSec   < 10 ? "0" + iSec   : String.valueOf(iSec);
+    if(iHour == 0 && iMin == 0 && iSec == 0) {
+      return iYear + sMonth + sDay;
+    }
+    return iYear + sMonth + sDay + sHour + sMin + sSec;
+  }
+  
+  public static 
+  String formatDateTime(Calendar cal, boolean hhmm) 
+  {
+    if(cal == null) return "";
+    int iYear  = cal.get(Calendar.YEAR);
+    int iMonth = cal.get(Calendar.MONTH) + 1;
+    int iDay   = cal.get(Calendar.DATE);
+    int iHour  = cal.get(Calendar.HOUR_OF_DAY);
+    int iMin   = cal.get(Calendar.MINUTE);
+    int iSec   = cal.get(Calendar.SECOND);
+    String sMonth = iMonth < 10 ? "0" + iMonth : String.valueOf(iMonth);
+    String sDay   = iDay   < 10 ? "0" + iDay   : String.valueOf(iDay);
+    String sHour  = iHour  < 10 ? "0" + iHour  : String.valueOf(iHour);
+    String sMin   = iMin   < 10 ? "0" + iMin   : String.valueOf(iMin);
+    String sSec   = iSec   < 10 ? "0" + iSec   : String.valueOf(iSec);
+    if(hhmm) {
+      return iYear + sMonth + sDay + sHour + sMin;
+    }
     if(iHour == 0 && iMin == 0 && iSec == 0) {
       return iYear + sMonth + sDay;
     }

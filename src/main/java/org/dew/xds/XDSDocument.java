@@ -1652,8 +1652,7 @@ class XDSDocument implements Serializable
     if(submissionTime != null) {
       registryPackage.addSlot(new Slot("submissionTime", submissionTime));
     }
-    else
-    if(creationTime != null) {
+    else if(creationTime != null) {
       registryPackage.addSlot(new Slot("submissionTime", creationTime));
     }
     else {
@@ -1704,8 +1703,7 @@ class XDSDocument implements Serializable
       classification.setNodeRepresentation(contentTypeCode);
       registryPackage.addClassification(classification);
     }
-    else
-    if(classCode != null) {
+    else if(classCode != null) {
       Classification classification = new Classification(XDS.CLS_PKG_CONT_TYPE_CODE, sRegistryPackageId);
       if(classCodeScheme != null && classCodeScheme.length() > 0) {
         classification.addSlot(new Slot("codingScheme", classCodeScheme));
@@ -1728,8 +1726,7 @@ class XDSDocument implements Serializable
     if(packageUniqueId != null && packageUniqueId.length() > 0) {
       sPackageUniqueId = packageUniqueId;
     }
-    else
-    if(uniqueId != null && uniqueId.length() > 0) {
+    else if(uniqueId != null && uniqueId.length() > 0) {
       sPackageUniqueId = uniqueId + "P";
     }
     else {
