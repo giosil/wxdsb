@@ -39,6 +39,15 @@ class Slot implements IElement, Serializable
     }
   }
   
+  public Slot(String name, Date value, boolean hhmm, boolean ss)
+  {
+    this.name   = name;
+    this.values = new ArrayList<String>();
+    if(value != null) {
+      this.values.add(Utils.formatDateTime(value, hhmm, ss));
+    }
+  }
+  
   public Slot(String name, int value)
   {
     this.name   = name;

@@ -530,7 +530,7 @@ class Utils
   }
   
   public static 
-  String formatDateTime(Date date, boolean hhmm) 
+  String formatDateTime(Date date, boolean hhmm, boolean ss) 
   {
     if(date == null) return "";
     Calendar cal = Calendar.getInstance();
@@ -547,6 +547,9 @@ class Utils
     String sMin   = iMin   < 10 ? "0" + iMin   : String.valueOf(iMin);
     String sSec   = iSec   < 10 ? "0" + iSec   : String.valueOf(iSec);
     if(hhmm) {
+      if(ss) {
+        return iYear + sMonth + sDay + sHour + sMin + sSec;
+      }
       return iYear + sMonth + sDay + sHour + sMin;
     }
     if(iHour == 0 && iMin == 0 && iSec == 0) {
@@ -597,7 +600,7 @@ class Utils
   }
   
   public static 
-  String formatDateTime(Calendar cal, boolean hhmm) 
+  String formatDateTime(Calendar cal, boolean hhmm, boolean ss) 
   {
     if(cal == null) return "";
     int iYear  = cal.get(Calendar.YEAR);
@@ -612,6 +615,9 @@ class Utils
     String sMin   = iMin   < 10 ? "0" + iMin   : String.valueOf(iMin);
     String sSec   = iSec   < 10 ? "0" + iSec   : String.valueOf(iSec);
     if(hhmm) {
+      if(ss) {
+        return iYear + sMonth + sDay + sHour + sMin + sSec;
+      }
       return iYear + sMonth + sDay + sHour + sMin;
     }
     if(iHour == 0 && iMin == 0 && iSec == 0) {
