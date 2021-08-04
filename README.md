@@ -69,6 +69,14 @@ Suppose the name of the image is *wxdsb*.
 - `kubectl delete service wxdsb` - To delete service 
 - `kubectl delete deployment/wxdsb` - To delete deployment
 
+## REST API Kubernetes
+
+- `kubectl proxy --port=8080` - Start API proxy on local port 8080
+	- http://localhost:8080/api/v1/namespaces/default/pods
+	- http://localhost:8080/api/v1/namespaces/default/events
+	- http://localhost:8080/api/v1/namespaces/default/services
+	- http://localhost:8080/apis/apps/v1/namespaces/default/deployments
+
 ### Optimize Virtual hard disks on Windows 10
 
 - Shutdown Docker Desktop
