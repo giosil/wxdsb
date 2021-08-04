@@ -13,7 +13,7 @@ import org.dew.xds.XDS;
 public 
 class RegistryResponse implements IElement, Serializable
 {
-  private static final long serialVersionUID = 3094564454103340423L;
+  private static final long serialVersionUID = 647012184971709719L;
 
   protected String status;
   protected List<RegistryError> registryErrorList = new ArrayList<RegistryError>();
@@ -56,6 +56,21 @@ class RegistryResponse implements IElement, Serializable
       for(int i = 0; i < errorMessages.length; i++) {
         addRegistryError(new RegistryError(errorMessages[i]));
       }
+    }
+  }
+
+  public RegistryResponse(Exception ex)
+  {
+    if(ex == null) {
+      this.status = XDS.REG_RESP_STATUS_SUCCESS;
+    }
+    else {
+      this.status = XDS.REG_RESP_STATUS_FAILURE;
+      String errorMessage = ex.getMessage();
+      if(errorMessage == null || errorMessage.length() == 0) {
+        errorMessage = ex.toString();
+      }
+      addRegistryError(new RegistryError(errorMessage));
     }
   }
 

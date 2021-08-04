@@ -2,11 +2,17 @@
 
 A programmable server and client IHE-XDSb.
 
-## Run locally on Docker
+## Build
 
 - `git clone https://github.com/giosil/wxdsb.git` 
 - `mvn clean install` - this will produce `wxdsb.war` in `target` directory
-- `docker build -t <image_name> .` - this will create a Docker image
+
+## Create a Docker image
+
+- `docker build -t <image_name> .` this will create a Docker image named <image_name>
+
+## Run locally on Docker
+
 - `docker run --rm -it -p 8080:8080 --name=<container_name> <image_name>` - To run image creating container named <container_name>
 - `docker rename <container_name> <new_container_name>` - To rename the container
 - `docker ps` - To see the running container
@@ -31,6 +37,37 @@ A programmable server and client IHE-XDSb.
 - `docker image ls` - Other mode to see the list of images
 - `docker rmi <image_name>` - To remove image
 - `docker pull giosil/wxdsb` - To get this image from Docker Hub (https://hub.docker.com/)
+
+## Run with Kubernetes
+
+Suppose the name of the image is *wxdsb*.
+
+- `kubectl apply -f wxdsb-pod.yaml` - Create pod by manifest
+- `kubectl get pods` - To view pods
+- `kubectl get events` - To view events in case of debug
+- `kubectl logs -f wxdsb` - To view and follow the logs of pod
+- `kubectl exec -ti wxdsb -- bash` - To get a shell to the running container
+- `kubectl port-forward wxdsb 8000:8080` - Expose web app by port-forward to local port 8000
+- `kubectl delete pod wxdsb` - To delete pod
+
+## Run with Kubernetes using deployment
+
+Suppose the name of the image is *wxdsb*.
+
+- `kubectl apply -f wxdsb-deployment.yaml` - Create deployment by manifest
+- `kubectl get pods` - To view pods
+- `kubectl get events` - To view events in case of debug
+- `kubectl get deployments -l app=wxdsb` - To view deployments by label app=wxdsb
+- `kubectl describe deployment/wxdsb` - To view details of deployment
+- `kubectl logs -f deployment/wxdsb` - To view and follow the logs of web app
+- `kubectl logs -f -l app=wxdsb` - To view and follow the logs of deployment by label app
+- `kubectl exec -ti deployment/wxdsb -- bash` - To get a shell to the running container
+- `kubectl port-forward deployment/wxdsb 8000:8080` - Expose web app by port-forward to local port 8000
+- `kubectl expose deployment/wxdsb --type="NodePort" --port 8080` - Expose web app by service to random port 
+- `kubectl get services -l app=wxdsb` - To view service and port assigned
+- `kubectl describe services/wxdsb` - To describe service
+- `kubectl delete service wxdsb` - To delete service 
+- `kubectl delete deployment/wxdsb` - To delete deployment
 
 ### Optimize Virtual hard disks on Windows 10
 

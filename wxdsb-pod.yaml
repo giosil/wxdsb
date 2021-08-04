@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wxdsb
+spec:
+  containers:
+  - name: wxdsb
+    image: wxdsb
+    imagePullPolicy: Never
+  restartPolicy: Never
