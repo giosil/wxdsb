@@ -63,7 +63,7 @@ Suppose the name of the image is *wxdsb*.
 - `kubectl logs -f -l app=wxdsb` - To view and follow the logs of deployment by label app
 - `kubectl exec -ti deployment/wxdsb -- bash` - To get a shell to the running container
 - `kubectl port-forward deployment/wxdsb 9090:8080` - Expose (locally) web app by port-forward to local port 9090
-- `kubectl expose deployment/wxdsb --type="NodePort" --port=80 --target-port=8000` - Expose (internally) web app by service on port 80
+- `kubectl expose deployment/wxdsb --type="NodePort" --port=8080 --target-port=8080` - Expose (internally) web app by service.
 - `kubectl get services -l app=wxdsb` - To view service and port assigned
 - `kubectl describe services/wxdsb` - To describe service
 - `kubectl delete service wxdsb` - To delete service 
