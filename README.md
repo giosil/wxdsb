@@ -87,6 +87,16 @@ Suppose the name of the image is *wxdsb*.
 
 `tcpdump -i eth0 -A port 8080 -s 65535 -w tcpdump.log &`
 
+### Enabling SSL debugging
+
+`mvn test -DargLine="-Ddew.test.op=findDocuments -Djavax.net.debug=all"`
+
+`mvn test -DargLine="-Ddew.test.op=findDocuments -Djavax.net.debug=ssl,handshake"`
+
+`mvn test -DargLine="-Ddew.test.op=findDocuments -Djavax.net.debug=ssl:handshake:verbose:keymanager:trustmanager -Djava.security.debug=access:stack"`
+
+`mvn test -DargLine="-Ddew.test.op=findDocuments -Djavax.net.debug=ssl:record:plaintext"`
+
 ## Contributors
 
 * [Giorgio Silvestris](https://github.com/giosil)
