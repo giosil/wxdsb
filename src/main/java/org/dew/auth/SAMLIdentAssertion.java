@@ -114,7 +114,7 @@ class SAMLIdentAssertion extends SAMLAssertion
       if(sValue == null || sValue.length() == 0) break;
       String sCurrent  = attributes.get("CF_List_" + i + "_CurrentStatus");
       String sValidity = attributes.get("CF_List_" + i + "_Validity");
-      cfList.add(new IdentityItem(sValue, sCurrent, sValidity, null));
+      cfList.add(new IdentityItem(sValue, sCurrent, null, sValidity));
     }
     rdaList = new ArrayList<IdentityItem>();
     for(int i = 0; i < 100; i++) {
