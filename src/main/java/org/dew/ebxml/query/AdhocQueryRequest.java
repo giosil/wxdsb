@@ -172,7 +172,7 @@ class AdhocQueryRequest implements IElement, Serializable
     adhocQuery.setPatientId(patientId);
     return adhocQuery;
   }
-
+  
   public AdhocQuery buildGetDocuments(String uniqueId) {
     if(responseOption == null) responseOption = new ResponseOption();
     responseOption.setReturnComposedObjects(true);
@@ -183,7 +183,43 @@ class AdhocQueryRequest implements IElement, Serializable
     adhocQuery.setUniqueId(uniqueId);
     return adhocQuery;
   }
-
+  
+  public boolean checkFindDocuments() {
+    if(adhocQuery == null) return false;
+    String adhocQueryId = adhocQuery.getId();
+    if(adhocQueryId != null && adhocQueryId.equals(XDS.SQ_FIND_DOCUMENTS)) {
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean checkGetDocuments() {
+    if(adhocQuery == null) return false;
+    String adhocQueryId = adhocQuery.getId();
+    if(adhocQueryId != null && adhocQueryId.equals(XDS.SQ_GET_DOCUMENTS)) {
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean checkReturnTypeObjectRef() {
+    if(responseOption == null) return false;
+    String returnType = responseOption.getReturnType();
+    if(returnType != null && returnType.equalsIgnoreCase(ResponseOption.TYPE_OBJECT_REF)) {
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean checkReturnTypeLeafClass() {
+    if(responseOption == null) return false;
+    String returnType = responseOption.getReturnType();
+    if(returnType != null && returnType.equalsIgnoreCase(ResponseOption.TYPE_LEAF_CLASS)) {
+      return true;
+    }
+    return false;
+  }
+  
   public String getTagName() {
     return "AdhocQueryRequest";
   }

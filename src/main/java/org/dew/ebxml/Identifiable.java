@@ -239,7 +239,7 @@ class Identifiable implements IElement, Serializable
     if(id == null || id.length() == 0) {
       id = "urn:uuid:" + UUID.randomUUID().toString();
     }
-    StringBuffer sb = new StringBuffer(500);
+    StringBuilder sb = new StringBuilder(500);
     sb.append("<" + namespace + getTagName());
     if(home != null && home.length() > 0) {
       sb.append(" home=\"" + home + "\"");
@@ -254,6 +254,28 @@ class Identifiable implements IElement, Serializable
       }
     }
     sb.append("</" + namespace + getTagName() + ">");
+    return sb.toString();
+  }
+  
+  public String toXMLObjectRef(String namespace) {
+    if(namespace == null || namespace.length() == 0) {
+      namespace = "";
+    }
+    else if(!namespace.endsWith(":")) {
+      namespace += ":";
+    }
+    if(id == null || id.length() == 0) {
+      id = "urn:uuid:" + UUID.randomUUID().toString();
+    }
+    StringBuilder sb = new StringBuilder(63);
+    sb.append("<" + namespace + "ObjectRef");
+    if(home != null && home.length() > 0) {
+      sb.append(" home=\"" + home + "\"");
+    }
+    if(id != null && id.length() > 0) {
+      sb.append(" id=\"" + id + "\"");
+    }
+    sb.append("/>");
     return sb.toString();
   }
   

@@ -24,6 +24,8 @@ class AdhocQueryResponse implements IElement, Serializable
   protected int totalResultCount;
   protected List<RegistryError> registryErrorList;
   protected RegistryObjectList registryObjectList;
+  // Extension
+  protected boolean objectRefList = false;
   
   public AdhocQueryResponse()
   {
@@ -184,6 +186,14 @@ class AdhocQueryResponse implements IElement, Serializable
     this.registryObjectList = registryObjectList;
   }
   
+  public boolean isObjectRefList() {
+    return objectRefList;
+  }
+  
+  public void setObjectRefList(boolean objectRefList) {
+    this.objectRefList = objectRefList;
+  }
+  
   public String getTagName() {
     return "AdhocQueryResponse";
   }
@@ -226,7 +236,7 @@ class AdhocQueryResponse implements IElement, Serializable
   }
   
   public String toXML(String namespace) {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     if(registryErrorList != null && registryErrorList.size() > 0) {
       if(status == null || status.length() == 0) {
         int countErrors = countErrors();
@@ -255,7 +265,12 @@ class AdhocQueryResponse implements IElement, Serializable
       sb.append("<ns6:AdhocQueryResponse xmlns:ns6=\"urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0\" xmlns:ns5=\"urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0\" xmlns:ns4=\"urn:ihe:iti:xds-b:2007\" xmlns:ns3=\"urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0\" xmlns:ns2=\"urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0\" status=\"" + status + "\" startIndex=\"" + startIndex + "\" totalResultCount=\"" + totalResultCount + "\">");
     }
     if(registryObjectList != null) {
-      sb.append(registryObjectList.toXML("ns2"));
+      if(objectRefList) {
+        sb.append(registryObjectList.toXMLObjectRefList("ns2"));
+      }
+      else {
+        sb.append(registryObjectList.toXML("ns2"));
+      }
     }
     else {
       sb.append("<ns2:RegistryObjectList>");

@@ -126,6 +126,10 @@ class ITI18Service extends HttpServlet
       IXDSb xdsb = ServicesFactory.getXDSbInstance(handlerClass);
       
       adhocQueryResponse = xdsb.registryStoredQuery(adhocQueryRequest, WSUtil.toArray(basicAuth, listOfAssertion));
+      
+      if(adhocQueryRequest.checkGetDocuments() && adhocQueryRequest.checkReturnTypeObjectRef()) {
+        adhocQueryResponse.setObjectRefList(true);
+      }
     }
     catch(Exception ex) {
       WSUtil.sendFault(response, sNsURIEnvelope, 4, ex.getMessage(), null);

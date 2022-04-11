@@ -215,11 +215,30 @@ class RegistryObjectList implements IElement, Serializable
       namespace += ":";
     }
     int iSize = listOfIdentifiable != null ? listOfIdentifiable.size() : 0;
-    StringBuffer sb = new StringBuffer(50 + iSize * 3000);
+    StringBuilder sb = new StringBuilder(50 + iSize * 3000);
     sb.append("<" + namespace + getTagName() + ">");
     if(listOfIdentifiable != null) {
       for(Identifiable identifiable : listOfIdentifiable) {
         sb.append(identifiable.toXML(namespace));
+      }
+    }
+    sb.append("</" + namespace + getTagName() + ">");
+    return sb.toString();
+  }
+  
+  public String toXMLObjectRefList(String namespace) {
+    if(namespace == null || namespace.length() == 0) {
+      namespace = "";
+    }
+    else if(!namespace.endsWith(":")) {
+      namespace += ":";
+    }
+    int iSize = listOfIdentifiable != null ? listOfIdentifiable.size() : 0;
+    StringBuilder sb = new StringBuilder(50 + iSize * 63);
+    sb.append("<" + namespace + getTagName() + ">");
+    if(listOfIdentifiable != null) {
+      for(Identifiable identifiable : listOfIdentifiable) {
+        sb.append(identifiable.toXMLObjectRef(namespace));
       }
     }
     sb.append("</" + namespace + getTagName() + ">");
