@@ -97,19 +97,19 @@ public class TestWXDSb extends TestCase {
   
   public void testApp() throws Exception {
     
-    String sOperation = System.getProperty("dew.test.op", "");
+    String operation = System.getProperty("dew.test.op", "");
     
-    if(sOperation == null || sOperation.length() == 0) {
+    if(operation == null || operation.length() == 0) {
       System.out.println("dew.test.op not setted (ex. -Ddew.test.op=findDocuments)");
     }
-    else if(sOperation.equalsIgnoreCase("findDocuments")) {
+    else if(operation.equalsIgnoreCase("findDocuments")) {
       findDocuments(sPATIENT_ID);
     }
-    else if(sOperation.equalsIgnoreCase("retrieveDocumentSet")) {
+    else if(operation.equalsIgnoreCase("retrieveDocumentSet")) {
       retrieveDocumentSet(sPATIENT_ID, sREPOSITORY_ID, sDOC_UNIQUE_ID);
     }
     else {
-      System.out.println("Unknow dew.test.op=" + sOperation);
+      System.out.println("Unknow dew.test.op=" + operation);
     }
     
   }
