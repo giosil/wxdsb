@@ -80,5 +80,14 @@
   
   <build>
     <finalName>wxdsb</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+          <packagingExcludes>.svn,.svn/*.*</packagingExcludes>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
