@@ -125,7 +125,19 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.startsWith("P")) return "Prevenzione";
     if(code.startsWith("T")) return "Territorio";
     if(code.startsWith("S")) return "SistemaTS";
+    if(code.startsWith("C")) return "Cittadino";
     return code;
+  }
+  
+  @Override
+  public boolean checkHealthcareFacilityTypeCode(String code) {
+    if(code == null || code.length() == 0) return false;
+    if(code.equals("Ospedale"))    return true;
+    if(code.equals("Prevenzione")) return true;
+    if(code.equals("Territorio"))  return true;
+    if(code.equals("SistemaTS"))   return true;
+    if(code.equals("Cittadino"))   return true;
+    return false;
   }
   
   @Override

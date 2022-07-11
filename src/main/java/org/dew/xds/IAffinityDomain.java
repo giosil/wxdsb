@@ -13,6 +13,8 @@ interface IAffinityDomain
   
   public String getFacilityDisplayName(String code);
   
+  public boolean checkHealthcareFacilityTypeCode(String code);
+  
   public String getPracticeDisplayName(String code);
   
   public String getContentTypeDisplayName(String code);
