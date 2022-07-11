@@ -172,6 +172,12 @@ class AuthAssertion implements Principal, Serializable
     return false;
   }
   
+  public
+  boolean checkValidity()
+  {
+    return true;
+  }
+  
   public 
   Map<String, Object> toMap() 
   {

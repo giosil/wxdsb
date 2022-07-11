@@ -128,9 +128,24 @@ class SAMLAssertion extends AuthAssertion
     return this.attributes.remove(name);
   }
   
-  public int checkAttributes() {
+  public 
+  int checkAttributes() 
+  {
     if(attributes == null) return 0;
     return attributes.size();
+  }
+  
+  @Override
+  public 
+  boolean checkValidity() 
+  {
+    long currentTime   = System.currentTimeMillis();
+    long lNotBefore    = this.notBefore    != null ? this.notBefore.getTime()    : currentTime;
+    long lNotOnOrAfter = this.notOnOrAfter != null ? this.notOnOrAfter.getTime() : currentTime + 30000;
+    lNotBefore = lNotBefore - 30000;
+    if(currentTime < lNotBefore)    return false;
+    if(currentTime > lNotOnOrAfter) return false;
+    return true;
   }
   
   public 

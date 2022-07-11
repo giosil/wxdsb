@@ -268,6 +268,9 @@ class AuthUtil
       if(pemObject instanceof KeyPair) {
         return ((KeyPair) pemObject).getPrivate();
       }
+      else if(pemObject instanceof PrivateKey) {
+        return (PrivateKey) pemObject;
+      }
       
       throw new Exception("Invalid pem file " + sFile);
     }

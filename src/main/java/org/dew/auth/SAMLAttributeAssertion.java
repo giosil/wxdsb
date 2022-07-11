@@ -195,7 +195,9 @@ class SAMLAttributeAssertion extends SAMLAssertion
     setAttribute("urn:oasis:names:tc:xspa:1.0:subject:hl7:permission", permission);
   }
   
-  public int checkAttributes() {
+  public 
+  int checkAttributes() 
+  {
     if(attributes == null) return 0;
     
     this.subjectRole    = attributes.get("urn:oasis:names:tc:xacml:2.0:subject:role");
@@ -213,6 +215,19 @@ class SAMLAttributeAssertion extends SAMLAssertion
     this.permission     = attributes.get("urn:oasis:names:tc:xspa:1.0:subject:hl7:permission");
     
     return attributes.size();
+  }
+  
+  @Override
+  public 
+  boolean checkValidity() 
+  {
+    long currentTime   = System.currentTimeMillis();
+    long lNotBefore    = this.notBefore    != null ? this.notBefore.getTime()    : currentTime;
+    long lNotOnOrAfter = this.notOnOrAfter != null ? this.notOnOrAfter.getTime() : currentTime + 30000;
+    lNotBefore = lNotBefore - 30000;
+    if(currentTime < lNotBefore)    return false;
+    if(currentTime > lNotOnOrAfter) return false;
+    return true;
   }
   
   public 
