@@ -77,11 +77,24 @@ Suppose the name of the image is *wxdsb*.
 	- http://localhost:8080/api/v1/namespaces/default/services
 	- http://localhost:8080/apis/apps/v1/namespaces/default/deployments
 
-### Optimize Virtual hard disks on Windows 10
+### Optimize Virtual hard disks on Windows 10 (Hyper-V)
 
 - Shutdown Docker Desktop
 - `Optimize-VHD -Path "C:\Users\Public\Documents\Hyper-V\Virtual hard disks\DockerDesktop.vhdx" -Mode Full`
 - Start Docker Desktop
+
+### Optimize Virtual hard disks on Windows 10 (WSL 2 based engine)
+
+- Shutdown Docker Desktop
+- wsl --shutdown
+- diskpart
+	- select vdisk file="C:\Users\dew\AppData\Local\Docker\wsl\data\ext4.vhdx"
+	- attach vdisk readonly
+	- compact vdisk
+	- detach vdisk
+	- exit
+- Start Docker Desktop
+- \\wsl$ (to view data)
 
 ### Trace HTTP traffic
 
