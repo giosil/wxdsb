@@ -38,6 +38,9 @@ A programmable server and client IHE-XDSb.
 - `docker image ls` - Other mode to see the list of images
 - `docker rmi <image_name>` - To remove image
 - `docker pull giosil/wxdsb` - To get this image from Docker Hub (https://hub.docker.com/)
+- `docker commit <container_name> <image_name>:<tag>` - To create a new image from a container’s changes
+- `docker save <container_name> -o <file_name>.tar` - Save one or more images to a tar archive
+- `docker import <file_name>.tar` - Import the contents from a tarball to create a filesystem image
 
 ## Run with Kubernetes
 
