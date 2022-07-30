@@ -40,10 +40,13 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_VACCINAZIONI           = "11369-6";
   public static final String sDOC_CERTIFICATO_VACCINALE  = "82593-5";
   public static final String sDOC_SCHEDA_VACCINALE       = "87273-9";
+  public static final String sDOC_DIGITAL_GREEN_CERT     = "97500-3";
+  public static final String sDOC_CERTIFICATO_GUARIGIONE = "97499-8";
   
   @Override
-  public String getClassDisplayName(String code) {
-    if(code == null || code.length() == 0) return "";
+  public String getClassDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0) return defaultValue;
     if(code.equals("CON")) return "Documento di consenso";
     if(code.equals("WOR")) return "Documento di workflow";
     if(code.equals("REF")) return "Referto";
@@ -56,24 +59,26 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("ESE")) return "Esenzione";
     if(code.equals("PDC")) return "Piano di cura";
     if(code.equals("VAC")) return "Vaccino";
-    return code;
+    return defaultValue;
   }
   
   @Override
-  public String getConfidentialityDisplayName(String code) {
-    if(code == null || code.length() == 0) return "";
+  public String getConfidentialityDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0) return defaultValue;
     if(code.equals("U")) return "Unrestricted";
     if(code.equals("L")) return "Low";
     if(code.equals("M")) return "Moderate";
     if(code.equals("N")) return "Normal";
     if(code.equals("R")) return "Restricted";
     if(code.equals("V")) return "Very Restricted";
-    return code;
+    return defaultValue;
   }
   
   @Override
-  public String getFormatDisplayName(String code) {
-    if(code == null || code.length() == 0) return "";
+  public String getFormatDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0) return defaultValue;
     if(code.equals("2.16.840.1.113883.10.20.1"))        return "Documento CCD";
     if(code.equals("2.16.840.1.113883.2.9.10.1.2"))     return "Prescrizione";
     if(code.equals("1.3.6.1.4.1.19376.1.5.3.1.1.7"))    return "Documento di Consenso BPPC";
@@ -82,12 +87,13 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("2.16.840.1.113883.2.9.10.1.5"))     return "Lettera di Dimissione Ospedaliera";
     if(code.equals("PDF")) return "PDF";
     if(code.equals("TXT")) return "TXT";
-    return code;
+    return defaultValue;
   }
   
   @Override
-  public String getTypeDisplayName(String code) {
-    if(code == null || code.length() == 0) return "";
+  public String getTypeDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0) return defaultValue;
     if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "Prescrizione farmaceutica";
     if(code.equals(sDOC_PRESCRIZIONE_FARM_OBS))  return "Prescrizione farmaceutica";
     if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "Profilo Sanitario Sintetico";
@@ -115,34 +121,39 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_VACCINAZIONI))           return "Vaccinazioni";
     if(code.equals(sDOC_CERTIFICATO_VACCINALE))  return "Certificato Vaccinale";
     if(code.equals(sDOC_SCHEDA_VACCINALE))       return "Scheda Vaccinale";
-    return "Documento sanitario";
+    if(code.equals(sDOC_DIGITAL_GREEN_CERT))     return "Certificato Digitale Covid-19";
+    if(code.equals(sDOC_CERTIFICATO_GUARIGIONE)) return "Certificato di guarigione";
+    if(defaultValue != null && defaultValue.equalsIgnoreCase("document")) {
+      return "Documento sanitario";
+    }
+    return defaultValue;
   }
   
   @Override
-  public String getFacilityDisplayName(String code) {
-    if(code == null || code.length() == 0) return "";
-    if(code.startsWith("O")) return "Ospedale";
-    if(code.startsWith("P")) return "Prevenzione";
-    if(code.startsWith("T")) return "Territorio";
-    if(code.startsWith("S")) return "SistemaTS";
-    if(code.startsWith("C")) return "Cittadino";
-    return code;
+  public String getFacilityDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0) return defaultValue;
+    if(defaultValue != null && defaultValue.equals("!")) {
+      if(code.equals("Ospedale"))    return "Ospedale";
+      if(code.equals("Prevenzione")) return "Prevenzione";
+      if(code.equals("Territorio"))  return "Territorio";
+      if(code.equals("SistemaTS"))   return "SistemaTS";
+      if(code.equals("Cittadino"))   return "Cittadino";
+    }
+    else {
+      if(code.startsWith("O")) return "Ospedale";
+      if(code.startsWith("P")) return "Prevenzione";
+      if(code.startsWith("T")) return "Territorio";
+      if(code.startsWith("S")) return "SistemaTS";
+      if(code.startsWith("C")) return "Cittadino";
+    }
+    return defaultValue;
   }
   
   @Override
-  public boolean checkHealthcareFacilityTypeCode(String code) {
-    if(code == null || code.length() == 0) return false;
-    if(code.equals("Ospedale"))    return true;
-    if(code.equals("Prevenzione")) return true;
-    if(code.equals("Territorio"))  return true;
-    if(code.equals("SistemaTS"))   return true;
-    if(code.equals("Cittadino"))   return true;
-    return false;
-  }
-  
-  @Override
-  public String getPracticeDisplayName(String code) {
-    if(code == null || code.length() == 0) return "";
+  public String getPracticeDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0) return defaultValue;
     if(code.equals("AD_PSC001")) return "Allergologia";
     if(code.equals("AD_PSC002")) return "Day Hospital";
     if(code.equals("AD_PSC003")) return "Anatomia e Istologia Patologica";
@@ -226,17 +237,19 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC130")) return "Medicina di Base";
     if(code.equals("AD_PSC131")) return "Assistenza Territoriale";
     if(code.equals("AD_PSC199")) return "Raccolta Consenso";
-    return code;
+    return defaultValue;
   }
   
   @Override
-  public String getContentTypeDisplayName(String code) {
-    if(code == null || code.length() == 0) return "";
+  public String getContentTypeDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0) return defaultValue;
     if(code.equalsIgnoreCase("PHR")) return "Personal Health Record Update";
     if(code.equalsIgnoreCase("CON")) return "Consulto";
     if(code.equalsIgnoreCase("DIS")) return "Discharge";
     if(code.equalsIgnoreCase("ERP")) return "Erogazione Prestazione Prenotata";
-    return code;
+    if(code.equalsIgnoreCase("SistemaTS")) return "Documenti Sistema TS";
+    return defaultValue;
   }
   
   @Override
@@ -432,6 +445,8 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_VACCINAZIONI))           return "2.16.840.1.113883.2.9.10.2.6";
     if(code.equals(sDOC_SCHEDA_VACCINALE))       return "2.16.840.1.113883.2.9.10.1.6.1";
     if(code.equals(sDOC_CERTIFICATO_VACCINALE))  return "2.16.840.1.113883.2.9.10.1.6.1";
+    if(code.equals(sDOC_DIGITAL_GREEN_CERT))     return "2.16.840.1.113883.2.9.10.1.6.1";
+    if(code.equals(sDOC_CERTIFICATO_GUARIGIONE)) return "2.16.840.1.113883.2.9.10.1.6.1";
     return "";
   }
   

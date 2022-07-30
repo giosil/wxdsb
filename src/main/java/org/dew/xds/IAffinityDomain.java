@@ -3,21 +3,19 @@ package org.dew.xds;
 public
 interface IAffinityDomain
 {
-  public String getClassDisplayName(String code);
+  public String getClassDisplayName(String code, String defaultValue);
   
-  public String getConfidentialityDisplayName(String code);
+  public String getConfidentialityDisplayName(String code, String defaultValue);
   
-  public String getFormatDisplayName(String code);
+  public String getFormatDisplayName(String code, String defaultValue);
   
-  public String getTypeDisplayName(String code);
+  public String getTypeDisplayName(String code, String defaultValue);
   
-  public String getFacilityDisplayName(String code);
+  public String getFacilityDisplayName(String code, String defaultValue);
   
-  public boolean checkHealthcareFacilityTypeCode(String code);
+  public String getPracticeDisplayName(String code, String defaultValue);
   
-  public String getPracticeDisplayName(String code);
-  
-  public String getContentTypeDisplayName(String code);
+  public String getContentTypeDisplayName(String code, String defaultValue);
   
   public String getClassByType(String type, String defaultValue);
   

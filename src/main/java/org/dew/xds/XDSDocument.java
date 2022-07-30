@@ -24,8 +24,8 @@ import org.dew.ebxml.Slot;
 public
 class XDSDocument implements Serializable
 {
-  private static final long serialVersionUID = -4135488387453769312L;
-  
+  private static final long serialVersionUID = 6573099425867253813L;
+
   protected static final List<String> SLOT_NAMES = Arrays.asList(new String[]{"creationTime", "hash", "languageCode", "homeCommunityId", "repositoryUniqueId", "serviceStartTime", "serviceStopTime", "size", "sourcePatientId", "sourcePatientInfo", "legalAuthenticator", "versionNumber", "originalConfidenzialityCode"});
   
   protected IAffinityDomain affinityDomain = AffinityDomainFactory.getDefaultInstance();
@@ -101,6 +101,11 @@ class XDSDocument implements Serializable
   
   public XDSDocument()
   {
+  }
+  
+  public XDSDocument(String uniqueId)
+  {
+    this.uniqueId = uniqueId;
   }
   
   public XDSDocument(RegistryObject registryObject)
@@ -583,7 +588,7 @@ class XDSDocument implements Serializable
       }
     }
     if(affinityDomain == null) return confidentialityCode;
-    return affinityDomain.getClassDisplayName(classCode);
+    return affinityDomain.getClassDisplayName(classCode, classCode);
   }
   
   public String getClassCodeScheme() {
@@ -619,7 +624,7 @@ class XDSDocument implements Serializable
       }
     }
     if(affinityDomain == null) return confidentialityCode;
-    return affinityDomain.getConfidentialityDisplayName(confidentialityCode);
+    return affinityDomain.getConfidentialityDisplayName(confidentialityCode, confidentialityCode);
   }
   
   public String getConfidentialityCodeScheme() {
@@ -650,7 +655,7 @@ class XDSDocument implements Serializable
       }
     }
     if(affinityDomain == null) return formatCode;
-    return affinityDomain.getFormatDisplayName(formatCode);
+    return affinityDomain.getFormatDisplayName(formatCode, formatCode);
   }
   
   public String getFormatCodeScheme() {
@@ -684,7 +689,7 @@ class XDSDocument implements Serializable
       }
     }
     if(affinityDomain == null) return typeCode;
-    return affinityDomain.getTypeDisplayName(typeCode);
+    return affinityDomain.getTypeDisplayName(typeCode, "Document");
   }
   
   public String getTypeCodeScheme() {
@@ -715,7 +720,7 @@ class XDSDocument implements Serializable
       }
     }
     if(affinityDomain == null) return facilityCode;
-    return affinityDomain.getFacilityDisplayName(facilityCode);
+    return affinityDomain.getFacilityDisplayName(facilityCode, facilityCode);
   }
   
   public String getFacilityCodeScheme() {
@@ -746,7 +751,7 @@ class XDSDocument implements Serializable
       }
     }
     if(affinityDomain == null) return practiceCode;
-    return affinityDomain.getPracticeDisplayName(practiceCode);
+    return affinityDomain.getPracticeDisplayName(practiceCode, practiceCode);
   }
   
   public String getPracticeCodeScheme() {
@@ -956,7 +961,7 @@ class XDSDocument implements Serializable
   
   public String getContentTypeDisplayName() {
     if(affinityDomain == null) return contentTypeCode;
-    return affinityDomain.getContentTypeDisplayName(contentTypeCode);
+    return affinityDomain.getContentTypeDisplayName(contentTypeCode, contentTypeCode);
   }
   
   public String getContentTypeCodeScheme() {
@@ -1006,8 +1011,7 @@ class XDSDocument implements Serializable
     if(registryObject instanceof ExtrinsicObject) {
       return (ExtrinsicObject) registryObject;
     }
-    else
-    if(registryObject != null) {
+    else if(registryObject != null) {
       ExtrinsicObject result = new ExtrinsicObject(registryObject);
       result.setMimeType(mimeType);
       result.setOpaque(opaque);
@@ -1201,7 +1205,7 @@ class XDSDocument implements Serializable
     }
     this.submissionTime = registryPackage.getSlotDateValue("submissionTime");
     // Classification Content Type Code
-    Classification clsContentTypeCode = registryObject.getClassification(XDS.CLS_PKG_CONT_TYPE_CODE);
+    Classification clsContentTypeCode = registryPackage.getClassification(XDS.CLS_PKG_CONT_TYPE_CODE);
     if(clsContentTypeCode != null) {
       this.contentTypeCode       = clsContentTypeCode.getNodeRepresentation();
       this.contentTypeCodeScheme = clsContentTypeCode.getCodingScheme();
