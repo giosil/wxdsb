@@ -767,7 +767,7 @@ class XDSDocument implements Serializable
   }
   
   public String getEventCode(int index) {
-    if(eventCodeList == null || eventCodeList.size() < index) return null;
+    if(eventCodeList == null || eventCodeList.size() <= index) return null;
     return eventCodeList.get(index);
   }
   
@@ -787,7 +787,7 @@ class XDSDocument implements Serializable
   }
   
   public String getEventCodeScheme(int index) {
-    if(eventCodeSchemeList == null || eventCodeSchemeList.size() < index) return null;
+    if(eventCodeSchemeList == null || eventCodeSchemeList.size() <= index) return null;
     return eventCodeSchemeList.get(index);
   }
   
