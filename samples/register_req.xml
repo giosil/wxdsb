@@ -59,7 +59,7 @@
         <saml2:Conditions NotBefore="2016-03-03T13:55:58.300Z" NotOnOrAfter="2016-03-04T14:55:58.300Z"/>
         <saml2:AuthnStatement AuthnInstant="2016-03-03T14:55:58.300Z">
           <saml2:AuthnContext>
-            <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Kerberos</saml2:AuthnContextClassRef>
+            <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:X509</saml2:AuthnContextClassRef>
           </saml2:AuthnContext>
         </saml2:AuthnStatement>
         <saml2:AttributeStatement>

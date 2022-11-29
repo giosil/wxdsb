@@ -1,22 +1,22 @@
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
   <soap:Header>
-    <To xmlns="http://www.w3.org/2005/08/addressing">http://xdsb.dew.org/XDSDocumentRepositoryRetrieve/RetrieveDocumentSet</To>
-    <Action xmlns="http://www.w3.org/2005/08/addressing">urn:ihe:iti:2007:RetrieveDocumentSet</Action>
+    <To xmlns="http://www.w3.org/2005/08/addressing">http://xdsb.dew.org/XDSDocumentRegistryDelete/DeleteDocumentSet</To>
+    <Action xmlns="http://www.w3.org/2005/08/addressing">urn:ihe:iti:2007:RegistryStoredQuery</Action>
     <ReplyTo xmlns="http://www.w3.org/2005/08/addressing">
       <Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
     </ReplyTo>
     <FaultTo xmlns="http://www.w3.org/2005/08/addressing">
       <Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
     </FaultTo>
-    <MessageID xmlns="http://www.w3.org/2005/08/addressing">uuid:144e58eb-6c83-4fdd-b916-8b52d79afeb6</MessageID>
+    <MessageID xmlns="http://www.w3.org/2005/08/addressing">uuid:adaac6f4-3aa0-4704-8ed7-47d5fc75c3ed</MessageID>
     <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-      <saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="_024fe3a2cb34dcd0b4129907ab80082a" IssueInstant="2016-03-03T14:55:55.609Z" Version="2.0" xsi:schemaLocation="urn:oasis:names:tc:SAML:2.0:assertion saml-schema-assertion-2.0.xsd">
+      <saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="_f80159cc45f769f9224695714a806655" IssueInstant="2016-03-03T14:55:51.778Z" Version="2.0" xsi:schemaLocation="urn:oasis:names:tc:SAML:2.0:assertion saml-schema-assertion-2.0.xsd">
         <saml2:Issuer>120</saml2:Issuer>
         <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
           <ds:SignedInfo>
             <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
             <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-            <ds:Reference URI="#_024fe3a2cb34dcd0b4129907ab80082a">
+            <ds:Reference URI="#_f80159cc45f769f9224695714a806655">
               <ds:Transforms>
                 <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
                 <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
@@ -24,10 +24,10 @@
                 </ds:Transform>
               </ds:Transforms>
               <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <ds:DigestValue>3WgMqQ8ziMXy2CVEzVDFOt/1J/k=</ds:DigestValue>
+              <ds:DigestValue>KgxSprCBGAkBb6gB3K4kiMtQzpg=</ds:DigestValue>
             </ds:Reference>
           </ds:SignedInfo>
-          <ds:SignatureValue>B0W2q9tNF/xd5oOnzmLWepDXerCblLyFll2k2OXX6DYW2U2m1RBsrdlpjglaT94fMK5NNCPfnKoNaRymEQxjqy7yG87Jf9KptRrUaYpSxfKYKzfj7aZhcQTQr6lsWdX+L6boRvoIXaAvecm+RXge2YnAoBp7759s+yzifv7Dx0BgkUZ+DhgzU4rsfz71y4tYp4n8m7prnf15mG9JJsA5tIbRKZ8uVCJROBIakkjx9stsPAt744Ox7WXRv2eFQIRbrYrCV9NOaN0/ufS7YayrZqDPBw+LerRZkoPg0Kd880Nzzna36o2VaKGvuUgOc3VVvUNQFJuxWCvrst9PLTlJxQ==</ds:SignatureValue>
+          <ds:SignatureValue>cGU4UFnjRS1souCyEPQJL+DSArljRMFrVbkNb7kgJEhYbr7JN5ildbh4JGgaC82CU1ZvlB1VbFiYev+NDN2V1VUjg22apPtRdHUTBs2pEUKWql1vD0vGBiz7KhC8XdO7eSrjWlMedN/0s8r7MgDyyMeGym+QQIDe92R/hlT/AQ6KxOz11pBf9hHJa7wHQYQqJrVnhpYnIslwaJrSRAJVPrb7GiOIe/rwCLvHiF7L17cKkUEeb5jN+Aj8aqUpNPCTVh/a63C3l9x52y+OXfY6OIc7WGTstq2pYJtSYCBMh+JiUGqM43UWRpAwaR5/BwOHPRZXoWLusG/DL8lWuss0gw==</ds:SignatureValue>
           <ds:KeyInfo>
             <ds:X509Data>
               <ds:X509Certificate>
@@ -56,8 +56,8 @@
         <saml2:Subject>
           <saml2:NameID>VRDMRC67T20I257E^^^&amp;2.16.840.1.113883.2.9.4.3.2&amp;ISO</saml2:NameID>
         </saml2:Subject>
-        <saml2:Conditions NotBefore="2016-03-03T13:55:55.609Z" NotOnOrAfter="2016-03-04T14:55:55.609Z"/>
-        <saml2:AuthnStatement AuthnInstant="2016-03-03T14:55:55.609Z">
+        <saml2:Conditions NotBefore="2016-03-03T13:55:51.778Z" NotOnOrAfter="2016-03-04T14:55:51.778Z"/>
+        <saml2:AuthnStatement AuthnInstant="2016-03-03T14:55:51.778Z">
           <saml2:AuthnContext>
             <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:X509</saml2:AuthnContextClassRef>
           </saml2:AuthnContext>
@@ -70,7 +70,7 @@
             <saml2:AttributeValue xsi:type="xs:string">120037</saml2:AttributeValue>
           </saml2:Attribute>
           <saml2:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
-            <saml2:AttributeValue xsi:type="xs:string">TREATMENT</saml2:AttributeValue>
+            <saml2:AttributeValue xsi:type="xs:string">SYSADMIN</saml2:AttributeValue>
           </saml2:Attribute>
           <saml2:Attribute Name="urn:oasis:names:tc:xspa:1.0:resource:hl7:type" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
             <saml2:AttributeValue xsi:type="xs:string">('60591-5^^2.16.840.1.113883.6.1','11502-2^^2.16.840.1.113883.6.1')</saml2:AttributeValue>
@@ -91,18 +91,22 @@
             <saml2:AttributeValue xsi:type="xs:string">true</saml2:AttributeValue>
           </saml2:Attribute>
           <saml2:Attribute Name="urn:oasis:names:tc:xacml:1.0:action:action-id" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
-            <saml2:AttributeValue xsi:type="xs:string">READ</saml2:AttributeValue>
+            <saml2:AttributeValue xsi:type="xs:string">DELETE</saml2:AttributeValue>
           </saml2:Attribute>
         </saml2:AttributeStatement>
       </saml2:Assertion>
     </wsse:Security>
   </soap:Header>
   <soap:Body>
-    <RetrieveDocumentSetRequest xmlns="urn:ihe:iti:xds-b:2007" xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
-      <DocumentRequest>
-        <RepositoryUniqueId>2.16.840.1.113883.2.9.2.999.4.5.113883</RepositoryUniqueId>
-        <DocumentUniqueId>2.16.840.1.113883.2.9.2.999.4.4^123456</DocumentUniqueId>
-      </DocumentRequest>
-    </RetrieveDocumentSetRequest>
+    <ns3:RemoveObjectsRequest
+      xmlns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+      xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+      xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0"
+      xmlns:ns4="urn:ihe:iti:xds-b:2007"
+      xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0">
+        <ObjectRefList>
+          <ObjectRef id="urn:uuid:b2632452-1de7-480d-94b1-c2074d79c871"/>
+        </ObjectRefList>
+    </ns3:RemoveObjectsRequest>
   </soap:Body>
 </soap:Envelope>
