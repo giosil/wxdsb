@@ -127,7 +127,7 @@ class ITI18Service extends HttpServlet
       
       adhocQueryResponse = xdsb.registryStoredQuery(adhocQueryRequest, WSUtil.toArray(basicAuth, listOfAssertion));
       
-      if(adhocQueryRequest.checkGetDocuments() && adhocQueryRequest.checkReturnTypeObjectRef()) {
+      if(adhocQueryRequest.checkReturnTypeObjectRef()) {
         adhocQueryResponse.setObjectRefList(true);
       }
     }
