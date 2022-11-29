@@ -127,16 +127,14 @@ class ITI18Service extends HttpServlet
       
       adhocQueryResponse = xdsb.registryStoredQuery(adhocQueryRequest, WSUtil.toArray(basicAuth, listOfAssertion));
       
-      if(adhocQueryRequest.checkReturnTypeObjectRef()) {
-        adhocQueryResponse.setObjectRefList(true);
-      }
+      if(adhocQueryResponse == null) adhocQueryResponse = new AdhocQueryResponse();
+      
+      adhocQueryResponse.setObjectRefList(adhocQueryRequest.checkReturnTypeObjectRef());
     }
     catch(Exception ex) {
       WSUtil.sendFault(response, sNsURIEnvelope, 4, ex.getMessage(), null);
       return;
     }
-    
-    if(adhocQueryResponse == null) adhocQueryResponse = new AdhocQueryResponse();
     
     WSUtil.sendResponse(response, adhocQueryResponse.toXML(null), sNsURIEnvelope, "urn:ihe:iti:2007:RegistryStoredQueryResponse", sMessageID);
   }
