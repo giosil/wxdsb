@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.dew.xds.util.Base64Coder;
+
 public 
 class RegistryObject extends Identifiable
 {
@@ -25,7 +27,8 @@ class RegistryObject extends Identifiable
   protected List<Classification>     classifications;
   protected List<ExternalIdentifier> externalIdentifiers;
   
-  protected String  xopIncludeHref;
+  protected String xopIncludeHref;
+  protected byte[] content;
   
   public RegistryObject()
   {
@@ -75,6 +78,7 @@ class RegistryObject extends Identifiable
       }
     }
     this.xopIncludeHref = registryObject.getXopIncludeHref();
+    this.content = registryObject.getContent();
   }
   
   @SuppressWarnings("unchecked")
@@ -140,6 +144,18 @@ class RegistryObject extends Identifiable
         if(item instanceof Map) {
           externalIdentifiers.add(new ExternalIdentifier((Map<String, Object>) item));
         }
+      }
+    }
+    
+    Object content = map.get("content");
+    if(content instanceof byte[]) {
+      this.content = (byte[]) content;
+    }
+    else if(content instanceof String) {
+      try {
+        this.content = Base64Coder.decode((String) content);
+      }
+      catch(Exception ex) {
       }
     }
   }
@@ -228,6 +244,14 @@ class RegistryObject extends Identifiable
   
   public void setXopIncludeHref(String xopIncludeHref) {
     this.xopIncludeHref = xopIncludeHref;
+  }
+  
+  public byte[] getContent() {
+    return content;
+  }
+  
+  public void setContent(byte[] content) {
+    this.content = content;
   }
   
   public void addClassification(Classification classification) {
@@ -466,7 +490,7 @@ class RegistryObject extends Identifiable
         }
       }
     }
-    StringBuffer sb = new StringBuffer(500);
+    StringBuilder sb = new StringBuilder(500);
     sb.append("<" + namespace + getTagName());
     if(home != null && home.length() > 0) {
       sb.append(" home=\"" + home + "\"");
@@ -545,6 +569,7 @@ class RegistryObject extends Identifiable
       }
       mapResult.put("externalIdentifiers", listOfMap);
     }
+    if(content != null) mapResult.put("content", content);
     return mapResult;
   }
   

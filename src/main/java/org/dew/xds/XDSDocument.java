@@ -1181,6 +1181,11 @@ class XDSDocument implements Serializable
         attributes.put(sSlotName, registryObject.getSlotFirstValue(sSlotName));
       }
     }
+    // Content
+    byte[] content = registryObject.getContent();
+    if(content != null && content.length > 0) {
+      this.content = content;
+    }
   }
   
   public RegistryPackage getRegistryPackage() {

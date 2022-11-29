@@ -137,13 +137,14 @@ class ITI41Service extends HttpServlet
         xdsDocument.setAssociation(association);
       }
       
-      String sXopIncludeHref  = extrinsicObject.getXopIncludeHref();
-      if(sXopIncludeHref == null) continue;
-      if(sXopIncludeHref.startsWith("cid:") && sXopIncludeHref.length() > 4) {
-        sXopIncludeHref = sXopIncludeHref.substring(4);
+      String sXopIncludeHref = extrinsicObject.getXopIncludeHref();
+      if(sXopIncludeHref != null && sXopIncludeHref.length() > 0) {
+        if(sXopIncludeHref.startsWith("cid:") && sXopIncludeHref.length() > 4) {
+          sXopIncludeHref = sXopIncludeHref.substring(4);
+        }
+        String sAttContentId = "<" + URLDecoder.decode(sXopIncludeHref, "UTF-8") + ">";
+        xdsDocument.setContent(attachments.get(sAttContentId));
       }
-      String sAttContentId = "<" + URLDecoder.decode(sXopIncludeHref, "UTF-8") + ">";
-      xdsDocument.setContent(attachments.get(sAttContentId));
       arrayOfXDSDocument[i] = xdsDocument;
     }
     

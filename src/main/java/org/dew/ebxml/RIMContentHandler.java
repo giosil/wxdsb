@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.util.*;
 
+import org.dew.xds.util.Base64Coder;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
@@ -215,27 +216,26 @@ class RIMContentHandler implements ContentHandler
         }
       }
     }
-    else
-      if(sCurrentTag.endsWith("|document|include")) {
-        for(int i = 0; i < attributes.getLength(); i++) {
-          String sAttrLocalName = attributes.getLocalName(i);
-          if(sAttrLocalName.equals("href")) {
-            String sXopIncludeHref = attributes.getValue(i);
-            if(sXopIncludeHref != null && sXopIncludeHref.startsWith("cid:") && sXopIncludeHref.length() > 4) {
-              sXopIncludeHref = sXopIncludeHref.substring(4);
-            }
-            if(documentId != null && documentId.length() > 0) {
-              for(Identifiable identifiable : listOfIdentifiable) {
-                if(identifiable instanceof RegistryObject) {
-                  if(documentId.equals(identifiable.getId())) {
-                    ((RegistryObject) identifiable).setXopIncludeHref(sXopIncludeHref);
-                  }
+    else if(sCurrentTag.endsWith("|document|include")) {
+      for(int i = 0; i < attributes.getLength(); i++) {
+        String sAttrLocalName = attributes.getLocalName(i);
+        if(sAttrLocalName.equals("href")) {
+          String sXopIncludeHref = attributes.getValue(i);
+          if(sXopIncludeHref != null && sXopIncludeHref.startsWith("cid:") && sXopIncludeHref.length() > 4) {
+            sXopIncludeHref = sXopIncludeHref.substring(4);
+          }
+          if(documentId != null && documentId.length() > 0) {
+            for(Identifiable identifiable : listOfIdentifiable) {
+              if(identifiable instanceof RegistryObject) {
+                if(documentId.equals(identifiable.getId())) {
+                  ((RegistryObject) identifiable).setXopIncludeHref(sXopIncludeHref);
                 }
               }
             }
           }
         }
       }
+    }
     
     if(element != null) {
       for(int i = 0; i < attributes.getLength(); i++) {
@@ -308,6 +308,32 @@ class RIMContentHandler implements ContentHandler
         listOfIdentifiable.add(objectRef);
       }
       objectRef = null;
+    }
+    else if(localName.equals("Document")) {
+      if(sCurrentValue != null && sCurrentValue.length() > 0) {
+        byte[] content = null;
+        try {
+          content = Base64Coder.decode(sCurrentValue.trim());
+        }
+        catch(Exception ex) {
+          System.err.println("[RIMContentHandler] Exception in decode Document: " + ex);
+        }
+        if(registryObject != null) {
+          registryObject.setContent(content);
+        }
+        else if(listOfIdentifiable != null) {
+          ExtrinsicObject lastExtrinsicObject = null;
+          for(int i = 0; i < listOfIdentifiable.size(); i++) {
+            Identifiable item = listOfIdentifiable.get(i);
+            if(item instanceof ExtrinsicObject) {
+              lastExtrinsicObject = (ExtrinsicObject) item;
+            }
+          }
+          if(lastExtrinsicObject != null) {
+            lastExtrinsicObject.setContent(content);
+          }
+        }
+      }
     }
     
     if(!stackElements.isEmpty()) stackElements.pop();
