@@ -138,7 +138,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_SCHEDA_VACCINALE))       return "Scheda Vaccinale";
     if(code.equals(sDOC_DIGITAL_GREEN_CERT))     return "Certificato Digitale Covid-19";
     if(code.equals(sDOC_CERTIFICATO_GUARIGIONE)) return "Certificato di guarigione";
-    if(code.equals(sDOC_RESOCONTO_SICUREZZA))    return "Resoconto relativo alla sicurezza del paziente";
+    if(code.equals(sDOC_RESOCONTO_SICUREZZA))    return "Resoconto sicurezza del paziente";
     if(code.equals(sDOC_BILANCIO_DI_SALUTE))     return "Bliancio di salute pediatrico";
     if(defaultValue != null && defaultValue.equalsIgnoreCase("document")) {
       return "Documento sanitario";
