@@ -3,6 +3,7 @@ package org.dew.xds;
 public 
 class AffinityDomainIT implements IAffinityDomain 
 {
+  public static final String sROOT_OID_HL7_IT            = "2.16.840.1.113883.2.9.2.";
   public static final String sROOT_OID_TAXCODE           = "2.16.840.1.113883.2.9.4.3.2";
   public static final String sROOT_OID_CONFIDENTIALITY   = "2.16.840.1.113883.5.25";
   public static final String sROOT_OID_TYPE_CODE         = "2.16.840.1.113883.6.1";
@@ -42,6 +43,8 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_SCHEDA_VACCINALE       = "87273-9";
   public static final String sDOC_DIGITAL_GREEN_CERT     = "97500-3";
   public static final String sDOC_CERTIFICATO_GUARIGIONE = "97499-8";
+  public static final String sDOC_RESOCONTO_SICUREZZA    = "55750-4";
+  public static final String sDOC_BILANCIO_DI_SALUTE     = "68814-3";
   
   @Override
   public String getClassDisplayName(String code, String defaultValue) {
@@ -61,6 +64,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("VAC")) return "Vaccino";
     if(code.equals("CER")) return "Certificato";
     if(code.equals("VRB")) return "Verbale";
+    if(code.equals("CNT")) return "Documento di controllo";
     return defaultValue;
   }
   
@@ -134,6 +138,8 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_SCHEDA_VACCINALE))       return "Scheda Vaccinale";
     if(code.equals(sDOC_DIGITAL_GREEN_CERT))     return "Certificato Digitale Covid-19";
     if(code.equals(sDOC_CERTIFICATO_GUARIGIONE)) return "Certificato di guarigione";
+    if(code.equals(sDOC_RESOCONTO_SICUREZZA))    return "Resoconto relativo alla sicurezza del paziente";
+    if(code.equals(sDOC_BILANCIO_DI_SALUTE))     return "Bliancio di salute pediatrico";
     if(defaultValue != null && defaultValue.equalsIgnoreCase("document")) {
       return "Documento sanitario";
     }
