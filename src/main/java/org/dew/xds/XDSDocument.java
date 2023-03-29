@@ -24,8 +24,8 @@ import org.dew.ebxml.Slot;
 public
 class XDSDocument implements Serializable
 {
-  private static final long serialVersionUID = 6573099425867253813L;
-
+  private static final long serialVersionUID = -1101827662822589814L;
+  
   protected static final List<String> SLOT_NAMES = Arrays.asList(new String[]{"creationTime", "hash", "languageCode", "homeCommunityId", "repositoryUniqueId", "serviceStartTime", "serviceStopTime", "size", "sourcePatientId", "sourcePatientInfo", "legalAuthenticator", "versionNumber", "originalConfidenzialityCode"});
   
   protected IAffinityDomain affinityDomain = AffinityDomainFactory.getDefaultInstance();
@@ -98,6 +98,12 @@ class XDSDocument implements Serializable
   // extra
   protected String servicePath;
   protected String contentURI;
+  protected Date   insertTime;
+  // FSE 2.0
+  protected String  repositoryType;        // urn:ita:2017:repository-type
+  protected Boolean documentSigned;        // urn:ita:2022:documentSigned
+  protected String  descriptionContent;    // urn:ita:2022:description
+  protected String  administrativeRequest; // urn:ita:2022:administrativeRequest
   
   public XDSDocument()
   {
@@ -193,6 +199,13 @@ class XDSDocument implements Serializable
     
     this.servicePath           = (String) map.get("servicePath");
     this.contentURI            = (String) map.get("contentURI");
+    this.insertTime            = Utils.toDate(map.get("insertTime"));
+    
+    // FSE 2.0
+    this.repositoryType        = (String) map.get("repositoryType");
+    this.documentSigned        = Utils.toBooleanObj(map.get("documentSigned"), null);
+    this.descriptionContent    = (String) map.get("descriptionContent");
+    this.administrativeRequest = (String) map.get("administrativeRequest");
     
     setReferenceIdList(map.get("referenceIdList"));
     
@@ -341,6 +354,13 @@ class XDSDocument implements Serializable
     
     mapResult.put("servicePath",               servicePath);
     mapResult.put("contentURI",                contentURI);
+    mapResult.put("insertTime",                insertTime);
+    
+    // FSE 2.0
+    mapResult.put("repositoryType",            repositoryType);
+    mapResult.put("documentSigned",            documentSigned);
+    mapResult.put("descriptionContent",        descriptionContent);
+    mapResult.put("administrativeRequest",     administrativeRequest);
     
     List<String> referenceIdList = getReferenceIdList();
     if(referenceIdList != null) {
@@ -776,8 +796,7 @@ class XDSDocument implements Serializable
     if(eventCodeList == null) {
       this.eventCodeSchemeList = null;
     }
-    else
-    if(eventCodeList.size() == 0) {
+    else if(eventCodeList.size() == 0) {
       this.eventCodeSchemeList = new ArrayList<String>();
     }
   }
@@ -805,6 +824,60 @@ class XDSDocument implements Serializable
     }
     this.eventCodeList.add(Utils.extractCode(eventCode));
     this.eventCodeSchemeList.add(Utils.extractCodingScheme(eventCode));
+  }
+  
+  public List<Slot> getSlots() {
+    if(registryObject != null) {
+      return registryObject.getSlots();
+    }
+    return Utils.toListOfSlot(attributes);
+  }
+  
+  public List<Slot> getSlots(List<String> include) {
+    if(registryObject != null) {
+      return registryObject.getSlots(include);
+    }
+    return Utils.toListOfSlot(attributes, include);
+  }
+  
+  public void addSlots(List<Slot> slotsToAdd) {
+    if(slotsToAdd == null || slotsToAdd.size() == 0) {
+      return;
+    }
+    for(int i = 0; i < slotsToAdd.size(); i++) {
+      this.addSlot(slotsToAdd.get(i));
+    }
+  }
+  
+  public void addSlot(Slot slot) {
+    if(slot == null) return;
+    String name = slot.getName();
+    if(name == null || name.length() == 0) return;
+    List<String> values = slot.getValues();
+    if(values == null || values.size() == 0) return;
+    
+    if(registryObject != null) {
+      registryObject.addSlot(slot);
+    }
+    if(attributes == null) {
+      attributes = new HashMap<String, Object>();
+    }
+    if(slot.isHidden()) {
+      if(values.size() == 1) {
+        attributes.put(name + "_", values.get(0));
+      }
+      else {
+        attributes.put(name + "_", values);
+      }
+    }
+    else {
+      if(values.size() == 1) {
+        attributes.put(name, values.get(0));
+      }
+      else {
+        attributes.put(name, values);
+      }
+    }
   }
   
   public String getHome() {
@@ -1054,6 +1127,12 @@ class XDSDocument implements Serializable
     this.serviceStopTime    = registryObject.getSlotDateValue("serviceStopTime");
     this.size               = registryObject.getSlotIntValue("size");
     
+    // FSE 2.0
+    this.repositoryType        = registryObject.getSlotFirstValue("urn:ita:2017:repository-type");
+    this.documentSigned        = registryObject.getSlotBooleanValue("urn:ita:2022:documentSigned");
+    this.descriptionContent    = registryObject.getSlotFirstValue("urn:ita:2022:description");
+    this.administrativeRequest = registryObject.getSlotFirstValue("urn:ita:2022:administrativeRequest");
+    
     if(registryObject instanceof ExtrinsicObject) {
       this.mimeType = ((ExtrinsicObject) registryObject).getMimeType();
       this.opaque   = ((ExtrinsicObject) registryObject).isOpaque();
@@ -1275,6 +1354,46 @@ class XDSDocument implements Serializable
     this.contentURI = contentURI;
   }
   
+  public Date getInsertTime() {
+    return insertTime;
+  }
+  
+  public void setInsertTime(Date insertTime) {
+    this.insertTime = insertTime;
+  }
+  
+  public Boolean getDocumentSigned() {
+    return documentSigned;
+  }
+  
+  public void setDocumentSigned(Boolean documentSigned) {
+    this.documentSigned = documentSigned;
+  }
+  
+  public String getRepositoryType() {
+    return repositoryType;
+  }
+  
+  public void setRepositoryType(String repositoryType) {
+    this.repositoryType = repositoryType;
+  }
+  
+  public String getDescriptionContent() {
+    return descriptionContent;
+  }
+  
+  public void setDescriptionContent(String descriptionContent) {
+    this.descriptionContent = descriptionContent;
+  }
+  
+  public String getAdministrativeRequest() {
+    return administrativeRequest;
+  }
+  
+  public void setAdministrativeRequest(String administrativeRequest) {
+    this.administrativeRequest = administrativeRequest;
+  }
+  
   public Map<String, Object> getAttributes() {
     return attributes;
   }
@@ -1471,6 +1590,20 @@ class XDSDocument implements Serializable
     if(originalConfidenzialityCode != null && originalConfidenzialityCode.length() > 0) {
       result.addSlot(new Slot("originalConfidenzialityCode", originalConfidenzialityCode));
     }
+    // FSE 2.0
+    if(repositoryType != null && repositoryType.length() > 0) {
+      result.addSlot(new Slot("urn:ita:2017:repository-type", repositoryType));
+    }
+    if(documentSigned != null) {
+      result.addSlot(new Slot("urn:ita:2022:documentSigned", documentSigned, "Documento firmato", "Documento non firmato"));
+    }
+    if(descriptionContent != null && descriptionContent.length() > 0) {
+      result.addSlot(new Slot("urn:ita:2022:description", descriptionContent));
+    }
+    if(administrativeRequest != null && administrativeRequest.length() > 0) {
+      result.addSlot(new Slot("urn:ita:2022:administrativeRequest", administrativeRequest));
+    }
+    // end FSE 2.0
     if(attributes != null) {
       Iterator<Map.Entry<String, Object>> iterator = attributes.entrySet().iterator();
       while(iterator.hasNext()) {

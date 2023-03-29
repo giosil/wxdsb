@@ -25,7 +25,7 @@ class XRRContentHandler implements ContentHandler
   
   public
   void load(byte[] content)
-      throws Exception
+    throws Exception
   {
     InputSource inputSource = new InputSource(new ByteArrayInputStream(content));
     XMLReader xmlReader = XMLReaderFactory.createXMLReader();
@@ -35,7 +35,7 @@ class XRRContentHandler implements ContentHandler
   
   public
   void load(String sFile)
-      throws Exception
+    throws Exception
   {
     int iTag = sFile.indexOf('<');
     InputSource inputSource = null;
@@ -49,7 +49,7 @@ class XRRContentHandler implements ContentHandler
     xmlReader.setContentHandler(this);
     xmlReader.parse(inputSource);
   }
-
+  
   public
   RegistryResponse getRegistryResponse()
   {
@@ -120,13 +120,13 @@ class XRRContentHandler implements ContentHandler
     faultString       = null;
     faultDetail       = null;
   }
-
+  
   public
   void endDocument()
     throws SAXException
   {
   }
-
+  
   public
   void startElement(String uri, String localName, String qName, Attributes attributes)
     throws SAXException
@@ -147,8 +147,7 @@ class XRRContentHandler implements ContentHandler
         registryResponse.setAttribute(sAttrLocalName, attributes.getValue(i));
       }
     }
-    else
-    if(localName.equals("RegistryError")) {
+    else if(localName.equals("RegistryError")) {
       registryError = new RegistryError();
       for(int i = 0; i < attributes.getLength(); i++) {
         String sAttrLocalName = attributes.getLocalName(i);
@@ -171,28 +170,23 @@ class XRRContentHandler implements ContentHandler
     if(localName.equalsIgnoreCase("faultcode")) {
       this.faultCode = sCurrentValue;
     }
-    else
-    if(localName.equalsIgnoreCase("faultstring")) {
+    else if(localName.equalsIgnoreCase("faultstring")) {
       this.faultString = sCurrentValue;
     }
-    else
-    if(localName.equalsIgnoreCase("detail")) {
+    else if(localName.equalsIgnoreCase("detail")) {
       if(sCurrentValue != null && sCurrentValue.length() > 0) {
         this.faultDetail = sCurrentValue;
       }
     }
-    else
-    if(localName.equalsIgnoreCase("detailEntry")) {
+    else if(localName.equalsIgnoreCase("detailEntry")) {
       if(sCurrentValue != null && sCurrentValue.length() > 0) {
         this.faultDetail = sCurrentValue;
       }
     }
-    else
-    if(sCurrentTag.endsWith("fault|code|value")) {
+    else if(sCurrentTag.endsWith("fault|code|value")) {
       this.faultCode = sCurrentValue;
     }
-    else
-    if(sCurrentTag.endsWith("fault|reason|text")) {
+    else if(sCurrentTag.endsWith("fault|reason|text")) {
       this.faultString = sCurrentValue;
     }
     
@@ -204,7 +198,7 @@ class XRRContentHandler implements ContentHandler
     sCurrentTag = sCurrentTag.length() > 0 ? sCurrentTag.substring(1) : "";
     sCurrentTag = sCurrentTag.toLowerCase();
   }
-
+  
   public
   void characters(char[] ch, int start, int length)
     throws SAXException

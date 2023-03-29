@@ -141,7 +141,7 @@ class SAMLIdentAssertion extends SAMLAssertion
     if(currentTime < lNotBefore)    return false;
     if(currentTime > lNotOnOrAfter) return false;
     return true;
-  }
+  }  
   
   public 
   Map<String, Object> toMap() 
@@ -174,11 +174,12 @@ class SAMLIdentAssertion extends SAMLAssertion
   protected 
   String buildAttributes(String namespace) 
   {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else if(!namespace.endsWith(":")) {
+    else 
+    if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     String sDecNsId = "";
@@ -251,6 +252,7 @@ class SAMLIdentAssertion extends SAMLAssertion
     return "SAMLIdentAssertion(" + subjectId + ")";
   }
   
+  public
   class IdentityItem implements Serializable
   {
     private static final long serialVersionUID = 6723495336157668240L;

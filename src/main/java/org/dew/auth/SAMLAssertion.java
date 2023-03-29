@@ -221,7 +221,7 @@ class SAMLAssertion extends AuthAssertion
       calIssueInstant = calNotBefore;
     }
     
-    StringBuffer sb = new StringBuffer(520);
+    StringBuilder sb = new StringBuilder(520);
     sb.append("<" + namespace + "Assertion");
     sb.append(sDecNs);
     sb.append(" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"");

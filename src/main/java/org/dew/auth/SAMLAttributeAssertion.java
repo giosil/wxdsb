@@ -11,7 +11,7 @@ import org.dew.ebxml.Utils;
 public 
 class SAMLAttributeAssertion extends SAMLAssertion 
 {
-  private static final long serialVersionUID = -2498895539819332472L;
+  private static final long serialVersionUID = 9200407774340454106L;
   // XACML
   protected String  subjectRole;    // urn:oasis:names:tc:xacml:2.0:subject:role
   protected String  resourceId;     // urn:oasis:names:tc:xacml:1.0:resource:resource-id
@@ -26,6 +26,10 @@ class SAMLAttributeAssertion extends SAMLAssertion
   // HL7
   protected String  documentType;   // urn:oasis:names:tc:xspa:1.0:resource:hl7:type
   protected String  permission;     // urn:oasis:names:tc:xspa:1.0:subject:hl7:permission
+  // INI
+  protected String  subjectApplicationId;
+  protected String  subjectApplicationVendor;
+  protected String  subjectApplicationVersion;
   
   public SAMLAttributeAssertion()
   {
@@ -41,6 +45,7 @@ class SAMLAttributeAssertion extends SAMLAssertion
   {
     super(map);
     if(map == null) return;
+    
     this.subjectRole    = (String) map.get("subjectRole");
     this.resourceId     = (String) map.get("resourceId");
     this.actionId       = (String) map.get("actionId");
@@ -54,6 +59,10 @@ class SAMLAttributeAssertion extends SAMLAssertion
     
     this.documentType   = (String) map.get("documentType");
     this.permission     = (String) map.get("permission");
+    
+    this.subjectApplicationId      = (String) map.get("subjectApplicationId");
+    this.subjectApplicationVendor  = (String) map.get("subjectApplicationVendor");
+    this.subjectApplicationVersion = (String) map.get("subjectApplicationVersion");
   }
   
   public SAMLAttributeAssertion(SAMLAssertion samlAssertion)
@@ -90,6 +99,10 @@ class SAMLAttributeAssertion extends SAMLAssertion
       
       this.documentType   = attributeAssertion.getDocumentType();
       this.permission     = attributeAssertion.getPermission();
+      
+      this.subjectApplicationId      = attributeAssertion.getSubjectApplicationId();
+      this.subjectApplicationVendor  = attributeAssertion.getSubjectApplicationVendor();
+      this.subjectApplicationVersion = attributeAssertion.getSubjectApplicationVersion();
     }
     else {
       checkAttributes();
@@ -195,6 +208,33 @@ class SAMLAttributeAssertion extends SAMLAssertion
     setAttribute("urn:oasis:names:tc:xspa:1.0:subject:hl7:permission", permission);
   }
   
+  public String getSubjectApplicationId() {
+    return subjectApplicationId;
+  }
+  
+  public void setSubjectApplicationId(String subjectApplicationId) {
+    this.subjectApplicationId = subjectApplicationId;
+    setAttribute("SubjectApplicationId", subjectApplicationId);
+  }
+  
+  public String getSubjectApplicationVendor() {
+    return subjectApplicationVendor;
+  }
+  
+  public void setSubjectApplicationVendor(String subjectApplicationVendor) {
+    this.subjectApplicationVendor = subjectApplicationVendor;
+    setAttribute("SubjectApplicationVendor", subjectApplicationVendor);
+  }
+  
+  public String getSubjectApplicationVersion() {
+    return subjectApplicationVersion;
+  }
+  
+  public void setSubjectApplicationVersion(String subjectApplicationVersion) {
+    this.subjectApplicationVersion = subjectApplicationVersion;
+    setAttribute("SubjectApplicationVersion", subjectApplicationVersion);
+  }
+  
   public 
   int checkAttributes() 
   {
@@ -213,6 +253,10 @@ class SAMLAttributeAssertion extends SAMLAssertion
     
     this.documentType   = attributes.get("urn:oasis:names:tc:xspa:1.0:resource:hl7:type");
     this.permission     = attributes.get("urn:oasis:names:tc:xspa:1.0:subject:hl7:permission");
+    
+    this.subjectApplicationId      = attributes.get("SubjectApplicationId");
+    this.subjectApplicationVendor  = attributes.get("SubjectApplicationVendor");
+    this.subjectApplicationVersion = attributes.get("SubjectApplicationVersion");
     
     return attributes.size();
   }
@@ -234,6 +278,7 @@ class SAMLAttributeAssertion extends SAMLAssertion
   Map<String, Object> toMap() 
   {
     Map<String, Object> mapResult = super.toMap();
+    
     if(subjectRole    != null) mapResult.put("subjectRole",    subjectRole);
     if(resourceId     != null) mapResult.put("resourceId",     resourceId);
     if(actionId       != null) mapResult.put("actionId",       actionId);
@@ -247,6 +292,11 @@ class SAMLAttributeAssertion extends SAMLAssertion
     
     if(documentType   != null) mapResult.put("documentType",   documentType);
     if(permission     != null) mapResult.put("permission",     permission);
+    
+    if(subjectApplicationId      != null) mapResult.put("subjectApplicationId",      subjectApplicationId);
+    if(subjectApplicationVendor  != null) mapResult.put("subjectApplicationVendor",  subjectApplicationVendor);
+    if(subjectApplicationVersion != null) mapResult.put("subjectApplicationVersion", subjectApplicationVersion);
+    
     return mapResult;
   }
   
@@ -254,11 +304,12 @@ class SAMLAttributeAssertion extends SAMLAssertion
   protected 
   String buildAttributes(String namespace) 
   {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else if(!namespace.endsWith(":")) {
+    else 
+    if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     if(subjectRole != null && subjectRole.length() > 0) {
@@ -319,6 +370,21 @@ class SAMLAttributeAssertion extends SAMLAssertion
     if(actionId != null && actionId.length() > 0) {
       sb.append("<" + namespace + "Attribute Name=\"urn:oasis:names:tc:xacml:1.0:action:action-id\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:uri\">");
       sb.append("<" + namespace + "AttributeValue xsi:type=\"xs:string\">" + Utils.normalizeString(actionId) + "</" + namespace + "AttributeValue>");
+      sb.append("</" + namespace + "Attribute>");
+    }
+    if(subjectApplicationId != null && subjectApplicationId.length() > 0) {
+      sb.append("<" + namespace + "Attribute Name=\"SubjectApplicationId\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\">");
+      sb.append("<" + namespace + "AttributeValue xsi:type=\"xs:string\">" + Utils.normalizeString(subjectApplicationId) + "</" + namespace + "AttributeValue>");
+      sb.append("</" + namespace + "Attribute>");
+    }
+    if(subjectApplicationVendor != null && subjectApplicationVendor.length() > 0) {
+      sb.append("<" + namespace + "Attribute Name=\"SubjectApplicationVendor\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\">");
+      sb.append("<" + namespace + "AttributeValue xsi:type=\"xs:string\">" + Utils.normalizeString(subjectApplicationVendor) + "</" + namespace + "AttributeValue>");
+      sb.append("</" + namespace + "Attribute>");
+    }
+    if(subjectApplicationVersion != null && subjectApplicationVersion.length() > 0) {
+      sb.append("<" + namespace + "Attribute Name=\"SubjectApplicationVersion\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\">");
+      sb.append("<" + namespace + "AttributeValue xsi:type=\"xs:string\">" + Utils.normalizeString(subjectApplicationVersion) + "</" + namespace + "AttributeValue>");
       sb.append("</" + namespace + "Attribute>");
     }
     return sb.toString();

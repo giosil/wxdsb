@@ -11,36 +11,36 @@ import org.dew.ebxml.IElement;
 public 
 class XDSDocumentRequest implements IElement, Serializable
 {
-  private static final long serialVersionUID = 6747191401875158791L;
-
+  private static final long serialVersionUID = 2824961899874606273L;
+  
   protected String homeCommunityId;
   protected String repositoryUniqueId;
   protected String documentUniqueId;
   // TRANSMISSION_USING_MTOM_XOP
   protected boolean enclosedDocument;
-
+  
   public XDSDocumentRequest()
   {
   }
-  
+
   public XDSDocumentRequest(String documentUniqueId)
   {
     this.documentUniqueId = documentUniqueId;
   }
-  
+
   public XDSDocumentRequest(String repositoryUniqueId, String documentUniqueId)
   {
     this.repositoryUniqueId = repositoryUniqueId;
     this.documentUniqueId   = documentUniqueId;
   }
-  
+
   public XDSDocumentRequest(String homeCommunityId, String repositoryUniqueId, String documentUniqueId)
   {
     this.homeCommunityId    = homeCommunityId;
     this.repositoryUniqueId = repositoryUniqueId;
     this.documentUniqueId   = documentUniqueId;
   }
-  
+
   public XDSDocumentRequest(XDSDocument xdsDocument)
   {
     if(xdsDocument == null) return;
@@ -48,27 +48,27 @@ class XDSDocumentRequest implements IElement, Serializable
     this.repositoryUniqueId = xdsDocument.getRepositoryUniqueId();
     this.documentUniqueId   = xdsDocument.getUniqueId();
   }
-  
+
   public String getHomeCommunityId() {
     return homeCommunityId;
   }
-  
+
   public void setHomeCommunityId(String homeCommunityId) {
     this.homeCommunityId = homeCommunityId;
   }
-  
+
   public String getRepositoryUniqueId() {
     return repositoryUniqueId;
   }
-  
+
   public void setRepositoryUniqueId(String repositoryUniqueId) {
     this.repositoryUniqueId = repositoryUniqueId;
   }
-  
+
   public String getDocumentUniqueId() {
     return documentUniqueId;
   }
-  
+
   public void setDocumentUniqueId(String documentUniqueId) {
     this.documentUniqueId = documentUniqueId;
   }
@@ -80,7 +80,7 @@ class XDSDocumentRequest implements IElement, Serializable
   public void setEnclosedDocument(boolean enclosedDocument) {
     this.enclosedDocument = enclosedDocument;
   }
-  
+
   public String getTagName() {
     return "DocumentRequest";
   }

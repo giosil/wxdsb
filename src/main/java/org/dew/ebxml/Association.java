@@ -7,7 +7,7 @@ public
 class Association extends RegistryObject
 {
   private static final long serialVersionUID = -347470138876328680L;
-
+  
   protected String associationType;
   protected String sourceObject;
   protected String targetObject;
@@ -104,7 +104,7 @@ class Association extends RegistryObject
       this.targetObject = value;
     }
   }
-
+  
   @Override
   public String toXML(String namespace) {
     if(namespace == null || namespace.length() == 0) {

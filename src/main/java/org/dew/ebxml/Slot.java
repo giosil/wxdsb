@@ -1,6 +1,7 @@
 package org.dew.ebxml;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,11 +11,13 @@ import java.util.Map;
 public 
 class Slot implements IElement, Serializable 
 {
-  private static final long serialVersionUID = 69829771850255519L;
+  private static final long serialVersionUID = 1730123992523818204L;
   
   protected String name;
   protected String slotType;
   protected List<String> values;
+  // extra attribute
+  protected boolean hidden;
   
   public Slot()
   {
@@ -30,12 +33,56 @@ class Slot implements IElement, Serializable
     }
   }
   
+  public Slot(String name, Object values, boolean hidden)
+  {
+    this.name   = name;
+    this.values = Utils.toListOfString(values, false);
+    if(this.values == null) {
+      this.values = new ArrayList<String>();
+    }
+    this.hidden = hidden;
+  }
+  
   public Slot(String name, Date value)
   {
     this.name   = name;
     this.values = new ArrayList<String>();
     if(value != null) {
       this.values.add(Utils.formatDateTime(value));
+    }
+  }
+  
+  public Slot(String name, Boolean value)
+  {
+    this.name   = name;
+    this.values = new ArrayList<String>();
+    if(value != null) {
+      this.values.add(String.valueOf(value.booleanValue()));
+    }
+  }
+  
+  public Slot(String name, Boolean value, String trueDesc, String falseDesc)
+  {
+    this.name   = name;
+    this.values = new ArrayList<String>();
+    if(value != null) {
+      boolean b = value.booleanValue();
+      if(b) {
+        if(trueDesc != null && trueDesc.length() > 0) {
+          this.values.add(b + "^" + trueDesc);
+        }
+        else {
+          this.values.add(String.valueOf(b));
+        }
+      }
+      else {
+        if(falseDesc != null && falseDesc.length() > 0) {
+          this.values.add(b + "^" + falseDesc);
+        }
+        else {
+          this.values.add(String.valueOf(b));
+        }
+      }
     }
   }
   
@@ -70,7 +117,7 @@ class Slot implements IElement, Serializable
   public Slot(Object name, Object values)
   {
     this.name   = name != null ? name.toString() : null;
-    this.values = Utils.toListOfString(values);
+    this.values = Utils.toListOfString(values, false);
     if(this.values == null) {
       this.values = new ArrayList<String>();
     }
@@ -81,6 +128,7 @@ class Slot implements IElement, Serializable
     if(slot == null) return;
     this.name     = slot.getName();
     this.slotType = slot.getSlotType();
+    this.hidden   = slot.isHidden();
     List<String> listOfValues = slot.getValues();
     if(listOfValues == null) {
       this.values = null;
@@ -93,8 +141,10 @@ class Slot implements IElement, Serializable
   public Slot(Map<String, Object> map)
   {
     if(map == null) return;
-    this.name   = Utils.toString(map.get("name"), null);
-    this.values = Utils.toListOfString(map.get("values"));
+    this.name       = Utils.toString(map.get("name"), null);
+    this.values     = Utils.toListOfString(map.get("values"));
+    this.slotType   = Utils.toString(map.get("slotType"), null);
+    this.hidden     = Utils.toBoolean(map.get("hidden"), false);
     if(this.values == null) {
       this.values = new ArrayList<String>();
     }
@@ -130,6 +180,21 @@ class Slot implements IElement, Serializable
     values.add(value);
   }
   
+  public boolean isHidden() {
+    return hidden;
+  }
+  
+  public void setHidden(boolean hidden) {
+    this.hidden = hidden;
+  }
+  
+  public boolean hasName(String slotName) {
+    if(slotName == null) {
+      return name == null;
+    }
+    return slotName.equals(name);
+  }
+  
   public String getTagName() {
     return "Slot";
   }
@@ -142,6 +207,9 @@ class Slot implements IElement, Serializable
     else if(name.equals("slotType")) {
       return this.slotType;
     }
+    else if(name.equals("hidden")) {
+      return String.valueOf(hidden);
+    }
     return null;
   }
   
@@ -153,17 +221,21 @@ class Slot implements IElement, Serializable
     else if(name.equals("slotType")) {
       this.slotType = value;
     }
+    else if(name.equals("hidden")) {
+      this.hidden = Utils.toBoolean(value, false);
+    }
   }
   
   public String toXML(String namespace) {
     if(name == null || name.length() == 0) return "";
+    if(hidden) return "";
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
     else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
-    StringBuffer sb = new StringBuffer(120);
+    StringBuilder sb = new StringBuilder(120);
     if(slotType != null && slotType.length() > 0) {
       sb.append("<" + namespace + "Slot name=\"" + name + "\" slotType=\"" + slotType + "\">");
     }
@@ -189,6 +261,7 @@ class Slot implements IElement, Serializable
     if(name     != null) mapResult.put("name",     name);
     if(slotType != null) mapResult.put("slotType", slotType);
     if(values   != null) mapResult.put("values",   values);
+    if(hidden)           mapResult.put("hidden",   hidden);
     return mapResult;
   }
   

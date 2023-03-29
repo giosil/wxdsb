@@ -9,15 +9,17 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public 
 class Identifiable implements IElement, Serializable
 {
-  private static final long serialVersionUID = -8075537547112187163L;
+  private static final long serialVersionUID = 8342483410075500165L;
   
   protected String home;
   protected String id;
@@ -47,7 +49,7 @@ class Identifiable implements IElement, Serializable
       slots = new ArrayList<Slot>(mapSlots.size());
       Iterator<Map.Entry<String, Object>> iterator = mapSlots.entrySet().iterator();
       while(iterator.hasNext()) {
-        Map.Entry<String, Object> entry = iterator.next();
+        Map.Entry<String, Object> entry =iterator.next();
         slots.add(new Slot(entry.getKey(), entry.getValue()));
       }
     }
@@ -98,10 +100,18 @@ class Identifiable implements IElement, Serializable
     this.slots = slots;
   }
   
-  public void addSlot(Slot slot) {
-    if(slot  == null) return;
+  public boolean addSlot(Slot slot) {
+    if(slot  == null) return false;
+    String slotName = slot.getName();
+    if(slotName == null || slotName.length() == 0) return false;
     if(slots == null) slots = new ArrayList<Slot>();
+    for(int i = 0; i < slots.size(); i++) {
+      Slot slot_i = slots.get(i);
+      String name = slot_i.getName();
+      if(slotName.equals(name)) return false;
+    }
     slots.add(slot);
+    return true;
   }
   
   public void removeSlot(Slot slot) {
@@ -177,9 +187,9 @@ class Identifiable implements IElement, Serializable
     if(value == null || value.length() == 0) {
       return 0;
     }
-    int iResult = 0;
-    try { iResult = Integer.parseInt(value); } catch(Exception ex) {}
-    return iResult;
+    int result = 0;
+    try { result = Integer.parseInt(value.trim()); } catch(Exception ex) {}
+    return result;
   }
   
   public Date getSlotDateValue(String name) {
@@ -192,8 +202,16 @@ class Identifiable implements IElement, Serializable
     return calendar.getTime();
   }
   
-  public Map<String,List<String>> getSlotsMap() {
-    Map<String,List<String>> mapResult = new HashMap<String, List<String>>();
+  public Boolean getSlotBooleanValue(String name) {
+    String value = getSlotFirstValue(name);
+    if(value == null || value.length() == 0) {
+      return null;
+    }
+    return Utils.toBooleanObj(value, null);
+  }
+  
+  public Map<String, List<String>> getSlotsMap() {
+    Map<String, List<String>> mapResult = new HashMap<String, List<String>>();
     if(slots == null || slots.size()  == 0) return mapResult;
     for(int i = 0; i < slots.size(); i++) {
       Slot slot = slots.get(i);
@@ -202,6 +220,86 @@ class Identifiable implements IElement, Serializable
       mapResult.put(sName, slot.getValues());
     }
     return mapResult;
+  }
+  
+  public List<Slot> getSlots(List<String> include) {
+    if(slots == null || slots.size() == 0) {
+      return new ArrayList<Slot>();
+    }
+    if(include == null || include.size() == 0) {
+      return new ArrayList<Slot>();
+    }
+    
+    List<Slot> listResult = new ArrayList<Slot>();
+    
+    Set<String> names = new HashSet<String>();
+    for(int i = 0; i < include.size(); i++) {
+      String includeName = include.get(i);
+      
+      if(includeName == null || includeName.length() == 0 || includeName.equals("*")) {
+        // Include all
+        listResult.addAll(slots);
+        return listResult;
+      }
+      
+      int check = 0; // equals
+      if(includeName.startsWith("*") && includeName.endsWith("*")) {
+        check = 1; // contains
+        includeName = includeName.substring(1, includeName.length()-1);
+      }
+      else if(includeName.startsWith("*")) {
+        check = 2; // endsWith (opposite of startsWith)
+        includeName = includeName.substring(1, includeName.length());
+      }
+      else if(includeName.endsWith("*")) {
+        check = 3; // startsWith (opposite of endsWith)
+        includeName = includeName.substring(0, includeName.length()-1);
+      }
+      
+      for(int j = 0; j < slots.size(); j++) {
+        Slot slot = slots.get(j);
+        if(slot == null) continue;
+        
+        String slotName = slot.getName();
+        if(slotName == null || slotName.length() == 0) continue;
+        
+        switch (check) {
+        case 0: // equals
+          if(slotName.equals(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(slot);
+              names.add(slotName);
+            }
+          }
+          break;
+        case 1: // contains
+          if(slotName.contains(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(slot);
+              names.add(slotName);
+            }
+          }
+          break;
+        case 2: // endsWith (opposite of startsWith)
+          if(slotName.endsWith(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(slot);
+              names.add(slotName);
+            }
+          }
+          break;
+        case 3: // startsWith (opposite of endsWith)
+          if(slotName.startsWith(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(slot);
+              names.add(slotName);
+            }
+          }
+          break;
+        }
+      }
+    }
+    return listResult;
   }
   
   public String getTagName() {
@@ -285,7 +383,7 @@ class Identifiable implements IElement, Serializable
     if(id    != null) mapResult.put("id",   id);
     if(home  != null) mapResult.put("home", home);
     if(slots != null) {
-      List<Map<String,Object>> listOfMap = new ArrayList<Map<String,Object>>(slots.size());
+      List<Map<String, Object>> listOfMap = new ArrayList<Map<String, Object>>(slots.size());
       for(Slot slot : slots) {
         listOfMap.add(slot.toMap());
       }

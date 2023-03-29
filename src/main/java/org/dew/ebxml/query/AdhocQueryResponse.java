@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dew.auth.AuthAssertion;
 import org.dew.ebxml.IElement;
 import org.dew.ebxml.RegistryObjectList;
 import org.dew.ebxml.rs.RegistryError;
@@ -17,7 +18,7 @@ import org.dew.xds.XDSDocument;
 public 
 class AdhocQueryResponse implements IElement, Serializable 
 {
-  private static final long serialVersionUID = 6620260171130097606L;
+  private static final long serialVersionUID = 5004274352928019940L;
   
   protected String status;
   protected int startIndex;
@@ -25,6 +26,7 @@ class AdhocQueryResponse implements IElement, Serializable
   protected List<RegistryError> registryErrorList;
   protected RegistryObjectList registryObjectList;
   // Extension
+  protected List<AuthAssertion> assertions;
   protected boolean objectRefList = false;
   
   public AdhocQueryResponse()
@@ -77,6 +79,13 @@ class AdhocQueryResponse implements IElement, Serializable
   {
     this(registryErrorList, registryObjectList);
     this.startIndex = request != null ? request.getStartIndex() : 0;
+  }
+  
+  public AdhocQueryResponse(List<RegistryError> registryErrorList, RegistryObjectList registryObjectList, AdhocQueryRequest request, List<AuthAssertion> assertions)
+  {
+    this(registryErrorList, registryObjectList);
+    this.startIndex = request != null ? request.getStartIndex() : 0;
+    this.assertions = assertions;
   }
   
   public AdhocQueryResponse(String errorMessage)
@@ -186,6 +195,14 @@ class AdhocQueryResponse implements IElement, Serializable
     this.registryObjectList = registryObjectList;
   }
   
+  public List<AuthAssertion> getAssertions() {
+    return assertions;
+  }
+  
+  public void setAssertions(List<AuthAssertion> assertions) {
+    this.assertions = assertions;
+  }
+  
   public boolean isObjectRefList() {
     return objectRefList;
   }
@@ -236,7 +253,7 @@ class AdhocQueryResponse implements IElement, Serializable
   }
   
   public String toXML(String namespace) {
-    StringBuilder sb = new StringBuilder();
+    StringBuffer sb = new StringBuffer();
     if(registryErrorList != null && registryErrorList.size() > 0) {
       if(status == null || status.length() == 0) {
         int countErrors = countErrors();

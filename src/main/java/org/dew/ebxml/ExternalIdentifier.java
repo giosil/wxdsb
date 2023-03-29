@@ -7,7 +7,7 @@ public
 class ExternalIdentifier extends RegistryObject
 {
   private static final long serialVersionUID = 1683899571388745276L;
-  
+
   protected String identificationScheme;
   protected String registryObject;
   protected String value;

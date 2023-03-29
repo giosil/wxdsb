@@ -4,9 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.util.*;
 
-import org.dew.xds.util.Base64Coder;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
+
+import org.dew.xds.util.Base64Coder;
 
 public
 class RIMContentHandler implements ContentHandler

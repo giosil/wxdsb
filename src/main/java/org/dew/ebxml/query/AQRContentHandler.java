@@ -126,22 +126,26 @@ class AQRContentHandler implements ContentHandler
     if(sCurrentTag.endsWith("|slot|valuelist|value")) {
       if(slot != null) slot.addValue(sCurrentValue);
     }
-    else if(localName.equals("ResponseOption")) {
+    else
+    if(localName.equals("ResponseOption")) {
       if(responseOption != null && adhocQueryRequest != null) {
         adhocQueryRequest.setResponseOption(responseOption);
       }
     }
-    else if(localName.equalsIgnoreCase("SQLQuery")) {
+    else
+    if(localName.equalsIgnoreCase("SQLQuery")) {
       if(adhocQueryRequest != null) {
         adhocQueryRequest.setSqlQuery(sCurrentValue);
       }
     }
-    else if(localName.equals("AdhocQuery")) {
+    else
+    if(localName.equals("AdhocQuery")) {
       if(adhocQuery != null && adhocQueryRequest != null) {
         adhocQueryRequest.setAdhocQuery(adhocQuery);
       }
     }
-    else if(localName.equals("Slot")) {
+    else
+    if(localName.equals("Slot")) {
       if(slot != null) {
         if(adhocQuery != null) {
           adhocQuery.addSlot(slot);

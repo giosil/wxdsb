@@ -7,7 +7,7 @@ public
 class ExternalLink extends RegistryObject
 {
   private static final long serialVersionUID = -8934565303636001908L;
-  
+
   protected String externalURI;
   
   public ExternalLink()

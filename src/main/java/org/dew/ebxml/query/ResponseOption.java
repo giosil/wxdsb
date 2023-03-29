@@ -11,19 +11,19 @@ public
 class ResponseOption implements IElement, Serializable 
 {
   private static final long serialVersionUID = 5930353500448511440L;
-  
+
   public static final String TYPE_LEAF_CLASS = "LeafClass";
   public static final String TYPE_OBJECT_REF = "ObjectRef";
-  
+
   protected boolean returnComposedObjects;
   protected String  returnType;
-  
+
   public ResponseOption()
   {
     this.returnComposedObjects = false;
     this.returnType = TYPE_LEAF_CLASS;
   }
-  
+
   public ResponseOption(String returnType)
   {
     this.returnComposedObjects = false;
@@ -34,13 +34,13 @@ class ResponseOption implements IElement, Serializable
       this.returnType = returnType;
     }
   }
-  
+
   public ResponseOption(boolean returnComposedObjects)
   {
     this.returnComposedObjects = returnComposedObjects;
     this.returnType = TYPE_LEAF_CLASS;
   }
-  
+
   public ResponseOption(boolean returnComposedObjects, String returnType)
   {
     this.returnComposedObjects = returnComposedObjects;
@@ -51,7 +51,7 @@ class ResponseOption implements IElement, Serializable
       this.returnType = returnType;
     }
   }
-  
+
   public boolean isReturnComposedObjects() {
     return returnComposedObjects;
   }
@@ -97,7 +97,7 @@ class ResponseOption implements IElement, Serializable
       this.returnType = value;
     }
   }
-  
+
   public String toXML(String namespace) {
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
@@ -115,7 +115,7 @@ class ResponseOption implements IElement, Serializable
     sb.append("</" + namespace + "ResponseOption>");
     return sb.toString();
   }
-  
+
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
     mapResult.put("tagName",               getTagName());
@@ -123,7 +123,7 @@ class ResponseOption implements IElement, Serializable
     mapResult.put("returnType",            returnType);
     return mapResult;
   }
-  
+
   @Override
   public boolean equals(Object object) {
     if(object instanceof ResponseOption) {

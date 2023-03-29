@@ -10,13 +10,12 @@ import org.dew.ebxml.IElement;
 import org.dew.ebxml.Utils;
 
 import org.dew.ebxml.rs.RegistryError;
-
 import org.dew.xds.XDS;
 
 public 
 class AdhocQueryRequest implements IElement, Serializable
 {
-  private static final long serialVersionUID = 3985556758931088168L;
+  private static final long serialVersionUID = 1463454758185106184L;
   
   protected boolean federated;
   protected String  federation;
@@ -30,6 +29,7 @@ class AdhocQueryRequest implements IElement, Serializable
   // extra
   protected String servicePath;
   protected List<RegistryError> registryErrorList;
+  protected String resourceId;
   
   public AdhocQueryRequest()
   {
@@ -139,9 +139,17 @@ class AdhocQueryRequest implements IElement, Serializable
   public void setRegistryErrorList(List<RegistryError> registryErrorList) {
     this.registryErrorList = registryErrorList;
   }
-  
+
+  public String getResourceId() {
+    return resourceId;
+  }
+
+  public void setResourceId(String resourceId) {
+    this.resourceId = resourceId;
+  }
+
   // Response Options
-  
+
   public void setReturnComposedObjects(boolean returnComposedObjects) {
     if(this.responseOption == null) {
       this.responseOption = new ResponseOption(returnComposedObjects);
@@ -172,7 +180,7 @@ class AdhocQueryRequest implements IElement, Serializable
     adhocQuery.setPatientId(patientId);
     return adhocQuery;
   }
-  
+
   public AdhocQuery buildGetDocuments(String uniqueId) {
     if(responseOption == null) responseOption = new ResponseOption();
     responseOption.setReturnComposedObjects(true);
@@ -183,7 +191,7 @@ class AdhocQueryRequest implements IElement, Serializable
     adhocQuery.setUniqueId(uniqueId);
     return adhocQuery;
   }
-  
+
   public boolean checkFindDocuments() {
     if(adhocQuery == null) return false;
     String adhocQueryId = adhocQuery.getId();
@@ -192,7 +200,7 @@ class AdhocQueryRequest implements IElement, Serializable
     }
     return false;
   }
-  
+
   public boolean checkGetDocuments() {
     if(adhocQuery == null) return false;
     String adhocQueryId = adhocQuery.getId();
@@ -201,7 +209,7 @@ class AdhocQueryRequest implements IElement, Serializable
     }
     return false;
   }
-  
+
   public boolean checkReturnTypeObjectRef() {
     if(responseOption == null) return false;
     String returnType = responseOption.getReturnType();
@@ -210,7 +218,7 @@ class AdhocQueryRequest implements IElement, Serializable
     }
     return false;
   }
-  
+
   public boolean checkReturnTypeLeafClass() {
     if(responseOption == null) return false;
     String returnType = responseOption.getReturnType();
@@ -219,11 +227,11 @@ class AdhocQueryRequest implements IElement, Serializable
     }
     return false;
   }
-  
+
   public String getTagName() {
     return "AdhocQueryRequest";
   }
-  
+
   public String getAttribute(String name) {
     if(name == null) return null;
     if(name.equals("federated")) {
@@ -240,7 +248,7 @@ class AdhocQueryRequest implements IElement, Serializable
     }
     return null;
   }
-  
+
   public void setAttribute(String name, String value) {
     if(name == null) return;
     if(name.equals("federated")) {
@@ -271,7 +279,7 @@ class AdhocQueryRequest implements IElement, Serializable
       }
     }
   }
-  
+
   public String toXML(String namespace) {
     String sNs = null;
     String sDe = null;
@@ -323,9 +331,9 @@ class AdhocQueryRequest implements IElement, Serializable
       sb.append(adhocQuery.toXML(""));
     }
     sb.append("</" + sNs + getTagName() + ">");
-    return sb.toString();   
+    return sb.toString();
   }
-  
+
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
     mapResult.put("tagName",        getTagName());
@@ -337,7 +345,7 @@ class AdhocQueryRequest implements IElement, Serializable
     mapResult.put("servicePath",    servicePath); // extra
     return mapResult;
   }
-  
+
   @Override
   public boolean equals(Object object) {
     if(object instanceof AdhocQueryRequest) {
@@ -347,13 +355,13 @@ class AdhocQueryRequest implements IElement, Serializable
     }
     return false;
   }
-  
+
   @Override
   public int hashCode() {
     if(adhocQuery == null) return 0;
     return adhocQuery.hashCode();
   }
-  
+
   @Override
   public String toString() {
     return "AdhocQueryRequest(" + adhocQuery + ")";

@@ -17,7 +17,7 @@ class Classification extends RegistryObject
   {
     this.objectType = RIM.TYPE_CLASSIFICATION;
   }
-  
+
   public Classification(String classificationScheme, String classifiedObject)
   {
     this.objectType = RIM.TYPE_CLASSIFICATION;
@@ -144,7 +144,7 @@ class Classification extends RegistryObject
       this.nodeRepresentation = value;
     }
   }
-
+  
   @Override
   public String toXML(String namespace) {
     if(id == null || id.length() == 0) {

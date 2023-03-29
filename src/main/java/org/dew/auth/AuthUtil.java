@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.net.URL;
+
 import java.security.KeyPair;
 import java.security.KeyStore;
 import java.security.Principal;
@@ -15,6 +17,7 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -26,6 +29,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openssl.PEMReader;
 
 import org.dew.xds.util.Base64Coder;
 
@@ -223,7 +227,6 @@ class AuthUtil
     return (X509Certificate) cf.generateCertificate(bais);
   }
   
-  @SuppressWarnings("deprecation")
   public static
   PrivateKey loadPrivateKey(String sFile)
     throws Exception
@@ -258,11 +261,11 @@ class AuthUtil
       }
     }
     
-    org.bouncycastle.openssl.PEMReader pemReader = null;
+    PEMReader pemReader = null;
     try {
       Security.addProvider(new BouncyCastleProvider());
       
-      pemReader = new org.bouncycastle.openssl.PEMReader(new InputStreamReader(is));
+      pemReader = new PEMReader(new InputStreamReader(is));
       
       Object pemObject = pemReader.readObject();
       if(pemObject instanceof KeyPair) {
@@ -439,8 +442,7 @@ class AuthUtil
             boClosingTag = true;
           }
         }
-        else
-        if(b == '>') {
+        else if(b == '>') {
           if(iStartTag >= 0) {
             byte[] tag  = Arrays.copyOfRange(xml, iStartTag, i+1);
             String sTag = new String(tag);
@@ -515,5 +517,46 @@ class AuthUtil
     int iSep = sResult.indexOf('^');
     if(iSep > 0) sResult = sResult.substring(0, iSep);
     return sResult;
+  }
+  
+  public static
+  String getPatientId(AuthAssertion[] arrayOfAssertion) 
+  {
+    String resourceId = getXACMLResourceId(arrayOfAssertion);
+    
+    if(resourceId == null) return null;
+    
+    resourceId = resourceId.trim().toUpperCase();
+    
+    int sep = resourceId.indexOf('^');
+    
+    String patientId = sep > 0 ? resourceId.substring(0, sep) : resourceId;
+    
+    if(patientId.length() == 16) return patientId;
+    
+    return null;
+  }
+  
+  public static
+  String getXACMLResourceId(AuthAssertion[] arrayOfAssertion) 
+  {
+    if(arrayOfAssertion == null || arrayOfAssertion.length == 0) {
+      return null;
+    }
+    
+    String result = null;
+    for(int i = 0; i < arrayOfAssertion.length; i++) {
+      AuthAssertion assertion = arrayOfAssertion[i];
+      if(assertion instanceof SAMLAttributeAssertion) {
+        result = ((SAMLAttributeAssertion) assertion).getResourceId();
+      }
+      else if(assertion instanceof SAMLAssertion) {
+        if(result == null || result.length() == 0) {
+          result = ((SAMLAssertion) assertion).getAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id");
+        }
+      }
+    }
+    
+    return result;
   }
 }

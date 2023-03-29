@@ -13,8 +13,8 @@ import org.dew.xds.XDS;
 public 
 class RegistryResponse implements IElement, Serializable
 {
-  private static final long serialVersionUID = 647012184971709719L;
-
+  private static final long serialVersionUID = -146602987412589521L;
+  
   protected String status;
   protected List<RegistryError> registryErrorList = new ArrayList<RegistryError>();
   
@@ -117,7 +117,7 @@ class RegistryResponse implements IElement, Serializable
     }
     return false;
   }
-
+  
   public boolean isFailure() {
     if(status != null) {
       return status.endsWith("Failure") || status.endsWith("failure");
@@ -132,11 +132,11 @@ class RegistryResponse implements IElement, Serializable
     if(result == null) return "";
     return result;
   }
-
+  
   public String getTagName() {
     return "RegistryResponse";
   }
-
+  
   public String getAttribute(String name) {
     if(name == null) return null;
     if(name.equals("status")) {
@@ -144,14 +144,14 @@ class RegistryResponse implements IElement, Serializable
     }
     return null;
   }
-
+  
   public void setAttribute(String name, String value) {
     if(name == null) return;
     if(name.equals("status")) {
       this.status = value;
-    }  
+    }
   }
-
+  
   public String toXML(String namespace) {
     String sNs = null;
     String sDe = null;
@@ -159,12 +159,10 @@ class RegistryResponse implements IElement, Serializable
       sNs = "rs:";
       sDe = "xmlns:rs=\"urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0\"";
     }
-    else
-    if(namespace.length() == 0) {
+    else if(namespace.length() == 0) {
       sNs = "";
     }
-    else
-    if(namespace.endsWith(":")) {
+    else if(namespace.endsWith(":")) {
       sNs = namespace;
     }
     else {
@@ -199,9 +197,9 @@ class RegistryResponse implements IElement, Serializable
       sb.append("</" + sNs + "RegistryErrorList>");
     }
     sb.append("</" + sNs + getTagName() + ">");
-    return sb.toString();    
+    return sb.toString();
   }
-
+  
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
     mapResult.put("tagName", getTagName());

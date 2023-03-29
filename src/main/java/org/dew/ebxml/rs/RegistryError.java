@@ -13,8 +13,8 @@ import org.dew.xds.XDS;
 public 
 class RegistryError implements IElement, Serializable
 {
-  private static final long serialVersionUID = -1166029158350233700L;
-  
+  private static final long serialVersionUID = 8590244590214472821L;
+
   protected String codeContext;
   protected String errorCode;
   protected String severity;
@@ -86,7 +86,7 @@ class RegistryError implements IElement, Serializable
 
   public void setSeverity(String severity) {
     if(severity == null || severity.length() == 0) {
-      this.severity = XDS.ERR_SEVERITY_ERROR;   
+      this.severity = XDS.ERR_SEVERITY_ERROR;    
     }
     else if(severity.length() < 25) {
       if(severity.endsWith("Warning") || severity.endsWith("warning")) {

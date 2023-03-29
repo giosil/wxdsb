@@ -16,7 +16,9 @@ import org.dew.xds.XDS;
 public 
 class AdhocQuery extends RegistryObject 
 {
-  private static final long serialVersionUID = 8340126571308426527L;
+  private static final long serialVersionUID = 702561134528023178L;
+  
+  protected List<String> patientIdAlt;
   
   public AdhocQuery()
   {
@@ -78,6 +80,14 @@ class AdhocQuery extends RegistryObject
     else {
       addSlot(new Slot("$XDSDocumentEntryPatientId", value + "^^^&" + codingScheme + "&ISO"));
     }
+  }
+  
+  public List<String> getPatientIdAlt() {
+    return patientIdAlt;
+  }
+  
+  public void setPatientIdAlt(List<String> value) {
+    this.patientIdAlt = value;
   }
   
   public Date getCreationTime() {

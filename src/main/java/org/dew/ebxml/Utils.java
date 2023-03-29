@@ -10,9 +10,11 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.dew.xds.XDS;
 import org.dew.xds.util.Base64Coder;
@@ -49,7 +51,11 @@ class Utils
   Identifiable createRegistryObject(Map<String, Object> map) 
   {
     if(map == null || map.isEmpty()) return null;
-    String sTagName = (String) map.get("tagName");
+    
+    Object oTagName = map.get("tagName");
+    if(oTagName == null) return null;
+    
+    String sTagName = oTagName.toString();
     if("Association".equals(sTagName) || check(map, "associationType", "sourceObject", "targetObject")) {
       return new Association(map);
     }
@@ -75,6 +81,116 @@ class Utils
       return new Identifiable(map);
     }
     return null;
+  }
+  
+  public static
+  List<Slot> toListOfSlot(Map<String, Object> attributes) 
+  {
+    if(attributes == null || attributes.isEmpty()) {
+      return new ArrayList<Slot>();
+    }
+    
+    List<Slot> listResult = new ArrayList<Slot>();
+    
+    Iterator<Map.Entry<String, Object>> iterator = attributes.entrySet().iterator();
+    while(iterator.hasNext()) {
+      Map.Entry<String, Object> entry = iterator.next();
+      
+      String slotName  = entry.getKey();
+      Object slotValue = entry.getValue();
+      boolean hidden   = false;
+      if(slotName.endsWith("_")) {
+        slotName = slotName.substring(0, slotName.length()-1);
+        hidden = true;
+      }
+      
+      listResult.add(new Slot(slotName, slotValue, hidden));
+    }
+    
+    return listResult;
+  }
+  
+  public static
+  List<Slot> toListOfSlot(Map<String, Object> attributes, List<String> include) 
+  {
+    if(attributes == null || attributes.isEmpty()) {
+      return new ArrayList<Slot>();
+    }
+    if(include == null || include.size() == 0) {
+      return new ArrayList<Slot>();
+    }
+    
+    List<Slot> listResult = new ArrayList<Slot>();
+    
+    Set<String> names = new HashSet<>();
+    for(int i = 0; i < include.size(); i++) {
+      String includeName = include.get(i);
+      
+      if(includeName == null || includeName.length() == 0 || includeName.equals("*")) {
+        // Include all
+        return toListOfSlot(attributes);
+      }
+      
+      int check = 0; // equals
+      if(includeName.startsWith("*") && includeName.endsWith("*")) {
+        check = 1; // contains
+        includeName = includeName.substring(1, includeName.length()-1);
+      }
+      else if(includeName.startsWith("*")) {
+        check = 2; // endsWith (opposite of startsWith)
+        includeName = includeName.substring(1, includeName.length());
+      }
+      else if(includeName.endsWith("*")) {
+        check = 3; // startsWith (opposite of endsWith)
+        includeName = includeName.substring(0, includeName.length()-1);
+      }
+      
+      Iterator<String> iterator = attributes.keySet().iterator();
+      while(iterator.hasNext()) {
+        String slotName = iterator.next();
+        boolean hidden = false;
+        if(slotName.endsWith("_")) {
+          slotName = slotName.substring(0, slotName.length()-1);
+          hidden = true;
+        }
+        
+        switch (check) {
+        case 0: // equals
+          if(slotName.equals(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              names.add(slotName);
+            }
+          }
+          break;
+        case 1: // contains
+          if(slotName.contains(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              names.add(slotName);
+            }
+          }
+          break;
+        case 2: // endsWith (opposite of startsWith)
+          if(slotName.endsWith(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              names.add(slotName);
+            }
+          }
+          break;
+        case 3: // startsWith (opposite of endsWith)
+          if(slotName.startsWith(includeName)) {
+            if(!names.contains(slotName)) {
+              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              names.add(slotName);
+            }
+          }
+          break;
+        }
+      }
+    }
+    return listResult;
   }
   
   public static 
@@ -453,7 +569,41 @@ class Utils
       }
       return result;
     }
-    return stringToList(object.toString());
+    String s = toString(object, null);
+    if(s == null) return null;
+    return stringToList(s);
+  }
+  
+  public static 
+  List<String> toListOfString(Object object, boolean parseString) 
+  {
+    if(object == null) return null;
+    if(object instanceof Collection) {
+      Collection<?> collection = (Collection<?>) object;
+      List<String> result = new ArrayList<String>(collection.size());
+      Iterator<?> iterator = collection.iterator();
+      while(iterator.hasNext()) {
+        result.add(toString(iterator.next(), ""));
+      }
+      return result;
+    }
+    if(object.getClass().isArray()) {
+      int length = Array.getLength(object);
+      List<String> result = new ArrayList<String>(length);
+      for(int i = 0; i < length; i++) {
+        Object item = Array.get(object, i);
+        result.add(toString(item, ""));
+      }
+      return result;
+    }
+    String s = toString(object, null);
+    if(s == null) return null;
+    if(parseString) {
+      return stringToList(s);
+    }
+    List<String> listResult = new ArrayList<String>(1);
+    listResult.add(s);
+    return listResult;
   }
   
   public static 
@@ -743,6 +893,22 @@ class Utils
     return "YySsTt1Jj".indexOf(c0) >= 0;
   }
   
+  public static
+  Boolean toBooleanObj(Object object, Boolean oDefault) 
+  {
+    if(object == null) return oDefault;
+    if(object instanceof Boolean) {
+      return ((Boolean) object).booleanValue();
+    }
+    if(object instanceof Number) {
+      return ((Number) object).intValue() != 0 ? Boolean.TRUE : Boolean.FALSE;
+    }
+    String sValue = object.toString();
+    if(sValue.length() == 0) return oDefault;
+    char c0 = sValue.charAt(0);
+    return "YySsTt1Jj".indexOf(c0) >= 0 ? Boolean.TRUE : Boolean.FALSE;
+  }
+  
   public static 
   Date toDate(Object object) 
   {
@@ -821,7 +987,7 @@ class Utils
     Calendar cal = stringToCalendar(object.toString());
     if(cal == null) return toSQLTimestamp(oDefault, null);
     return new java.sql.Timestamp(cal.getTimeInMillis());
-  } 
+  }  
   
   public static 
   int toInt(Object object) 

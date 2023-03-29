@@ -175,7 +175,8 @@ class XDSDocumentResponse implements IElement, Serializable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else if(!namespace.endsWith(":")) {
+    else 
+    if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(500);
@@ -209,11 +210,11 @@ class XDSDocumentResponse implements IElement, Serializable
   
   public Map<String, Object> toMap() {
     Map<String, Object> mapResult = new HashMap<String, Object>();
-    mapResult.put("tagName",            getTagName());
-    mapResult.put("homeCommunityId",    homeCommunityId);
-    mapResult.put("repositoryUniqueId", repositoryUniqueId);
-    mapResult.put("documentUniqueId",   documentUniqueId);
-    mapResult.put("mimeType",           mimeType);
+    mapResult.put("tagName",              getTagName());
+    mapResult.put("homeCommunityId",      homeCommunityId);
+    mapResult.put("repositoryUniqueId",   repositoryUniqueId);
+    mapResult.put("documentUniqueId",     documentUniqueId);
+    mapResult.put("mimeType",             mimeType);
     if(registryResponse != null) {
       mapResult.put("registryResponse", registryResponse.toMap());
     }
