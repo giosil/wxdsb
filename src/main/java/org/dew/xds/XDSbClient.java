@@ -43,7 +43,6 @@ class XDSbClient implements IXDSb
   protected String urlITI43;
   protected String urlITI57;
   protected String urlITI62;
-  protected String urlTrIdx;
   
   protected int connTimeout = 90 * 1000;
   protected int readTimeout = 90 * 1000;
@@ -70,7 +69,6 @@ class XDSbClient implements IXDSb
     this.urlITI43 = sURL;
     this.urlITI57 = sURL;
     this.urlITI62 = sURL;
-    this.urlTrIdx = sURL;
   }
   
   public XDSbClient(String sURLITI18, String sURLITI43)
@@ -96,24 +94,13 @@ class XDSbClient implements IXDSb
     this.urlITI62 = sURLITI62;
   }
   
-  public XDSbClient(String sURLITI18, String sURLITI41, String sURLITI42, String sURLITI43, String sURLITI62, String sURLTrIdx)
+  public XDSbClient(String sURLITI18, String sURLITI41, String sURLITI42, String sURLITI43, String sURLITI62, String sURLITI57)
   {
     this.urlITI18 = sURLITI18;
     this.urlITI41 = sURLITI41;
     this.urlITI42 = sURLITI42;
     this.urlITI43 = sURLITI43;
     this.urlITI62 = sURLITI62;
-    this.urlTrIdx = sURLTrIdx;
-  }
-  
-  public XDSbClient(String sURLITI18, String sURLITI41, String sURLITI42, String sURLITI43, String sURLITI62, String sURLTrIdx, String sURLITI57)
-  {
-    this.urlITI18 = sURLITI18;
-    this.urlITI41 = sURLITI41;
-    this.urlITI42 = sURLITI42;
-    this.urlITI43 = sURLITI43;
-    this.urlITI62 = sURLITI62;
-    this.urlTrIdx = sURLTrIdx;
     this.urlITI57 = sURLITI57;
   }
   
@@ -270,14 +257,6 @@ class XDSbClient implements IXDSb
   
   public void setUrlITI62(String urlITI62) {
     this.urlITI62 = urlITI62;
-  }
-  
-  public String getUrlTransferIndex() {
-    return urlTrIdx;
-  }
-  
-  public void setUrlTransferIndex(String urlTransferIndex) {
-    this.urlTrIdx = urlTransferIndex;
   }
   
   public int getConnTimeout() {
@@ -1203,218 +1182,5 @@ class XDSbClient implements IXDSb
       throw new RuntimeException("SOAPFault " + fault);
     }
     return null;
-  }
-  
-  public
-  AdhocQueryResponse registryTransferIndex(AdhocQueryRequest request, AuthAssertion[] arrayOfAssertion)
-  {
-    if(request == null) return new AdhocQueryResponse();
-    
-    if(urlTrIdx == null || urlTrIdx.length() == 0) {
-      throw new RuntimeException("Invalid URL RegistryTransferIndex (urlTrIdx=" + urlTrIdx + ")");
-    }
-    
-    StringBuilder sbRequest = new StringBuilder(800);
-    sbRequest.append("<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">");
-    sbRequest.append("<soap:Header>");
-    sbRequest.append("<To xmlns=\"http://www.w3.org/2005/08/addressing\">" + urlTrIdx + "</To>");
-    sbRequest.append("<Action xmlns=\"http://www.w3.org/2005/08/addressing\">urn:ihe:iti:2007:RegistryStoredQuery</Action>");
-    sbRequest.append("<ReplyTo xmlns=\"http://www.w3.org/2005/08/addressing\">");
-    sbRequest.append("<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>");
-    sbRequest.append("</ReplyTo>");
-    sbRequest.append("<FaultTo xmlns=\"http://www.w3.org/2005/08/addressing\">");
-    sbRequest.append("<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>");
-    sbRequest.append("</FaultTo>");
-    sbRequest.append("<MessageID xmlns=\"http://www.w3.org/2005/08/addressing\">uuid:" + UUID.randomUUID() + "</MessageID>");
-    
-    if(arrayOfAssertion != null && arrayOfAssertion.length > 0) {
-      boolean boSecurityAdded = false;
-      for(int i = 0; i < arrayOfAssertion.length; i++) {
-        AuthAssertion assertion  = arrayOfAssertion[i];
-        if(assertion == null) continue;
-        if(assertion instanceof BasicAssertion) {
-          setBasicAuth((BasicAssertion) assertion);
-        }
-        else {
-          String sXml = assertion.toXML(null);
-          if(sXml != null && sXml.length() > 1) {
-            if(!boSecurityAdded) {
-              boSecurityAdded = true;
-              sbRequest.append("<wsse:Security xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">");
-            }
-            sbRequest.append(sXml);
-          }
-        }
-      }
-      if(boSecurityAdded) {
-        sbRequest.append("</wsse:Security>");
-      }
-    }
-    sbRequest.append("</soap:Header>");
-    sbRequest.append("<soap:Body>");
-    sbRequest.append(request.toXML(null));
-    sbRequest.append("</soap:Body>");
-    sbRequest.append("</soap:Envelope>");
-    
-    SOAPMessage soapResponse = null;
-    byte[] response = null;
-    try {
-      if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
-      
-      if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlTrIdx, sslSocketFactory, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
-      }
-      else {
-        soapResponse = WSUtil.sendRequest(urlTrIdx, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
-      }
-      
-      response = WSUtil.getSOAPPartContent(soapResponse);
-      
-      if(tracerResponse != null) try{ tracerResponse.write(response); tracerResponse.write(CRLF); } catch(Exception ex) {}
-    }
-    catch(Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    
-    List<RegistryError> registryErrorList;
-    String fault;
-    try {
-      XRRContentHandler xrrContentHandler = new XRRContentHandler();
-      xrrContentHandler.load(response);
-      
-      registryErrorList = xrrContentHandler.getRegistryErrorList();
-      request.setRegistryErrorList(registryErrorList);
-      
-      fault = xrrContentHandler.getFault();
-    }
-    catch(Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    if(fault != null && fault.length() > 0) {
-      throw new RuntimeException("SOAPFault " + fault);
-    }
-    
-    RegistryObjectList registryObjectList = null;
-    try {
-      RIMContentHandler rimContentHandler = new RIMContentHandler();
-      rimContentHandler.load(response);
-      registryObjectList = rimContentHandler.getRegistryObjectList();
-    }
-    catch(Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    return new AdhocQueryResponse(registryErrorList, registryObjectList, request);
-  }
-  
-  public
-  XDSDocument[] transferIndex(AdhocQueryRequest request, AuthAssertion[] arrayOfAssertion)
-  {
-    if(request == null) return new XDSDocument[0];
-    
-    if(urlTrIdx == null || urlTrIdx.length() == 0) {
-      throw new RuntimeException("Invalid URL RegistryTransferIndex (urlTrIdx=" + urlTrIdx + ")");
-    }
-    
-    StringBuilder sbRequest = new StringBuilder(800);
-    sbRequest.append("<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">");
-    sbRequest.append("<soap:Header>");
-    sbRequest.append("<To xmlns=\"http://www.w3.org/2005/08/addressing\">" + urlTrIdx + "</To>");
-    sbRequest.append("<Action xmlns=\"http://www.w3.org/2005/08/addressing\">urn:ihe:iti:2007:RegistryStoredQuery</Action>");
-    sbRequest.append("<ReplyTo xmlns=\"http://www.w3.org/2005/08/addressing\">");
-    sbRequest.append("<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>");
-    sbRequest.append("</ReplyTo>");
-    sbRequest.append("<FaultTo xmlns=\"http://www.w3.org/2005/08/addressing\">");
-    sbRequest.append("<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>");
-    sbRequest.append("</FaultTo>");
-    sbRequest.append("<MessageID xmlns=\"http://www.w3.org/2005/08/addressing\">uuid:" + UUID.randomUUID() + "</MessageID>");
-    
-    if(arrayOfAssertion != null && arrayOfAssertion.length > 0) {
-      boolean boSecurityAdded = false;
-      for(int i = 0; i < arrayOfAssertion.length; i++) {
-        AuthAssertion assertion  = arrayOfAssertion[i];
-        if(assertion == null) continue;
-        if(assertion instanceof BasicAssertion) {
-          setBasicAuth((BasicAssertion) assertion);
-        }
-        else {
-          String sXml = assertion.toXML(null);
-          if(sXml != null && sXml.length() > 1) {
-            if(!boSecurityAdded) {
-              boSecurityAdded = true;
-              sbRequest.append("<wsse:Security xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">");
-            }
-            sbRequest.append(sXml);
-          }
-        }
-      }
-      if(boSecurityAdded) {
-        sbRequest.append("</wsse:Security>");
-      }
-    }
-    sbRequest.append("</soap:Header>");
-    sbRequest.append("<soap:Body>");
-    sbRequest.append(request.toXML(null));
-    sbRequest.append("</soap:Body>");
-    sbRequest.append("</soap:Envelope>");
-    
-    SOAPMessage soapResponse = null;
-    byte[] response = null;
-    try {
-      if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
-      
-      if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlTrIdx, sslSocketFactory, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
-      }
-      else {
-        soapResponse = WSUtil.sendRequest(urlTrIdx, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
-      }
-      
-      response = WSUtil.getSOAPPartContent(soapResponse);
-      
-      if(tracerResponse != null) try{ tracerResponse.write(response); tracerResponse.write(CRLF); } catch(Exception ex) {}
-    }
-    catch(Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    
-    List<RegistryError> registryErrorList;
-    String fault;
-    try {
-      XRRContentHandler xrrContentHandler = new XRRContentHandler();
-      xrrContentHandler.load(response);
-      
-      registryErrorList = xrrContentHandler.getRegistryErrorList();
-      request.setRegistryErrorList(registryErrorList);
-      
-      fault = xrrContentHandler.getFault();
-    }
-    catch(Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    if(fault != null && fault.length() > 0) {
-      throw new RuntimeException("SOAPFault " + fault);
-    }
-    
-    List<ExtrinsicObject> listOfExtrinsicObject = null;
-    try {
-      RIMContentHandler rimContentHandler = new RIMContentHandler();
-      rimContentHandler.load(response);
-      RegistryObjectList registryObjectList = rimContentHandler.getRegistryObjectList();
-      if(registryObjectList != null) {
-        listOfExtrinsicObject = registryObjectList.getExtrinsicObjects();
-      }
-    }
-    catch(Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    if(listOfExtrinsicObject == null || listOfExtrinsicObject.size() == 0) {
-      return new XDSDocument[0];
-    }
-    
-    XDSDocument[] result = new XDSDocument[listOfExtrinsicObject.size()];
-    for(int i = 0; i < listOfExtrinsicObject.size(); i++) {
-      result[i] = new XDSDocument(listOfExtrinsicObject.get(i));
-    }
-    return result;
   }
 }

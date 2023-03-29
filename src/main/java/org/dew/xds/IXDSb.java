@@ -26,7 +26,4 @@ interface IXDSb
   
   // ITI-62
   public RegistryResponse    deleteDocumentSet(ObjectRefList objectRefList, AuthAssertion[] arrayOfAssertion);
-  
-  // ITI-18
-  public AdhocQueryResponse  registryTransferIndex(AdhocQueryRequest request, AuthAssertion[] arrayOfAssertion);
 }

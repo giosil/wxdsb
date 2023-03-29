@@ -7,6 +7,7 @@ A programmable server and client IHE-XDSb.
 - `git clone https://github.com/giosil/wxdsb.git` 
 - `mvn clean install` - this will produce `wxdsb.war` in `target` directory
 - `mvn dependency:copy-dependencies` - this will copy jars in `target/dependency` directory
+- `mvn clean install -f pom2.xml` - this install wxdsb as library
 
 ## Create a Docker image
 

@@ -34,9 +34,6 @@ class XDSbTest implements IXDSb
       System.out.println("   request.getPatientId() = " + sPatientId);
       List<String> listTypeCodes = request.getAdhocQuery().getTypeCodes();
       System.out.println("   request.getAdhocQuery().getTypeCodes() = " + listTypeCodes);
-      
-      String sValue = request.getAdhocQuery().getValue("urn:lait:extra:CodiceEscape");
-      System.out.println("   request (urn:lait:extra:CodiceEscape) = " + sValue);
     }
     if(arrayOfAssertion == null) {
       System.out.println("   arrayOfAssertion = null");
@@ -54,7 +51,8 @@ class XDSbTest implements IXDSb
           System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
         }
         else {
-          return new AdhocQueryResponse("Invalid assertion");
+          System.out.println("      NOT signed.");
+          // return new AdhocQueryResponse("Invalid assertion");
         }
       }
     }
@@ -144,7 +142,8 @@ class XDSbTest implements IXDSb
           System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
         }
         else {
-          return new RegistryResponse(false, "Invalid assertion");
+          System.out.println("      NOT signed.");
+          // return new RegistryResponse(false, "Invalid assertion");
         }
       }
     }
@@ -204,7 +203,8 @@ class XDSbTest implements IXDSb
           System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
         }
         else {
-          return new RegistryResponse(false, "Invalid assertion");
+          System.out.println("      NOT signed.");
+          // return new RegistryResponse(false, "Invalid assertion");
         }
       }
     }
@@ -235,7 +235,8 @@ class XDSbTest implements IXDSb
           System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
         }
         else {
-          return new XDSDocumentResponse(new RegistryResponse(false, "Invalid identification assertion"));
+          System.out.println("      NOT signed.");
+          // return new XDSDocumentResponse(new RegistryResponse(false, "Invalid identification assertion"));
         }
       }
     }
@@ -243,13 +244,7 @@ class XDSbTest implements IXDSb
     String patientId  = "RSSMRA75C03F839K";
     String documentId = request != null ? request.getDocumentUniqueId() : "";
     
-    String dummyFile = "dummy_doc.xml";
-    if(documentId != null && documentId.indexOf("RECUP") >= 0) {
-      patientId = "XXXRBY87R44Z222Q";
-      dummyFile = "recup_doc.xml";
-    }
-    
-    String dummyDoc   = AuthUtil.loadTextFile(dummyFile);
+    String dummyDoc   = AuthUtil.loadTextFile("dummy_doc.xml");
     if(dummyDoc == null || dummyDoc.length() == 0) {
       dummyDoc = "";
     }
@@ -306,6 +301,9 @@ class XDSbTest implements IXDSb
         if(arrayOfAssertion[i].isSigned()) {
           System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
         }
+        else {
+          System.out.println("      NOT signed.");
+        }
       }
     }
     
@@ -349,7 +347,8 @@ class XDSbTest implements IXDSb
           System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
         }
         else {
-          return new RegistryResponse(false, "Invalid assertion");
+          System.out.println("      NOT signed.");
+          // return new RegistryResponse(false, "Invalid assertion");
         }
       }
     }
@@ -357,70 +356,6 @@ class XDSbTest implements IXDSb
     System.out.println("deleteDocumentSet -> Success");
     
     return new RegistryResponse(true);
-  }
-  
-  public 
-  AdhocQueryResponse registryTransferIndex(AdhocQueryRequest request, AuthAssertion[] arrayOfAssertion) 
-  {
-    System.out.println("registryTransferIndex");
-    String sPatientId = null;
-    System.out.println("   request = " + request);
-    if(request != null) {
-      System.out.println("   request.getServicePath() = " + request.getServicePath());
-      sPatientId = request.getAdhocQuery().getPatientId();
-      System.out.println("   request.getPatientId() = " + sPatientId);
-      List<String> listTypeCodes = request.getAdhocQuery().getTypeCodes();
-      System.out.println("   request.getAdhocQuery().getTypeCodes() = " + listTypeCodes);
-      
-      String sValue = request.getAdhocQuery().getValue("urn:lait:extra:CodiceEscape");
-      System.out.println("   request (urn:lait:extra:CodiceEscape) = " + sValue);
-    }
-    if(arrayOfAssertion == null) {
-      System.out.println("   arrayOfAssertion = null");
-      return new AdhocQueryResponse("Missing identification assertion");
-    }
-    else
-    if(arrayOfAssertion.length == 0) {
-      System.out.println("   arrayOfAssertion has 0 items");
-      return new AdhocQueryResponse("Missing identification assertion");
-    }
-    else {
-      for(int i = 0; i < arrayOfAssertion.length; i++) {
-        System.out.println("   " + i + ") assertion = " + arrayOfAssertion[i]);
-        if(arrayOfAssertion[i].isSigned()) {
-          System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
-        }
-        else {
-          return new AdhocQueryResponse("Invalid assertion");
-        }
-      }
-    }
-    
-    String patientId = null;
-    if(sPatientId != null && sPatientId.length() > 0) {
-      patientId = sPatientId;
-    }
-    else {
-      patientId = "RSSMRA75C03F839K";
-    }
-    
-    List<XDSDocument> result = null;
-    
-    if("RSSMRA75C03F839K".equals(patientId)) {
-      result = new ArrayList<XDSDocument>();
-      result.add(_buildDummyDocument(patientId, null));
-    }
-    else {
-      result = _register.get(patientId);
-    }
-    
-    int size = result != null ? result.size() : 0;
-    XDSDocument[] arrayOfXDSDocument = new XDSDocument[size];
-    for(int i = 0; i < size; i++) {
-      arrayOfXDSDocument[i] = result.get(i);
-    }
-    
-    return new AdhocQueryResponse(arrayOfXDSDocument, request);
   }
   
   protected XDSDocument _readMetadata(String documentId) {
@@ -457,22 +392,14 @@ class XDSbTest implements IXDSb
     
     XDSDocument xdsDocument = new XDSDocument();
     xdsDocument.setRegistryObjectId("urn:uuid:803ead41-b925-4d24-8eb5-ab9d8068aa44");
-    if(patientId != null && patientId.startsWith("X")) {
-      xdsDocument.setUniqueId("2.16.840.1.113883.2.9.2.120.4.4^RECUPD201836000136");
-      xdsDocument.setTypeCode("86530-3^" + OID.TYPE_CODES);
-      xdsDocument.setHash("8KnnlGiuaz0lvBboBRzMfZ1ZTPk=");
-      xdsDocument.setSize(4371);
-    }
-    else {
-      xdsDocument.setUniqueId("2.16.840.1.113883.2.9.2.120.4.4^0000000001");
-      xdsDocument.setTypeCode("60591-5^" + OID.TYPE_CODES);
-      xdsDocument.setHash("ZuFYdA+BgNxQyzdwXOdi8qKqb5o=");
-      xdsDocument.setSize(12018);
-    }
+    xdsDocument.setUniqueId("2.16.840.1.113883.2.9.2.120.4.4^0000000001");
+    xdsDocument.setTypeCode("47045-0^" + OID.TYPE_CODES);
+    xdsDocument.setHash("ZuFYdA+BgNxQyzdwXOdi8qKqb5o=");
+    xdsDocument.setSize(2944);
     if(documentId != null && documentId.length() > 0) {
       xdsDocument.setUniqueId(documentId);
     }
-    xdsDocument.setRepositoryUniqueId("2.16.840.1.113883.2.9.2.120.4.5.120101");
+    xdsDocument.setRepositoryUniqueId("2.16.840.1.113883.2.9.2.180.4.5.1");
     xdsDocument.setCreationTime(new Date());
     xdsDocument.setLanguageCode("it-IT");
     xdsDocument.setClassCode("REF^" + OID.CLASS_CODES);

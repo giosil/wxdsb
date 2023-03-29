@@ -77,7 +77,7 @@
       <version>1.49</version>
     </dependency>
   </dependencies>
-  
+
   <build>
     <finalName>wxdsb</finalName>
     <plugins>
@@ -87,6 +87,39 @@
         <configuration>
           <packagingExcludes>.svn,.svn/*.*</packagingExcludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.2</version>
+        <executions>
+          <execution>
+            <id>make-a-jar</id>
+            <phase>compile</phase>
+            <configuration>
+              <finalName>${project.artifactId}-${project.version}</finalName>
+            </configuration>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <configuration>
+              <finalName>${project.artifactId}-${project.version}</finalName>
+            </configuration> 
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
