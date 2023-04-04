@@ -1650,6 +1650,9 @@ class XDSDocument implements Serializable
       while(iterator.hasNext()) {
         Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
         String sKey = entry.getKey();
+        // hidden 
+        if(sKey.endsWith("_")) continue;
+        // standard 
         if(SLOT_NAMES.contains(sKey)) continue;
         Object oVal = entry.getValue();
         result.addSlot(new Slot(sKey, oVal));
