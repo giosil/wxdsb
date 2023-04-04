@@ -24,7 +24,7 @@ import org.dew.ebxml.Slot;
 public
 class XDSDocument implements Serializable
 {
-  private static final long serialVersionUID = -1101827662822589814L;
+  private static final long serialVersionUID = -2532291016686379265L;
   
   protected static final List<String> SLOT_NAMES = Arrays.asList(new String[]{"creationTime", "hash", "languageCode", "homeCommunityId", "repositoryUniqueId", "serviceStartTime", "serviceStopTime", "size", "sourcePatientId", "sourcePatientInfo", "legalAuthenticator", "versionNumber", "originalConfidenzialityCode"});
   
@@ -880,6 +880,23 @@ class XDSDocument implements Serializable
     }
   }
   
+  public boolean removeSlot(String slotName) {
+    if(slotName  == null || slotName.length() == 0) return false;
+    boolean r0 = false;
+    boolean r1 = false;
+    boolean r2 = false;
+    if(registryObject != null) {
+      r0 = registryObject.removeSlot(slotName);
+    }
+    if(attributes != null) {
+      Object o1 = attributes.remove(slotName);
+      Object o2 = attributes.remove(slotName + "_");
+      r1 = o1 != null;
+      r2 = o2 != null;
+    }
+    return r0 || r1 || r2;
+  }
+  
   public String getHome() {
     if(home == null || home.length() == 0) {
       if(registryObject != null) {
@@ -1368,6 +1385,12 @@ class XDSDocument implements Serializable
   
   public void setDocumentSigned(Boolean documentSigned) {
     this.documentSigned = documentSigned;
+    if(documentSigned != null) {
+      this.addSlot(new Slot("urn:ita:2022:documentSigned", documentSigned, "Documento firmato", "Documento non firmato"));
+    }
+    else {
+      this.removeSlot("urn:ita:2022:documentSigned");
+    }
   }
   
   public String getRepositoryType() {
@@ -1376,6 +1399,12 @@ class XDSDocument implements Serializable
   
   public void setRepositoryType(String repositoryType) {
     this.repositoryType = repositoryType;
+    if(repositoryType != null && repositoryType.length() > 0) {
+      this.addSlot(new Slot("urn:ita:2017:repository-type", repositoryType));
+    }
+    else {
+      this.removeSlot("urn:ita:2017:repository-type");
+    }
   }
   
   public String getDescriptionContent() {
@@ -1384,6 +1413,12 @@ class XDSDocument implements Serializable
   
   public void setDescriptionContent(String descriptionContent) {
     this.descriptionContent = descriptionContent;
+    if(descriptionContent != null && descriptionContent.length() > 0) {
+      this.addSlot(new Slot("urn:ita:2022:description", descriptionContent));
+    }
+    else {
+      this.removeSlot("urn:ita:2022:description");
+    }
   }
   
   public String getAdministrativeRequest() {
@@ -1392,6 +1427,12 @@ class XDSDocument implements Serializable
   
   public void setAdministrativeRequest(String administrativeRequest) {
     this.administrativeRequest = administrativeRequest;
+    if(administrativeRequest != null && administrativeRequest.length() > 0) {
+      this.addSlot(new Slot("urn:ita:2022:administrativeRequest", administrativeRequest));
+    }
+    else {
+      this.removeSlot("urn:ita:2022:administrativeRequest");
+    }
   }
   
   public Map<String, Object> getAttributes() {

@@ -120,6 +120,23 @@ class Identifiable implements IElement, Serializable
     slots.remove(slot);
   }
   
+  public boolean removeSlot(String slotName) {
+    if(slotName  == null || slotName.length() == 0) return false;
+    if(slots == null) return false;
+    int index = -1;
+    for(int i = 0; i < slots.size(); i++) {
+      Slot slot_i = slots.get(i);
+      String name = slot_i.getName();
+      if(slotName.equals(name)) {
+        index = i;
+        break;
+      }
+    }
+    if(index < 0) return false;
+    slots.remove(index);
+    return true;
+  }
+  
   public String[] getSlotNames() {
     if(slots == null || slots.size() == 0) return new String[0];
     String[] result = new String[slots.size()];
