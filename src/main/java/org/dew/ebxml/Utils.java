@@ -147,7 +147,8 @@ class Utils
       
       Iterator<String> iterator = attributes.keySet().iterator();
       while(iterator.hasNext()) {
-        String slotName = iterator.next();
+        String attributeKey = iterator.next();
+        String slotName = attributeKey;
         boolean hidden = false;
         if(slotName.endsWith("_")) {
           slotName = slotName.substring(0, slotName.length()-1);
@@ -158,7 +159,7 @@ class Utils
         case 0: // equals
           if(slotName.equals(includeName)) {
             if(!names.contains(slotName)) {
-              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              listResult.add(new Slot(slotName, attributes.get(attributeKey), hidden));
               names.add(slotName);
             }
           }
@@ -166,7 +167,7 @@ class Utils
         case 1: // contains
           if(slotName.contains(includeName)) {
             if(!names.contains(slotName)) {
-              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              listResult.add(new Slot(slotName, attributes.get(attributeKey), hidden));
               names.add(slotName);
             }
           }
@@ -174,7 +175,7 @@ class Utils
         case 2: // endsWith (opposite of startsWith)
           if(slotName.endsWith(includeName)) {
             if(!names.contains(slotName)) {
-              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              listResult.add(new Slot(slotName, attributes.get(attributeKey), hidden));
               names.add(slotName);
             }
           }
@@ -182,7 +183,7 @@ class Utils
         case 3: // startsWith (opposite of endsWith)
           if(slotName.startsWith(includeName)) {
             if(!names.contains(slotName)) {
-              listResult.add(new Slot(slotName, attributes.get(slotName), hidden));
+              listResult.add(new Slot(slotName, attributes.get(attributeKey), hidden));
               names.add(slotName);
             }
           }
