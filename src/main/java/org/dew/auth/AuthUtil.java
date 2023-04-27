@@ -284,12 +284,19 @@ class AuthUtil
   }
   
   public static
-  SSLSocketFactory getSSLSocketFactoryMutualAuth(String sFile, String sPassword)
+  SSLSocketFactory getSSLSocketFactoryMutualAuth(String keystoreFile, String password)
+    throws Exception
+  {
+    return getSSLSocketFactoryMutualAuth(keystoreFile, password, password);
+  }
+  
+  public static
+  SSLSocketFactory getSSLSocketFactoryMutualAuth(String keystoreFile, String password, String keyPassword)
     throws Exception
   {
     InputStream is = null;
     // Si cerca prima nella cartella di configurazione
-    File file = new File(CFG_FOLDER + File.separator + sFile);
+    File file = new File(CFG_FOLDER + File.separator + keystoreFile);
     if(file.exists()) {
       is = new FileInputStream(file);
     }
@@ -297,14 +304,14 @@ class AuthUtil
       URL url = null;
       try {
         // Poi si cerca la versione ext
-        url = Thread.currentThread().getContextClassLoader().getResource("ext_" + sFile);
+        url = Thread.currentThread().getContextClassLoader().getResource("ext_" + keystoreFile);
       }
       catch(Exception ex) {
       }
       if(url == null) {
         try {
           // Infine si cerca all'interno del pacchetto
-          url = Thread.currentThread().getContextClassLoader().getResource(sFile);
+          url = Thread.currentThread().getContextClassLoader().getResource(keystoreFile);
         }
         catch(Exception ex) {
         }
@@ -320,17 +327,17 @@ class AuthUtil
     Security.addProvider(new BouncyCastleProvider());
     
     KeyStore keystore = null;
-    if(sFile.endsWith(".p12")) {
+    if(keystoreFile.endsWith(".p12")) {
       keystore = KeyStore.getInstance("PKCS12", "BC");
     }
     else {
       keystore = KeyStore.getInstance("JKS");
     }
     
-    keystore.load(is, sPassword != null ? sPassword.toCharArray() : new char[0]);
+    keystore.load(is, password != null ? password.toCharArray() : new char[0]);
     
     KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
-    keyManagerFactory.init(keystore, sPassword != null ? sPassword.toCharArray() : new char[0]);
+    keyManagerFactory.init(keystore, keyPassword != null ? keyPassword.toCharArray() : new char[0]);
     KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
     
     SSLContext sslContext = SSLContext.getInstance("TLS");
