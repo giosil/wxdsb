@@ -75,9 +75,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("U")) return "Unrestricted";
     if(code.equals("L")) return "Low";
     if(code.equals("M")) return "Moderate";
-    if(code.equals("N")) return "Normal";
+    if(code.equals("N")) return "Normal";           // *
     if(code.equals("R")) return "Restricted";
-    if(code.equals("V")) return "Very Restricted";
+    if(code.equals("V")) return "Very Restricted";  // *
     return defaultValue;
   }
   
@@ -156,6 +156,7 @@ class AffinityDomainIT implements IAffinityDomain
       if(code.equals("Territorio"))  return "Territorio";
       if(code.equals("SistemaTS"))   return "SistemaTS";
       if(code.equals("Cittadino"))   return "Cittadino";
+      if(code.equals("MdsPN-DGC"))   return "MdsPN-DGC";
     }
     else {
       if(code.startsWith("O")) return "Ospedale";
@@ -163,6 +164,7 @@ class AffinityDomainIT implements IAffinityDomain
       if(code.startsWith("T")) return "Territorio";
       if(code.startsWith("S")) return "SistemaTS";
       if(code.startsWith("C")) return "Cittadino";
+      if(code.startsWith("M")) return "MdsPN-DGC";
     }
     return defaultValue;
   }
@@ -179,7 +181,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC007")) return "Cardiochirurgia";
     if(code.equals("AD_PSC008")) return "Cardiologia";
     if(code.equals("AD_PSC009")) return "Chirurgia Generale";
-    if(code.equals("AD_PSC010")) return "Chirurgia Maxilofacciale";
+    if(code.equals("AD_PSC010")) return "Chirurgia Maxillo-Facciale";
     if(code.equals("AD_PSC011")) return "Chirurgia Pediatrica";
     if(code.equals("AD_PSC012")) return "Chirurgia Plastica";
     if(code.equals("AD_PSC013")) return "Chirurgia Toracica";
@@ -190,14 +192,15 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC020")) return "Immunologia";
     if(code.equals("AD_PSC021")) return "Geriatria";
     if(code.equals("AD_PSC024")) return "Malattie Infettive e Tropicali";
-    if(code.equals("AD_PSC025")) return "Medicina del Lavoro";
+    if(code.equals("AD_PSC025")) return "Medicina del Lavoro ";
     if(code.equals("AD_PSC026")) return "Medicina Generale";
+    if(code.equals("AD_PSC027")) return "Medicina Legale ";
     if(code.equals("AD_PSC028")) return "Unita Spinale";
     if(code.equals("AD_PSC029")) return "Nefrologia";
     if(code.equals("AD_PSC030")) return "Neurochirurgia";
     if(code.equals("AD_PSC031")) return "Nido";
     if(code.equals("AD_PSC032")) return "Neurologia";
-    if(code.equals("AD_PSC033")) return "Neuropsichiatria Ingantile";
+    if(code.equals("AD_PSC033")) return "Neuropsichiatria Infantile";
     if(code.equals("AD_PSC034")) return "Oculistica";
     if(code.equals("AD_PSC035")) return "Odontoiatria e Stomatologia";
     if(code.equals("AD_PSC036")) return "Ortopedia e Traumatologia";
@@ -211,7 +214,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC047")) return "Grandi Ustionati";
     if(code.equals("AD_PSC048")) return "Nefrologia (Abilitazione Trapianto Rene)";
     if(code.equals("AD_PSC049")) return "Terapia Intensiva";
-    if(code.equals("AD_PSC050")) return "Unita Coronarica";
+    if(code.equals("AD_PSC050")) return "Unita' Coronarica";
     if(code.equals("AD_PSC051")) return "Astanteria";
     if(code.equals("AD_PSC052")) return "Dermatologia";
     if(code.equals("AD_PSC054")) return "Emodialisi";
@@ -225,7 +228,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC064")) return "Oncologia";
     if(code.equals("AD_PSC065")) return "Oncoematologia Pediatrica";
     if(code.equals("AD_PSC066")) return "Oncoematologia";
-    if(code.equals("AD_PSC068")) return "Pneumologia, Fisiopatologia Respiratoria, Tosiologia";
+    if(code.equals("AD_PSC068")) return "Pneumologia, Fisiopatologia Respiratoria, Tisiologia";
     if(code.equals("AD_PSC069")) return "Radiologia";
     if(code.equals("AD_PSC070")) return "Radioterapia";
     if(code.equals("AD_PSC071")) return "Reumatologia";
@@ -254,6 +257,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC130")) return "Medicina di Base";
     if(code.equals("AD_PSC131")) return "Assistenza Territoriale";
     if(code.equals("AD_PSC199")) return "Raccolta Consenso";
+    if(code.equals("AD_PSC999")) return "Altro";
     return defaultValue;
   }
   
@@ -261,11 +265,46 @@ class AffinityDomainIT implements IAffinityDomain
   public String getContentTypeDisplayName(String code, String defaultValue) {
     if(defaultValue == null) defaultValue = "";
     if(code == null || code.length() == 0) return defaultValue;
-    if(code.equalsIgnoreCase("PHR")) return "Personal Health Record Update";
-    if(code.equalsIgnoreCase("CON")) return "Consulto";
-    if(code.equalsIgnoreCase("DIS")) return "Discharge";
-    if(code.equalsIgnoreCase("ERP")) return "Erogazione Prestazione Prenotata";
+    if(code.equalsIgnoreCase("PHR"))       return "Personal Health Record Update";
+    if(code.equalsIgnoreCase("CON"))       return "Consulto";
+    if(code.equalsIgnoreCase("DIS"))       return "Discharge";
+    if(code.equalsIgnoreCase("ERP"))       return "Erogazione Prestazione Prenotata";
     if(code.equalsIgnoreCase("SistemaTS")) return "Documenti Sistema TS";
+    if(code.equalsIgnoreCase("INI"))       return "Documenti INI";
+    if(code.equalsIgnoreCase("PN-DGC"))    return "Documenti PN-DGC";
+    if(code.equalsIgnoreCase("OBS"))       return "Documento stato di salute";
+    return defaultValue;
+  }
+  
+  @Override
+  public String getEventDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0)  return defaultValue;
+    if(code.equalsIgnoreCase("P99"))        return "Oscuramento del documento";
+    if(code.equalsIgnoreCase("P97"))        return "Oscuramento al genitore";
+    if(code.equalsIgnoreCase("P98"))        return "Oscuramento all'assistito";
+    if(code.equalsIgnoreCase("J07BX03"))    return "Vaccino per Covid-19";
+    if(code.equalsIgnoreCase("LP418019-8")) return "Tampone antigenico per Covid-19";
+    if(code.equalsIgnoreCase("LP417541-2")) return "Tampone molecolare per Covid-19";
+    if(code.equalsIgnoreCase("96118-5"))    return "Test Sierologico qualitativo";
+    if(code.equalsIgnoreCase("94503-0"))    return "Test Sierologico quantitativo";
+    if(code.equalsIgnoreCase("pay"))        return "Prescrizione farmaceutica non a carico SSN";
+    if(code.equalsIgnoreCase("PUBLICPOL"))  return "Prescrizione farmaceutica SSN";
+    if(code.equalsIgnoreCase("LP267463-0")) return "Reddito";
+    if(code.equalsIgnoreCase("LP199190-2")) return "Patologia";
+    if(code.equalsIgnoreCase("90768-3"))    return "Analisi sangue donatore";
+    return defaultValue;
+  }
+  
+  @Override
+  public String getAdministrativeRequestDisplayName(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0)  return defaultValue;
+    if(code.equalsIgnoreCase("SSN"))        return "Regime SSN";
+    if(code.equalsIgnoreCase("INPATIENT"))  return "Regime di ricovero";
+    if(code.equalsIgnoreCase("NOSSN"))      return "Regime privato";
+    if(code.equalsIgnoreCase("SSR"))        return "Regime SSR";
+    if(code.equalsIgnoreCase("DONOR"))      return "Regime donatori";
     return defaultValue;
   }
   

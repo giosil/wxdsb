@@ -17,6 +17,10 @@ interface IAffinityDomain
   
   public String getContentTypeDisplayName(String code, String defaultValue);
   
+  public String getEventDisplayName(String code, String defaultValue);
+  
+  public String getAdministrativeRequestDisplayName(String code, String defaultValue);
+  
   public String getClassByType(String type, String defaultValue);
   
   public String getPracticeByType(String type, String defaultValue);
