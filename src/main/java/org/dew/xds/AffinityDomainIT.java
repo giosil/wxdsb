@@ -14,12 +14,13 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sROOT_OID_ICD9_DIAGNOSIS    = "2.16.840.1.113883.6.103";
   public static final String sROOT_OID_ICD9_PROCEDURES   = "2.16.840.1.113883.6.104";
   
+  // Affinity Domain INI
   public static final String sDOC_PRESCRIZIONE_FARM      = "57833-6";
-  public static final String sDOC_PRESCRIZIONE_FARM_OBS  = "29305-0"; // Obsoleto
   public static final String sDOC_PROFILO_SANITARIO_SIN  = "60591-5";
   public static final String sDOC_REFERTO_LABORATORIO    = "11502-2";
   public static final String sDOC_PRESCRIZIONE_APPAR_MED = "57829-4";
   public static final String sDOC_LETTERA_DIM_OSP        = "34105-7";
+  public static final String sDOC_LETTERA_DIM_NON_OSP    = "18842-5";
   public static final String sDOC_VERBALE_PRONTO_SOCC    = "59258-4";
   public static final String sDOC_REFERTO_RADIOLOGIA     = "68604-8";
   public static final String sDOC_REFERTO_ANATOMIA_PAT   = "11526-1";
@@ -28,23 +29,28 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_PRESCRIZIONE_SPEC      = "57832-8";
   public static final String sDOC_EROGAZIONE_FARM        = "29304-3";
   public static final String sDOC_REFERTO_SPECIALISTICO  = "11488-4";
-  public static final String sDOC_ESENZIONE_DA_REDDITO   = "57827-8";
-  public static final String sDOC_REFERTO_AMBULATORIALE  = "83798-9";
+  public static final String sDOC_ESENZIONE              = "57827-8";
   public static final String sDOC_EROGAZIONE_SPEC        = "81223-0";
-  public static final String sDOC_PROMEMORIA_PREN_CUP    = "86530-3";
-  public static final String sDOC_ANNULLAMENTO           = "11506-3";
-  public static final String sDOC_PDTA                   = "60591-6";
-  public static final String sDOC_REFERTO_GENERICO       = "47045-0";
-  public static final String sDOC_EMERGENCY_DATA_SET     = "60592-3";
-  public static final String sDOC_RICHIESTA_DI_RICOVERO  = "57830-2";
-  public static final String sDOC_RICHIESTA_TRASPORTO    = "57834-4";
-  public static final String sDOC_VACCINAZIONI           = "11369-6";
-  public static final String sDOC_CERTIFICATO_VACCINALE  = "82593-5";
-  public static final String sDOC_SCHEDA_VACCINALE       = "87273-9";
+  public static final String sDOC_PIANO_TERAPEUTICO      = "18776-5";
   public static final String sDOC_DIGITAL_GREEN_CERT     = "97500-3";
+  public static final String sDOC_SCHEDA_VACCINALE       = "87273-9";
+  public static final String sDOC_CERTIFICATO_VACCINALE  = "82593-5";
   public static final String sDOC_CERTIFICATO_GUARIGIONE = "97499-8";
   public static final String sDOC_RESOCONTO_SICUREZZA    = "55750-4";
   public static final String sDOC_BILANCIO_DI_SALUTE     = "68814-3";
+  // Documenti aggiunti / gestiti da Regione Lazio
+  public static final String sDOC_PROMEMORIA_PREN_CUP    = "86530-3"; // (28636-9 Obsoleto)
+  public static final String sDOC_ANNULLAMENTO           = "11506-3";
+  public static final String sDOC_PDTA                   = "60591-6";
+  // Altre tipologie di documento non presenti nell'Affinity Domain INI
+  public static final String sDOC_REFERTO_GENERICO       = "47045-0";
+  public static final String sDOC_REFERTO_AMBULATORIALE  = "83798-9"; // Referto specialistico
+  public static final String sDOC_EMERGENCY_DATA_SET     = "60592-3";
+  public static final String sDOC_RICHIESTA_DI_RICOVERO  = "57830-2";
+  public static final String sDOC_RICHIESTA_TRASPORTO    = "57834-4";
+  public static final String sDOC_VACCINAZIONI           = "11369-6"; // Obsoleto
+  // Tipologie "virtuali"
+  public static final String sDOC_MESSAGGIO_INFORMATIVO  = "45504-8";
   
   @Override
   public String getClassDisplayName(String code, String defaultValue) {
@@ -110,11 +116,11 @@ class AffinityDomainIT implements IAffinityDomain
     if(defaultValue == null) defaultValue = "";
     if(code == null || code.length() == 0) return defaultValue;
     if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "Prescrizione farmaceutica";
-    if(code.equals(sDOC_PRESCRIZIONE_FARM_OBS))  return "Prescrizione farmaceutica";
     if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "Profilo Sanitario Sintetico";
     if(code.equals(sDOC_REFERTO_LABORATORIO))    return "Referto di Laboratorio";
     if(code.equals(sDOC_PRESCRIZIONE_APPAR_MED)) return "Prescrizione apparecchiature medicali";
     if(code.equals(sDOC_LETTERA_DIM_OSP))        return "Lettera di dimissione ospedaliera";
+    if(code.equals(sDOC_LETTERA_DIM_NON_OSP))    return "Lettera di dimissione non ospedaliera";
     if(code.equals(sDOC_VERBALE_PRONTO_SOCC))    return "Referto di Pronto Soccorso";
     if(code.equals(sDOC_REFERTO_RADIOLOGIA))     return "Referto di Radiologia";
     if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "Referto di Anatomia Patologica";
@@ -123,7 +129,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "Prescrizione specialistica";
     if(code.equals(sDOC_EROGAZIONE_FARM))        return "Erogazione farmaceutica";
     if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "Referto specialistico";
-    if(code.equals(sDOC_ESENZIONE_DA_REDDITO))   return "Esenzione da reddito";
+    if(code.equals(sDOC_ESENZIONE))              return "Esenzione";
     if(code.equals(sDOC_REFERTO_AMBULATORIALE))  return "Referto ambulatoriale";
     if(code.equals(sDOC_EROGAZIONE_SPEC))        return "Erogazione specialistica";
     if(code.equals(sDOC_PROMEMORIA_PREN_CUP))    return "Promemoria di prenotazione";
@@ -139,7 +145,8 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_DIGITAL_GREEN_CERT))     return "Certificato Digitale Covid-19";
     if(code.equals(sDOC_CERTIFICATO_GUARIGIONE)) return "Certificato di guarigione";
     if(code.equals(sDOC_RESOCONTO_SICUREZZA))    return "Resoconto sicurezza del paziente";
-    if(code.equals(sDOC_BILANCIO_DI_SALUTE))     return "Bliancio di salute pediatrico";
+    if(code.equals(sDOC_BILANCIO_DI_SALUTE))     return "Bilancio di salute pediatrico";
+    if(code.equals(sDOC_PIANO_TERAPEUTICO))      return "Piano terapeutico";
     if(defaultValue != null && defaultValue.equalsIgnoreCase("document")) {
       return "Documento sanitario";
     }
@@ -319,7 +326,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_REFERTO_AMBULATORIALE.equals(type) || sDOC_REFERTO_SPECIALISTICO.equals(type) || sDOC_REFERTO_GENERICO.equals(type)) {
       return "REF";
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
       return "RIC";
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -375,7 +382,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_REFERTO_AMBULATORIALE.equals(type)) {
       return "AD_PSC107"; // Poliambulatorio
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
       return "AD_PSC130"; // Medicina di Base
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -408,6 +415,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_PDTA.equals(type)) {
       return "AD_PSC131"; // Assistenza Territoriale
     }
+    if(sDOC_REGISTRAZIONE_CONSENSO.equals(type)) {
+      return "AD_PSC199"; // Raccolta Consenso
+    }
     return defaultValue;
   }
   
@@ -416,7 +426,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(type == null || type.length() == 0) {
       return defaultValue;
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
       return "Territorio";
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -467,7 +477,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_REFERTO_RADIOLOGIA.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.7";
     }
-    if(sDOC_PRESCRIZIONE_FARM.equals(type) || sDOC_PRESCRIZIONE_FARM_OBS.equals(type)) {
+    if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.2";
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
@@ -506,11 +516,11 @@ class AffinityDomainIT implements IAffinityDomain
       return "";
     }
     if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "2.16.840.1.113883.2.9.10.2.6";
-    if(code.equals(sDOC_PRESCRIZIONE_FARM_OBS))  return "2.16.840.1.113883.2.9.10.2.6";
     if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "2.16.840.1.113883.2.9.10.2.4";
     if(code.equals(sDOC_REFERTO_LABORATORIO))    return "2.16.840.1.113883.2.9.10.2.16";
     if(code.equals(sDOC_PRESCRIZIONE_APPAR_MED)) return "2.16.840.1.113883.2.9.10.2.7";
     if(code.equals(sDOC_LETTERA_DIM_OSP))        return "2.16.840.1.113883.2.9.10.2.10.99";
+    if(code.equals(sDOC_LETTERA_DIM_NON_OSP))    return "2.16.840.1.113883.2.9.10.2.10.99";
     if(code.equals(sDOC_VERBALE_PRONTO_SOCC))    return "2.16.840.1.113883.2.9.10.1.6.1";
     if(code.equals(sDOC_REFERTO_RADIOLOGIA))     return "2.16.840.1.113883.2.9.10.2.16";
     if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "2.16.840.1.113883.2.9.10.2.16";
@@ -519,7 +529,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "2.16.840.1.113883.2.9.10.2.7";
     if(code.equals(sDOC_EROGAZIONE_FARM))        return "2.16.840.1.113883.2.9.10.2.6";
     if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "2.16.840.1.113883.2.9.10.2.19";
-    if(code.equals(sDOC_ESENZIONE_DA_REDDITO))   return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_ESENZIONE))              return "2.16.840.1.113883.2.9.10.2.4";
     if(code.equals(sDOC_REFERTO_AMBULATORIALE))  return "2.16.840.1.113883.2.9.10.1.9.1";
     if(code.equals(sDOC_EROGAZIONE_SPEC))        return "2.16.840.1.113883.2.9.10.2.7";
     if(code.equals(sDOC_PROMEMORIA_PREN_CUP))    return "2.16.840.1.113883.2.9.10.2.24";
@@ -533,6 +543,8 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_CERTIFICATO_VACCINALE))  return "2.16.840.1.113883.2.9.10.1.6.1";
     if(code.equals(sDOC_DIGITAL_GREEN_CERT))     return "2.16.840.1.113883.2.9.10.1.6.1";
     if(code.equals(sDOC_CERTIFICATO_GUARIGIONE)) return "2.16.840.1.113883.2.9.10.1.6.1";
+    if(code.equals(sDOC_RESOCONTO_SICUREZZA))    return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_PIANO_TERAPEUTICO))      return "2.16.840.1.113883.2.9.10.2.4";
     return "";
   }
   
@@ -542,11 +554,11 @@ class AffinityDomainIT implements IAffinityDomain
       return "";
     }
     if(code.equals(sDOC_PRESCRIZIONE_FARM))      return "ITPRF_PRESC_FARMA-001";
-    if(code.equals(sDOC_PRESCRIZIONE_FARM_OBS))  return "ITPRF_PRESC_FARMA-001";
     if(code.equals(sDOC_PROFILO_SANITARIO_SIN))  return "ITPRF_PSUM_SSI-001";
     if(code.equals(sDOC_REFERTO_LABORATORIO))    return "ITPRF_REF_LABCH-001";
     if(code.equals(sDOC_PRESCRIZIONE_APPAR_MED)) return "ITPRF_PRESC_MED-001";
     if(code.equals(sDOC_LETTERA_DIM_OSP))        return "ITPRF_LETTDIM-001";
+    if(code.equals(sDOC_LETTERA_DIM_NON_OSP))    return "ITPRF_LETTDIM-001";
     if(code.equals(sDOC_VERBALE_PRONTO_SOCC))    return "ITPRF_REFER_PS-001";
     if(code.equals(sDOC_REFERTO_RADIOLOGIA))     return "ITPRF_REF_RADIO-001";
     if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "ITPRF_REF_LABIST-001";
@@ -555,7 +567,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "ITPRF_PRESC_SPEC-001";
     if(code.equals(sDOC_EROGAZIONE_FARM))        return "ITPRF_EROG_FARMA-001";
     if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "ITPRF_REF_SPEC-001";
-    if(code.equals(sDOC_ESENZIONE_DA_REDDITO))   return "ITPRF_ESE_RED-001";
+    if(code.equals(sDOC_ESENZIONE))              return "ITPRF_ESE-001";
     if(code.equals(sDOC_REFERTO_AMBULATORIALE))  return "ITPRF_REF_AMB-001";
     if(code.equals(sDOC_EROGAZIONE_SPEC))        return "ITPRF_EROG_SPEC-001";
     if(code.equals(sDOC_PROMEMORIA_PREN_CUP))    return "ITPRF_PRENOTAZIONE-001";
@@ -567,6 +579,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_VACCINAZIONI))           return "ITPRF_VACC-001";
     if(code.equals(sDOC_SCHEDA_VACCINALE))       return "ITPRF_SCHEDA_VAC-001";
     if(code.equals(sDOC_CERTIFICATO_VACCINALE))  return "ITPRF_CERT_VAC-001";
+    if(code.equals(sDOC_PIANO_TERAPEUTICO))      return "ITPRF_PIANO_TER-001";
     return "";
   }
 }
