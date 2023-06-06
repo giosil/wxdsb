@@ -117,7 +117,7 @@ class AdhocQuery extends RegistryObject
   public void setCreationTimeTo(Object value) {
     if(value == null) return;
     Date dateTime = Utils.toDate(value);
-    addSlot(new Slot("$XDSDocumentEntryCreationTimeFrom", Utils.formatTime(dateTime)));
+    addSlot(new Slot("$XDSDocumentEntryCreationTimeTo", Utils.formatTime(dateTime)));
   }
   
   public List<String> getStatusValues() {
