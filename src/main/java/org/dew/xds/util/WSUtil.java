@@ -614,6 +614,65 @@ class WSUtil
   }
   
   public static
+  SOAPMessage sendRequest(String sURL, SSLSocketFactory sslSocketFactory, String basicAuth, int connTimeout, int readTimeout, String sContentType, byte[] request)
+    throws Exception
+  {
+    URL url = new URL(sURL);
+    
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    if(sContentType != null && sContentType.length() > 0) {
+      conn.addRequestProperty("Content-Type", sContentType);
+    }
+    else {
+      conn.addRequestProperty("Content-Type", "application/soap+xml");
+    }
+    if(sslSocketFactory != null) {
+      if(conn instanceof HttpsURLConnection) {
+        ((HttpsURLConnection) conn).setSSLSocketFactory(sslSocketFactory);
+      }
+    }
+    if(basicAuth != null && basicAuth.length() > 0) {
+      conn.addRequestProperty("Authorization", "Basic " + basicAuth);
+    }
+    conn.setRequestMethod("POST");
+    if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
+    if(readTimeout > 0) conn.setReadTimeout(readTimeout);
+    
+    return sendRequest(conn, request);
+  }
+  
+  public static
+  SOAPMessage sendRequest(String sURL, SSLSocketFactory sslSocketFactory, String basicAuth, int connTimeout, int readTimeout, String sContentType, String sSOAPAction, byte[] request)
+    throws Exception
+  {
+    URL url = new URL(sURL);
+    
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    if(sContentType != null && sContentType.length() > 0) {
+      conn.addRequestProperty("Content-Type", sContentType);
+    }
+    else {
+      conn.addRequestProperty("Content-Type", "application/soap+xml");
+    }
+    if(sSOAPAction != null && sSOAPAction.length() > 0) {
+      conn.addRequestProperty("SOAPAction", sSOAPAction);
+    }
+    if(sslSocketFactory != null) {
+      if(conn instanceof HttpsURLConnection) {
+        ((HttpsURLConnection) conn).setSSLSocketFactory(sslSocketFactory);
+      }
+    }
+    if(basicAuth != null && basicAuth.length() > 0) {
+      conn.addRequestProperty("Authorization", "Basic " + basicAuth);
+    }
+    conn.setRequestMethod("POST");
+    if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
+    if(readTimeout > 0) conn.setReadTimeout(readTimeout);
+    
+    return sendRequest(conn, request);
+  }
+  
+  public static
   SOAPMessage sendRequest(HttpURLConnection conn, byte[] request)
     throws Exception
   {

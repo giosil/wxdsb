@@ -355,7 +355,7 @@ class XDSbClient implements IXDSb
       if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
       
       if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlITI18, sslSocketFactory, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
+        soapResponse = WSUtil.sendRequest(urlITI18, sslSocketFactory, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
       }
       else {
         soapResponse = WSUtil.sendRequest(urlITI18, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
@@ -467,7 +467,7 @@ class XDSbClient implements IXDSb
       if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
       
       if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlITI18, sslSocketFactory, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
+        soapResponse = WSUtil.sendRequest(urlITI18, sslSocketFactory, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
       }
       else {
         soapResponse = WSUtil.sendRequest(urlITI18, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
@@ -672,7 +672,7 @@ class XDSbClient implements IXDSb
       if(tracerRequest != null) try{ tracerRequest.write(os.toByteArray()); tracerRequest.write(CRLF); } catch(Exception ex) {}
       
       if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlITI41, sslSocketFactory, connTimeout, readTimeout, sContentType, os.toByteArray());
+        soapResponse = WSUtil.sendRequest(urlITI41, sslSocketFactory, basicAuth, connTimeout, readTimeout, sContentType, os.toByteArray());
       }
       else {
         soapResponse = WSUtil.sendRequest(urlITI41, basicAuth, connTimeout, readTimeout, sContentType, os.toByteArray());
@@ -798,7 +798,7 @@ class XDSbClient implements IXDSb
       if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
       
       if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlITI42, sslSocketFactory, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
+        soapResponse = WSUtil.sendRequest(urlITI42, sslSocketFactory, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
       }
       else {
         soapResponse = WSUtil.sendRequest(urlITI42, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
@@ -894,7 +894,7 @@ class XDSbClient implements IXDSb
       if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
       
       if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlITI43, sslSocketFactory, connTimeout, readTimeout, null, "urn:ihe:iti:2007:RetrieveDocumentSet", sbRequest.toString().getBytes());
+        soapResponse = WSUtil.sendRequest(urlITI43, sslSocketFactory, basicAuth, connTimeout, readTimeout, null, "urn:ihe:iti:2007:RetrieveDocumentSet", sbRequest.toString().getBytes());
       }
       else {
         soapResponse = WSUtil.sendRequest(urlITI43, basicAuth, connTimeout, readTimeout, null, "urn:ihe:iti:2007:RetrieveDocumentSet", sbRequest.toString().getBytes());
@@ -1051,7 +1051,7 @@ class XDSbClient implements IXDSb
       if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
       
       if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlITI57, sslSocketFactory, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
+        soapResponse = WSUtil.sendRequest(urlITI57, sslSocketFactory, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
       }
       else {
         soapResponse = WSUtil.sendRequest(urlITI57, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
@@ -1148,7 +1148,7 @@ class XDSbClient implements IXDSb
       if(tracerRequest != null) try{ tracerRequest.write(sbRequest.toString().getBytes()); tracerRequest.write(CRLF); } catch(Exception ex) {}
       
       if(sslSocketFactory != null) {
-        soapResponse = WSUtil.sendRequest(urlITI62, sslSocketFactory, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
+        soapResponse = WSUtil.sendRequest(urlITI62, sslSocketFactory, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
       }
       else {
         soapResponse = WSUtil.sendRequest(urlITI62, basicAuth, connTimeout, readTimeout, null, sbRequest.toString().getBytes());
