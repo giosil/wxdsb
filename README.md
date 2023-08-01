@@ -15,7 +15,7 @@ A programmable server and client IHE-XDSb.
 
 ## Run locally on Docker
 
-- `docker run --rm -it -p 8080:8080 --name=<container_name> <image_name>` - To run image creating container named <container_name>
+- `docker run --rm -it -p 8080:8080 --name=<container_name> -d <image_name>` - To run image creating container named <container_name>
 - `docker rename <container_name> <new_container_name>` - To rename the container
 - `docker ps` - To see the running container
 - `docker ps -a -q -f name=<container_name> -f status=running` - To see all (-a) the ids/names (-q) of running container by <container_name>
@@ -37,17 +37,26 @@ A programmable server and client IHE-XDSb.
 - `docker cp <container_name>:/usr/local/tomcat/logs "%USERPROFILE%"\Desktop` - To copy log folder from container to host
 - `docker images` - To see the list of images
 - `docker image ls` - Other mode to see the list of images
-- `docker rmi <image_name>` - To remove image
+- `docker rmi <image_name>` - To remove an image
 - `docker commit <container_name> <image_name>:<tag>` - To create a new image from a container’s changes
-- `docker commit wxdsb giosil/wxdsb` - Sample creation giosil/wxdsb image from the wxdsb container
-- `docker push giosil/wxdsb` - To upload this image to Docker Hub (https://hub.docker.com/)
-- `docker pull giosil/wxdsb` - To get this image from Docker Hub (https://hub.docker.com/)
+- `docker push <image_name>:<tag>` - To upload an image to Docker Hub (https://hub.docker.com/)
+- `docker pull <image_name>:<tag>` - To get an image from Docker Hub (https://hub.docker.com/)
 - `docker save <image_name> -o <file_name>.tar` - Save one or more images to a tar archive
 - `docker import <file_name>.tar` - Import the contents from a tarball to create a filesystem image
 - `docker run -v <path_host>:<path_container> <image_name>` - To run image creating container with a volume
 - `docker volume create --name <name_vol> -o type=none -o o=bind -o device=<path_host>` - To create a volume mapped with an host path
 - `docker network create <network_name>` - To create a network
 - `docker run --name <container_name> --network <network_name> [--alias <alias>] -d <image_name>` - To run image creating container with a network
+
+### Samples
+
+- `docker build -t giosil/wxdsb:1.0.0 .` - To create giosil/wxdsb image
+- `docker run -p 8080:8080 --name=wxdsb -d giosil/wxdsb:1.0.0` - To run image creating container named <container_name>
+- `docker commit wxdsb giosil/wxdsb:1.1.0` - To create new version of giosil/wxdsb image from the wxdsb container
+- `docker tag giosil/wxdsb:1.1.0 giosil/wxdsb:latest` - To add tag latest to giosil/wxdsb:1.1.0 image
+- `docker login giosil` - To access to repository the first time before push
+- `docker push giosil/wxdsb` - To upload giosil/wxdsb to Docker Hub (https://hub.docker.com/)
+- `docker pull giosil/wxdsb` - To get giosil/wxdsb from Docker Hub (https://hub.docker.com/)
 
 ## Run with Kubernetes
 
