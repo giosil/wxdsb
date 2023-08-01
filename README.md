@@ -38,6 +38,7 @@ A programmable server and client IHE-XDSb.
 - `docker images` - To see the list of images
 - `docker image ls` - Other mode to see the list of images
 - `docker rmi <image_name>` - To remove an image
+- `docker image prune` - To remove all unused images
 - `docker commit <container_name> <image_name>:<tag>` - To create a new image from a container’s changes
 - `docker push <image_name>:<tag>` - To upload an image to Docker Hub (https://hub.docker.com/)
 - `docker pull <image_name>:<tag>` - To get an image from Docker Hub (https://hub.docker.com/)
