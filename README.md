@@ -38,10 +38,16 @@ A programmable server and client IHE-XDSb.
 - `docker images` - To see the list of images
 - `docker image ls` - Other mode to see the list of images
 - `docker rmi <image_name>` - To remove image
-- `docker pull giosil/wxdsb` - To get this image from Docker Hub (https://hub.docker.com/)
 - `docker commit <container_name> <image_name>:<tag>` - To create a new image from a container’s changes
-- `docker save <container_name> -o <file_name>.tar` - Save one or more images to a tar archive
+- `docker commit wxdsb giosil/wxdsb` - Sample creation giosil/wxdsb image from the wxdsb container
+- `docker push giosil/wxdsb` - To upload this image to Docker Hub (https://hub.docker.com/)
+- `docker pull giosil/wxdsb` - To get this image from Docker Hub (https://hub.docker.com/)
+- `docker save <image_name> -o <file_name>.tar` - Save one or more images to a tar archive
 - `docker import <file_name>.tar` - Import the contents from a tarball to create a filesystem image
+- `docker run -v <path_host>:<path_container> <image_name>` - To run image creating container with a volume
+- `docker volume create --name <name_vol> -o type=none -o o=bind -o device=<path_host>` - To create a volume mapped with an host path
+- `docker network create <network_name>` - To create a network
+- `docker run --name <container_name> --network <network_name> [--alias <alias>] -d <image_name>` - To run image creating container with a network
 
 ## Run with Kubernetes
 
