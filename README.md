@@ -52,16 +52,19 @@ A programmable server and client IHE-XDSb.
 ### Samples
 
 - `docker build -t giosil/wxdsb:1.0.0 .` - To create giosil/wxdsb image
-- `docker run -p 8080:8080 --name=wxdsb -d giosil/wxdsb:1.0.0` - To run image creating container named <container_name>
-- `docker logs -f wxdsb` - Fetch and follow the logs of wxdsb container
-- `docker inspect wxdsb` - To inspect a running container
-- `docker exec -it wxdsb sh` - Open a shell inside a running container
-- `docker commit wxdsb giosil/wxdsb:1.1.0` - To create new version of giosil/wxdsb image from the wxdsb container
-- `docker tag giosil/wxdsb:1.1.0 giosil/wxdsb:latest` - To add tag latest to giosil/wxdsb:1.1.0 image
+- `docker run -p 8080:8080 --name=wxdsb -d giosil/wxdsb:1.0.0` - To run image *giosil/wxdsb* creating container named *wxdsb*
+- `docker logs -f wxdsb` - Fetch and follow the logs of *wxdsb* container
+- `docker inspect wxdsb` - To inspect a running *wxdsb* container
+- `docker exec -it wxdsb sh` - Open a shell inside a running container *wxdsb* container
+- `docker cp ext.tar wxdsb:/usr/local/tomcat/lib` - Copy *ext.tar* in */usr/local/tomcat/lib*  folder of running *wxdsb* container
+- `docker exec -w /usr/local/tomcat/lib wxdsb /bin/tar -xvf /usr/local/tomcat/lib/ext.tar` - Extract tar content on running *wxdsb* container
+- `docker exec wxdsb /bin/rm -fr /usr/local/tomcat/lib/ext.tar` - Remove tar on running *wxdsb* container
+- `docker commit wxdsb giosil/wxdsb:1.1.0` - To create new version of *giosil/wxdsb* image from the *wxdsb* container
+- `docker tag giosil/wxdsb:1.1.0 giosil/wxdsb:latest` - To add tag *latest* to *giosil/wxdsb:1.1.0* image
 - `docker login dockerhub.dew.org` - To access to another registry the first time before push
 - `docker login -u giosil` - To access to Docker Hub the first time before push
-- `docker push giosil/wxdsb` - To upload giosil/wxdsb to Docker Hub (https://hub.docker.com/)
-- `docker pull giosil/wxdsb` - To get giosil/wxdsb from Docker Hub (https://hub.docker.com/)
+- `docker push giosil/wxdsb` - To upload *giosil/wxdsb* to Docker Hub (https://hub.docker.com/)
+- `docker pull giosil/wxdsb` - To get *giosil/wxdsb* from Docker Hub (https://hub.docker.com/)
 
 ## Run with Kubernetes
 
