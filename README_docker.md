@@ -57,6 +57,34 @@
 - `docker push giosil/wxdsb` - To upload *giosil/wxdsb* to Docker Hub (https://hub.docker.com/)
 - `docker pull giosil/wxdsb` - To get *giosil/wxdsb* from Docker Hub (https://hub.docker.com/)
 
+## Docker-compose
+
+Sample of docker-compose.yml:
+
+```yaml
+services:
+  wxdsb:
+    build: .
+    ports:
+      - "8080:8080"
+```
+
+Run container:
+
+`docker compose up -d`
+
+or
+
+`docker-compose up -d`
+
+Stop container:
+
+`docker compose stop`
+
+Stop and remove container (and network):
+
+`docker compose down`
+
 ## Run with Kubernetes
 
 Suppose the name of the image is *wxdsb*.
