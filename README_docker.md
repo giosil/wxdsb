@@ -85,6 +85,12 @@ Stop and remove container (and network):
 
 `docker compose down`
 
+## Install Ingress-Nginx to your Docker Desktop Kubernetes
+
+- `kubectl config current-context`
+- `kubectl config use-context docker-desktop`
+- `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml`
+
 ## Run with Kubernetes
 
 Suppose the name of the image is *wxdsb*.
@@ -105,16 +111,16 @@ Suppose the name of the image is *wxdsb*.
 - `kubectl get pods` - To view pods
 - `kubectl get events` - To view events in case of debug
 - `kubectl get deployments -l app=wxdsb` - To view deployments by label app=wxdsb
-- `kubectl describe deployment/wxdsb` - To view details of deployment
-- `kubectl logs -f deployment/wxdsb` - To view and follow the logs of web app
+- `kubectl describe deployments/wxdsb` - To view details of deployment
+- `kubectl logs -f deployments/wxdsb` - To view and follow the logs of web app
 - `kubectl logs -f -l app=wxdsb` - To view and follow the logs of deployment by label app
-- `kubectl exec -ti deployment/wxdsb -- bash` - To get a shell to the running container
-- `kubectl port-forward deployment/wxdsb 9090:8080` - Expose (locally) web app by port-forward to local port 9090
-- `kubectl expose deployment/wxdsb --type="NodePort" --port=8080 --target-port=8080` - Expose (internally) web app by service.
+- `kubectl exec -ti deployments/wxdsb -- bash` - To get a shell to the running container
+- `kubectl port-forward deployments/wxdsb 9090:8080` - Expose (locally) web app by port-forward to local port 9090
+- `kubectl expose deployments/wxdsb --type="NodePort" --port=8080 --target-port=8080` - Expose (internally) web app by service.
 - `kubectl get services -l app=wxdsb` - To view service and port assigned
-- `kubectl describe services/wxdsb` - To describe service
+- `kubectl describe service wxdsb` - To describe service
 - `kubectl delete service wxdsb` - To delete service 
-- `kubectl delete deployment/wxdsb` - To delete deployment
+- `kubectl delete deployment wxdsb` - To delete deployment
 
 ## REST API Kubernetes
 
