@@ -1,3 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wxdsb-env
+data:
+  DEW_APP: wxdsb
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wxdsb-sec
+type: Opaque
+data:
+  DEW_PASSWORD: dGVzdA==
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,11 +30,17 @@ spec:
         app: wxdsb
     spec:
       containers:
-      - name: wxdsb
-        image: wxdsb
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 8080
+        - name: wxdsb
+          image: wxdsb
+          imagePullPolicy: Never
+          envFrom:
+            - secretRef:
+                name: wxdsb-sec
+            - configMapRef:
+                name: wxdsb-env
+          ports:
+            - containerPort: 8080
+              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
@@ -52,3 +73,4 @@ spec:
                 name: wxdsb-service
                 port:
                   number: 8080
+---

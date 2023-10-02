@@ -15,8 +15,14 @@ spec:
         app: wxdsb
     spec:
       containers:
-      - name: wxdsb
-        image: wxdsb
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 8080
+        - name: wxdsb
+          image: wxdsb
+          imagePullPolicy: Never
+          envFrom:
+            - secretRef:
+                name: wxdsb-sec
+            - configMapRef:
+                name: wxdsb-env
+          ports:
+            - containerPort: 8080
+              protocol: TCP

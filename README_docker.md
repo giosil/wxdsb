@@ -107,6 +107,7 @@ Suppose the name of the image is *wxdsb*.
 
 Suppose the name of the image is *wxdsb*.
 
+- `kubectl apply -f wxdsb.yaml` - Create deployment and other kubernetes objects by manifest
 - `kubectl apply -f wxdsb-deployment.yaml` - Create deployment by manifest
 - `kubectl get pods` - To view pods
 - `kubectl get events` - To view events in case of debug
@@ -118,8 +119,11 @@ Suppose the name of the image is *wxdsb*.
 - `kubectl port-forward deployments/wxdsb 9090:8080` - Expose (locally) web app by port-forward to local port 9090
 - `kubectl expose deployments/wxdsb --type="NodePort" --port=8080 --target-port=8080` - Expose (internally) web app by service.
 - `kubectl get services -l app=wxdsb` - To view service and port assigned
-- `kubectl describe service wxdsb` - To describe service
-- `kubectl delete service wxdsb` - To delete service 
+- `kubectl describe service wxdsb-service` - To describe service
+- `kubectl delete ingress wxdsb-ingress` - To delete ingress
+- `kubectl delete service wxdsb-service` - To delete service
+- `kubectl delete configmap wxdsb-env` - To delete configmap
+- `kubectl delete secret  wxdsb-sec` - To delete secret 
 - `kubectl delete deployment wxdsb` - To delete deployment
 
 ## REST API Kubernetes
