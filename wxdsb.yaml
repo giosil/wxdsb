@@ -42,7 +42,7 @@ spec:
         app: wxdsb
     spec:
       volumes:
-        - name: data-volume
+        - name: wxdsb-vol
           persistentVolumeClaim:
             claimName: wxdsb-pvc
       containers:
@@ -58,7 +58,7 @@ spec:
             - containerPort: 8080
               protocol: TCP
           volumeMounts:
-            - name: data-volume
+            - name: wxdsb-vol
               mountPath: /data01
 ---
 apiVersion: v1
