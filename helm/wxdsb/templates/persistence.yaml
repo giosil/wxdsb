@@ -1,0 +1,13 @@
+{{- if .Values.persistenceVolume.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "wxdsb.fullname" . }}-pvc
+spec:
+  accessModes:
+    {{ toYaml .Values.persistenceVolume.accessModes | indent 4}}
+  resources:
+    requests:
+      storage: {{ .Values.persistenceVolume.size }}
+  storageClassName: {{ .Values.persistenceVolume.storageClassName }}
+{{- end }}

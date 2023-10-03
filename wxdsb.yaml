@@ -13,6 +13,18 @@ type: Opaque
 data:
   DEW_PASSWORD: dGVzdA==
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wxdsb-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: hostpath
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,6 +41,10 @@ spec:
       labels:
         app: wxdsb
     spec:
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: wxdsb-pvc
       containers:
         - name: wxdsb
           image: wxdsb
@@ -41,6 +57,9 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data01
 ---
 apiVersion: v1
 kind: Service

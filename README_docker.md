@@ -122,8 +122,9 @@ Suppose the name of the image is *wxdsb*.
 - `kubectl describe service wxdsb-service` - To describe service
 - `kubectl delete ingress wxdsb-ingress` - To delete ingress
 - `kubectl delete service wxdsb-service` - To delete service
+- `kubectl delete persistentvolumeclaim wxdsb-pvc` - To delete PersistentVolumeClaim
 - `kubectl delete configmap wxdsb-env` - To delete configmap
-- `kubectl delete secret  wxdsb-sec` - To delete secret 
+- `kubectl delete secret  wxdsb-sec` - To delete secret
 - `kubectl delete deployment wxdsb` - To delete deployment
 
 ## REST API Kubernetes

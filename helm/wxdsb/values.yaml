@@ -88,3 +88,11 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+persistenceVolume:
+  enabled: true
+  size: 1Gi
+  accessModes:
+    - ReadWriteMany
+  mountPath: /data01
+  storageClassName: hostpath
