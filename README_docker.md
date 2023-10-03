@@ -93,7 +93,7 @@ Stop and remove container (and network):
 
 ## Run with Kubernetes
 
-Suppose the name of the image is *wxdsb*.
+Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
 - `kubectl apply -f wxdsb-pod.yaml` - Create pod by manifest
 - `kubectl get pods` - To view pods
@@ -105,7 +105,7 @@ Suppose the name of the image is *wxdsb*.
 
 ## Run with Kubernetes using deployment
 
-Suppose the name of the image is *wxdsb*.
+Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
 - `kubectl apply -f wxdsb.yaml` - Create deployment and other kubernetes objects by manifest
 - `kubectl apply -f wxdsb-deployment.yaml` - Create deployment by manifest
@@ -137,7 +137,7 @@ Suppose the name of the image is *wxdsb*.
 
 ## Deploy application with Helm
 
-In `heml` folder 
+In `heml` folder do the following:
 
 - `helm install wxdsb ./wxdsb` - this install `wxdsb` application from project folder
 - `helm get all wxdsb` - this show all info of `wxdsb` application
