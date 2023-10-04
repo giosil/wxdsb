@@ -140,11 +140,30 @@ Other commands:
 
 ## REST API Kubernetes
 
-- `kubectl proxy --port=8080` - Start API proxy on local port 8080
+`kubectl proxy --port=8080` - Start API proxy on local port 8080
+
+- Workloads:
 	- http://localhost:8080/api/v1/namespaces/default/pods
-	- http://localhost:8080/api/v1/namespaces/default/events
-	- http://localhost:8080/api/v1/namespaces/default/services
 	- http://localhost:8080/apis/apps/v1/namespaces/default/deployments
+	- http://localhost:8080/apis/apps/v1/namespaces/default/replicasets
+	- http://localhost:8080/apis/batch/v1/namespaces/default/jobs
+	- http://localhost:8080/apis/batch/v1/namespaces/default/cronjobs
+- Config:
+	- http://localhost:8080/api/v1/namespaces/default/configmaps
+	- http://localhost:8080/api/v1/namespaces/default/secrets
+- Network:
+	- http://localhost:8080/api/v1/namespaces/default/services
+	- http://localhost:8080/api/v1/namespaces/default/endpoints
+	- http://localhost:8080/apis/networking.k8s.io/v1/namespaces/default/ingresses
+	- http://localhost:8080/apis/networking.k8s.io/v1/ingressclasses
+- Storage:
+	- http://localhost:8080/apis/storage.k8s.io/v1/storageclasses
+	- http://localhost:8080/api/v1/namespaces/default/persistentvolumeclaims
+	- http://localhost:8080/api/v1/persistentvolumes
+- Events:
+	- http://localhost:8080/api/v1/namespaces/default/events
+- Namespaces:
+	- http://localhost:8080/api/v1/namespaces
 
 ## Deploy application with Helm
 
