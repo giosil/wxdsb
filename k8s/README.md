@@ -1,12 +1,6 @@
 # WXDSb - IHE-XDSb implementation
 
-## Install Ingress-Nginx to your Docker Desktop Kubernetes
-
-- `kubectl config current-context`
-- `kubectl config use-context docker-desktop`
-- `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml`
-
-## Run with Kubernetes
+## Run with Kubernetes using POD
 
 Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
@@ -23,7 +17,18 @@ Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
 - `kubectl apply -f wxdsb.yaml` - Create deployment and other kubernetes objects by manifest
-- `kubectl apply -f wxdsb-deployment.yaml` - Create deployment by manifest
+
+The file `wxdsb.yaml` contains:
+
+- `wxdsb-configmap.yaml` - A ConfigMap is an API object used to store non-confidential data in key-value pairs.
+- `wxdsb-secret.yaml` - A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key.
+- `wxdsb-pvc.yaml` - A PersistentVolumeClaim (PVC) is a request for storage by a user.
+- `wxdsb-deployment.yaml` - A Deployment provides declarative updates for Pods and ReplicaSets.
+- `wxdsb-service.yaml` - A Service is a method for exposing a network application that is running as one or more Pods in your cluster.
+- `wxdsb-ingress.yaml` - An Ingress is an API object that manages external access to the services in a cluster, typically HTTP.
+
+Other commands:
+
 - `kubectl get pods` - To view pods
 - `kubectl get events` - To view events in case of debug
 - `kubectl get deployments -l app=wxdsb` - To view deployments by label app=wxdsb
@@ -41,6 +46,12 @@ Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 - `kubectl delete configmap wxdsb-env` - To delete configmap
 - `kubectl delete secret  wxdsb-sec` - To delete secret
 - `kubectl delete deployment wxdsb` - To delete deployment
+
+## Install Ingress-Nginx to your Docker Desktop Kubernetes
+
+- `kubectl config current-context`
+- `kubectl config use-context docker-desktop`
+- `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml`
 
 ## REST API Kubernetes
 
