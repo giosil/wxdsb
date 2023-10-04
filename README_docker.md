@@ -140,6 +140,7 @@ Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 In `heml` folder do the following:
 
 - `helm install wxdsb ./wxdsb` - this install `wxdsb` application from project folder
+- `helm list` - this show all releases
 - `helm get all wxdsb` - this show all info of `wxdsb` application
 - `helm uninstall wxdsb` - this uninstall `wxdsb` application
 
