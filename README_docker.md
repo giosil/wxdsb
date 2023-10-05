@@ -143,7 +143,7 @@ Other commands:
 - `kubectl create cronjob hello --image=busybox:latest --schedule="*/1 * * * *" -- echo "Hello World"` - Create a CronJob that prints "Hello World" every minute
 - `kubectl get jobs --watch` - Watch jobs
 - `kubectl label pods wxdsb group=test` - # Add a Label
-- `kubectl label pods wxdsb group=test --overwrite` - # Add a Label
+- `kubectl label pods wxdsb group=test --overwrite` - # Overwrite a Label
 - `kubectl label pods wxdsb group-` - # Remove a label
 - `kubectl describe service wxdsb-service` - To describe service
 - `kubectl delete ingress wxdsb-ingress` - To delete ingress
