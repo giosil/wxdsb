@@ -101,7 +101,7 @@ Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
 Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
-- `kubectl apply -f wxdsb.yaml` - Create deployment and other kubernetes objects by manifest
+- `kubectl apply -f wxdsb.yaml` - Create deployment and other kubernetes objects defined in yaml file
 
 The file `wxdsb.yaml` contains:
 
@@ -146,6 +146,7 @@ Other commands:
 - `kubectl label pods wxdsb group=test --overwrite` - # Overwrite a Label
 - `kubectl label pods wxdsb group-` - # Remove a label
 - `kubectl describe service wxdsb-service` - To describe service
+- `kubectl delete -f wxdsb.yaml` - Delete all kubernetes objects defined in yaml file
 - `kubectl delete ingress wxdsb-ingress` - To delete ingress
 - `kubectl delete service wxdsb-service` - To delete service
 - `kubectl delete persistentvolumeclaim wxdsb-pvc` - To delete PersistentVolumeClaim

@@ -1,22 +1,10 @@
 # WXDSb - IHE-XDSb implementation
 
-## Run with Kubernetes using POD
-
-Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
-
-- `kubectl apply -f wxdsb-pod.yaml` - Create pod by manifest
-- `kubectl get pods` - To view pods
-- `kubectl get events` - To view events in case of debug
-- `kubectl logs -f wxdsb` - To view and follow the logs of pod
-- `kubectl exec -ti wxdsb -- bash` - To get a shell to the running container
-- `kubectl port-forward wxdsb 9090:8080` - Expose (locally) web app by port-forward to local port 9090
-- `kubectl delete pod wxdsb` - To delete pod
-
 ## Run with Kubernetes using deployment
 
 Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
-- `kubectl apply -f wxdsb.yaml` - Create deployment and other kubernetes objects by manifest
+- `kubectl apply -f wxdsb.yaml` - Create deployment and other kubernetes objects defined in yaml file
 
 The file `wxdsb.yaml` contains:
 
@@ -61,6 +49,7 @@ Other commands:
 - `kubectl label pods wxdsb group=test --overwrite` - # Overwrite a Label
 - `kubectl label pods wxdsb group-` - # Remove a label
 - `kubectl describe service wxdsb-service` - To describe service
+- `kubectl delete -f wxdsb.yaml` - Delete all kubernetes objects defined in yaml file
 - `kubectl delete ingress wxdsb-ingress` - To delete ingress
 - `kubectl delete service wxdsb-service` - To delete service
 - `kubectl delete persistentvolumeclaim wxdsb-pvc` - To delete PersistentVolumeClaim
