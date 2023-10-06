@@ -19,7 +19,7 @@ spec:
           persistentVolumeClaim:
             claimName: wxdsb-pvc
       containers:
-        - name: wxdsb
+        - name: main
           image: wxdsb
           imagePullPolicy: Never
           envFrom:

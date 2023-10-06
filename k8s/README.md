@@ -84,7 +84,7 @@ Other commands:
 
 ## Update Kubernetes deployment
 
-- `kubectl set image deployment/wxdsb wxdsb=wxdsb:1.0.0` - Rolling update `wxdsb` containers of `wxdsb` deployment, updating the image
+- `kubectl set image deployment/wxdsb main=wxdsb:1.0.0` - Rolling update `main` container of `wxdsb` deployment, updating the image
 - `kubectl rollout history deployment/wxdsb` - Check the history of deployments including the revision
 - `kubectl rollout undo deployment/wxdsb` - Rollback to the previous deployment
 - `kubectl rollout undo deployment/wxdsb --to-revision=2` - Rollback to a specific revision
