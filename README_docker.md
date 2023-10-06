@@ -90,6 +90,13 @@ Stop and remove container (and network):
 Suppose the name of the image is *wxdsb*. In `k8s` folder do the following:
 
 - `kubectl apply -f wxdsb-pod.yaml` - Create pod by manifest
+
+or 
+
+- `kubectl run wxdsb --image=wxdsb:latest` - Run pod from an image
+
+To manage pod:
+
 - `kubectl get pods` - To view pods
 - `kubectl get events` - To view events in case of debug
 - `kubectl logs -f wxdsb` - To view and follow the logs of pod
@@ -145,7 +152,9 @@ Other commands:
 - `kubectl label pods wxdsb group=test` - # Add a Label
 - `kubectl label pods wxdsb group=test --overwrite` - # Overwrite a Label
 - `kubectl label pods wxdsb group-` - # Remove a label
+- `kubectl describe deployment wxdsb` - To describe deployment
 - `kubectl describe service wxdsb-service` - To describe service
+- `kubectl describe ingress wxdsb-ingress` - To describe ingress
 - `kubectl delete -f wxdsb.yaml` - Delete all kubernetes objects defined in yaml file
 - `kubectl delete ingress wxdsb-ingress` - To delete ingress
 - `kubectl delete service wxdsb-service` - To delete service
@@ -156,8 +165,16 @@ Other commands:
 - `kubectl delete namespace dew` - To delete the namespace `dew`
 - `kubectl scale --replicas=3 rs/wxdsb` - Scale a replicaset named `wxdsb` to 3
 - `kubectl cp test.txt wxdsb:/data01` - Copy local file `test.txt` to remote directory `/data01` of pod named `wxdsb`
-- `kubectl cp test.txt wxdsb:/data01` - Copy local file `test.txt` to remote directory `/data01` of pod named `wxdsb`
 - `kubectl cp wxdsb:/data01/test.txt .` - Copy remote file `/data01/test.txt` of pod named `wxdsb` in local current (.) directory
+
+## Update Kubernetes deployment
+
+- `kubectl set image deployment/wxdsb wxdsb=wxdsb:1.0.0` - Rolling update `wxdsb` containers of `wxdsb` deployment, updating the image
+- `kubectl rollout history deployment/wxdsb` - Check the history of deployments including the revision
+- `kubectl rollout undo deployment/wxdsb` - Rollback to the previous deployment
+- `kubectl rollout undo deployment/wxdsb --to-revision=2` - Rollback to a specific revision
+- `kubectl rollout status -w deployment/wxdsb` - Watch rolling update status of `wxdsb` deployment until completion
+- `kubectl rollout restart deployment/sira-drupal` - Rolling restart of the `wxdsb` deployment
 
 ## Install Ingress-Nginx to your Docker Desktop Kubernetes
 
@@ -173,7 +190,9 @@ Other commands:
 	- http://localhost:8080/api/v1/nodes
 - Workloads:
 	- http://localhost:8080/api/v1/namespaces/default/pods
+	- http://localhost:8080/api/v1/namespaces/default/pods?labelSelector=app=wxdsb
 	- http://localhost:8080/apis/apps/v1/namespaces/default/deployments
+	- http://localhost:8080/apis/apps/v1/namespaces/default/deployments?labelSelector=app=wxdsb
 	- http://localhost:8080/apis/apps/v1/namespaces/default/replicasets
 	- http://localhost:8080/apis/batch/v1/namespaces/default/jobs
 	- http://localhost:8080/apis/batch/v1/namespaces/default/cronjobs
