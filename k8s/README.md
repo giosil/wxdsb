@@ -100,7 +100,7 @@ First check current context:
 
 Install ingress nginx controller:
 
-- `https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.1/deploy/static/provider/cloud/deploy.yaml`
+- `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.1/deploy/static/provider/cloud/deploy.yaml`
 
 See https://github.com/kubernetes/ingress-nginx for more information.
 
