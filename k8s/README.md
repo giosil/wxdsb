@@ -93,9 +93,16 @@ Other commands:
 
 ## Install Ingress-Nginx to your Docker Desktop Kubernetes
 
-- `kubectl config current-context`
-- `kubectl config use-context docker-desktop`
-- `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml`
+First check current context:
+
+- `kubectl config current-context` - To view current-context
+- `kubectl config use-context docker-desktop` - To set current-context
+
+Install ingress nginx controller:
+
+- `https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.1/deploy/static/provider/cloud/deploy.yaml`
+
+See https://github.com/kubernetes/ingress-nginx for more information.
 
 ## REST API Kubernetes
 
