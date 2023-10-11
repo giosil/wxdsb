@@ -4,7 +4,13 @@ Example of kafka consumer.
 
 ## Build
 
-- `mvn clean install`
+- `mvn clean package`
+
+## Deploy on Kubernetes 
+
+- `01_run_kafka_client.cmd`
+- `02_deploy.cmd`
+- `03_exec_bash.cmd`
 
 ## Contributors
 
