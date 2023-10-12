@@ -18,24 +18,24 @@ Other commands:
 
 - `helm repo update`
 
-- `helm search repo bitnami
+- `helm search repo bitnami`
 
 - `helm list`
 
 ## Install Kafka with Docker
 
-Here is how to start up a Kafka instance via Docker.
+Here is how to start up a Kafka instance via Docker. 
 
-## Build container
+Build container: 
 
 - `docker compose -p "kafka-node" up --detach`
 
-## Create topics
+Create topics:
 
-/usr/bin/kafka-topics --create --topic dew_xds --bootstrap-server localhost:9092
-/usr/bin/kafka-topics --list --bootstrap-server localhost:9092
+- `/usr/bin/kafka-topics --create --topic dew_xds --bootstrap-server localhost:9092`
+- `/usr/bin/kafka-topics --list --bootstrap-server localhost:9092`
 
-## Run producer and consumer
+Run producer and consumer:
 
-/usr/bin/kafka-console-producer --topic dew_xds --broker-list localhost:9092 --property "parse.key=true" --property "key.separator=:"
-/usr/bin/kafka-console-consumer --topic dew_xds --from-beginning --bootstrap-server localhost:9092 --group dew
+- `/usr/bin/kafka-console-producer --topic dew_xds --broker-list localhost:9092 --property "parse.key=true" --property "key.separator=:"`
+- `/usr/bin/kafka-console-consumer --topic dew_xds --from-beginning --bootstrap-server localhost:9092 --group dew`
