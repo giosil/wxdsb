@@ -4,26 +4,22 @@ import java.io.File;
 
 import java.net.URL;
 
-import java.time.Duration;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 
 import org.apache.kafka.common.errors.WakeupException;
 
-import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 public 
-class WKafkaConsumer 
+class WKafkaProducer 
 {
   protected static String KAFKA_SERVERS     = "localhost:9092";
   protected static String KAFKA_KEYSTORE    = "";
@@ -31,31 +27,30 @@ class WKafkaConsumer
   protected static String KAFKA_TRUSTSTORE  = "";
   protected static String KAFKA_TRUST_PASS  = "";
   
-  protected static String KAFKA_GROUP_ID    = "dew";
   protected static String KAFKA_TOPIC       = "test";
   protected static int    KAFKA_MAX_RECORDS = 0;
   
   protected static String KAFKA_SASL_MECH   = "SCRAM-SHA-256";
   protected static String KAFKA_SASL_JAAS   = "";
   
+  protected static String[] DATA = {"Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
+  
   public static 
   void main(String[] args) 
   {
     log("+------------------+");
-    log("|  WKafkaConsumer  |");
+    log("|  WKafkaProducer  |");
     log("+------------------+");
     
     String argServer = null;
     String argUser   = null;
     String argPass   = null;
     String argTopic  = null;
-    String argGroup  = null;
     
     if(args != null && args.length > 0) argServer = args[0];
     if(args != null && args.length > 1) argUser   = args[1];
     if(args != null && args.length > 2) argPass   = args[2];
     if(args != null && args.length > 3) argTopic  = args[3];
-    if(args != null && args.length > 4) argGroup  = args[4];
     
     if(argServer != null && argServer.length() > 0) {
       KAFKA_SERVERS = argServer;
@@ -66,20 +61,15 @@ class WKafkaConsumer
     if(argTopic != null && argTopic.length() > 0) {
       KAFKA_TOPIC = argTopic;
     }
-    if(argGroup != null && argGroup.length() > 0) {
-      KAFKA_GROUP_ID = argGroup;
-    }
     
     File keystoreFile   = getFileResource(KAFKA_KEYSTORE);
     File truststoreFile = getFileResource(KAFKA_TRUSTSTORE);
     
     // create consumer configs
     Properties properties = new Properties();
-    properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,        KAFKA_SERVERS);
-    properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,   StringDeserializer.class.getName());
-    properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-    properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG,                 KAFKA_GROUP_ID);
-    properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,        "latest");
+    properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,      KAFKA_SERVERS);
+    properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,   StringSerializer.class.getName());
+    properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
     
     if(truststoreFile != null || keystoreFile != null) {
       properties.setProperty("security.protocol", "SSL");
@@ -104,25 +94,27 @@ class WKafkaConsumer
       properties.setProperty("max.poll.records",                         String.valueOf(KAFKA_MAX_RECORDS));
     }
     
-    // Print sorted configuration entries
     log("Config:", properties);
     log("--------------------");
     
-    KafkaConsumer<String, String> consumer = null;
+    KafkaProducer<String, String> producer = null;
     try {
-      consumer = new KafkaConsumer<>(properties);
-      
-      System.out.println("consumer.subscribe(" + Arrays.asList(KAFKA_TOPIC) + ")...");
-      
-      consumer.subscribe(Arrays.asList(KAFKA_TOPIC));
+      producer = new KafkaProducer<>(properties);
       
       while(true) {
-        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
+        int index = (int) (DATA.length * Math.random());
         
-        for(ConsumerRecord<String, String> record: records) {
-          String message = record.value();
-          log(message);
-        }
+        String value = DATA[index];
+        
+        ProducerRecord<String, String> record = new ProducerRecord<String, String>(KAFKA_TOPIC, value);
+        
+        System.out.println("consumer.send(new ProducerRecord(" + KAFKA_TOPIC + "," + value + "))...");
+        
+        producer.send(record);
+        
+        producer.flush();
+        
+        Thread.sleep(1000);
       }
     }
     catch(WakeupException wex) {
@@ -132,7 +124,7 @@ class WKafkaConsumer
       ex.printStackTrace();
     }
     finally {
-      consumer.close();
+      producer.close();
     }
   }
   

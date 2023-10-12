@@ -11,3 +11,7 @@ kubectl exec "%KAFKA_CLI_POD%" --namespace default -- chmod +x /tmp/test_produce
 
 kubectl cp --namespace default wkafkaconsumer.sh "%KAFKA_CLI_POD%":/tmp/wkafkaconsumer.sh
 kubectl exec "%KAFKA_CLI_POD%" --namespace default -- chmod +x /tmp/wkafkaconsumer.sh
+
+kubectl cp --namespace default wkafkaproducer.sh "%KAFKA_CLI_POD%":/tmp/wkafkaproducer.sh
+kubectl exec "%KAFKA_CLI_POD%" --namespace default -- chmod +x /tmp/wkafkaproducer.sh
+
