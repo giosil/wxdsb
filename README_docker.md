@@ -25,6 +25,8 @@
 - `docker logs --follow <container_name>` - To follow stdout / stderr of the container
 - `docker attach <container_name>` - To connect to the container CTRL+P CTRL+Q to exit
 - `docker exec -it <container_name> bash` - Other mode to connect to the container CTRL+Z to exit
+- `docker exec <container_name> /bin/rm -fr /usr/local/tomcat/logs/*.*` - Execute a command on continer 
+- `docker exec <container_name> -u 0 /bin/rm -fr /usr/local/tomcat/logs/*.*` - Execute a command on continer as Root
 - `docker cp <container_name>:/usr/local/tomcat/logs "%USERPROFILE%"\Desktop` - To copy log folder from container to host
 - `docker images` - To see the list of images
 - `docker image ls` - Other mode to see the list of images
