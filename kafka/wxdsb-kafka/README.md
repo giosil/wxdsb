@@ -12,7 +12,7 @@ First get client-password from secret.
 
 - `kubectl get secret kafka-dew-user-passwords --namespace default -o jsonpath='{.data.client-passwords}'`
 
-Remember that the password is base64 encoded.
+The password is base64 encoded.
 
 To decode Base64 encoded text in Powershell:
 
