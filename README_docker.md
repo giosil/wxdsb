@@ -199,7 +199,9 @@ See https://github.com/kubernetes/ingress-nginx for more information.
 	- http://localhost:8080/api/v1/nodes
 - Workloads:
 	- http://localhost:8080/api/v1/namespaces/default/pods
-	- http://localhost:8080/api/v1/namespaces/default/pods?labelSelector=app=wxdsb
+		- http://localhost:8080/api/v1/namespaces/default/pods?labelSelector=app=wxdsb
+		- http://localhost:8080/api/v1/namespaces/default/pods/wxdsb
+		- http://localhost:8080/api/v1/namespaces/default/pods/wxdsb/log
 	- http://localhost:8080/apis/apps/v1/namespaces/default/deployments
 	- http://localhost:8080/apis/apps/v1/namespaces/default/deployments?labelSelector=app=wxdsb
 	- http://localhost:8080/apis/apps/v1/namespaces/default/replicasets
