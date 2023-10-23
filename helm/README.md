@@ -2,7 +2,7 @@
 
 ## Deploy application with Helm
 
-In this folder named `heml`:
+In this folder named `helm`:
 
 - `helm install wxdsb ./wxdsb` - this install `wxdsb` application from project folder
 - `helm list` - this show all releases

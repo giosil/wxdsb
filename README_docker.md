@@ -228,7 +228,7 @@ See https://github.com/kubernetes/ingress-nginx for more information.
 
 ## Deploy application with Helm
 
-In `heml` folder do the following:
+In `helm` folder do the following:
 
 - `helm install wxdsb ./wxdsb` - this install `wxdsb` application from project folder
 - `helm list` - this show all releases
