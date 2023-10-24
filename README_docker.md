@@ -259,7 +259,7 @@ Other commands:
 - Shutdown Docker Desktop
 - wsl --shutdown
 - diskpart
-	- select vdisk file="C:\Users\dew\AppData\Local\Docker\wsl\data\ext4.vhdx"
+	- select vdisk file="C:\Users\giorgio.silvestris\AppData\Local\Docker\wsl\data\ext4.vhdx"
 	- attach vdisk readonly
 	- compact vdisk
 	- detach vdisk
