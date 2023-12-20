@@ -90,6 +90,19 @@ tolerations: []
 
 affinity: {}
 
+# Configmap volume
+volConfigMap:
+  enabled: false
+#   volumeMount:
+#   - mountPath: /somewhere/web.xml
+#     subPath: web.xml
+#   data:
+#     web.xml: |
+#      file content
+#   binaryData:
+#     keystore.jks: |
+#        base64 file content
+
 persistenceVolume:
   enabled: true
   size: 1Gi

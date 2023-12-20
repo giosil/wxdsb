@@ -27,8 +27,13 @@ spec:
       serviceAccountName: {{ include "wxdsb.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if .Values.persistenceVolume.enabled }}
       volumes:
+      {{- if .Values.volConfigMap.enabled }}
+        - name: {{ include "wxdsb.fullname" . }}-cm-vol
+          configMap:
+            name: {{ include "wxdsb.fullname" . }}-cmv
+      {{- end }}
+      {{- if .Values.persistenceVolume.enabled }}
         - name: {{ include "wxdsb.fullname" . }}-vol
           persistentVolumeClaim:
             claimName: {{ include "wxdsb.fullname" . }}-pvc

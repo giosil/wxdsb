@@ -1,0 +1,14 @@
+{{- if .Values.volConfigMap.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "wxdsb.fullname" . }}-cmv
+{{ if .Values.volConfigMap.data }}
+data:
+{{ toYaml .Values.volConfigMap.data |indent 4 }}
+{{ end }}
+{{ if .Values.volConfigMap.binaryData }}
+binaryData:
+{{ toYaml .Values.volConfigMap.binaryData |indent 4 }}
+{{ end }}
+{{- end }}
