@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import java.nio.charset.StandardCharsets;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -775,6 +777,15 @@ class WSUtil
       }
     }
     
+    // Conversione codifica UTF-8
+    try {
+      String sUTF8 = new String(response, StandardCharsets.UTF_8);
+      response = sUTF8.getBytes(StandardCharsets.UTF_8);
+    }
+    catch(Exception ex) {
+      System.err.println("Exception during convert response to UTF-8: " + ex);
+    }
+    
     MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
     
     return messageFactory.createMessage(headers, new ByteArrayInputStream(response));
@@ -786,6 +797,7 @@ class WSUtil
   {
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
+    out.println("<!DOCTYPE html>");
     out.println("<html>");
     out.println("<head>");
     if(title != null && title.length() > 0) {
