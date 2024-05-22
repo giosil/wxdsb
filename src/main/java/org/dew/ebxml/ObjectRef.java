@@ -72,7 +72,7 @@ class ObjectRef extends Identifiable
     if(id == null || id.length() == 0) {
       return "";
     }
-    StringBuffer sb = new StringBuffer(90);
+    StringBuilder sb = new StringBuilder(90);
     sb.append("<" + namespace + getTagName());
     if(createReplica) {
       sb.append(" createReplica=\"" + createReplica + "\"");
