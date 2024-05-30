@@ -68,7 +68,14 @@ class ITI42Service extends HttpServlet
   void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
   {
-    AuthAssertion basicAuth = WSUtil.getBasicAuth(request);
+    AuthAssertion basicAuth = null;
+    try {
+      basicAuth = WSUtil.getBasicAuth(request);
+    }
+    catch(Exception ex) {
+      response.sendError(403);
+      return;
+    }
     
     String sMessageID     = null;
     String sNsURIEnvelope = null;

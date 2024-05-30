@@ -2,6 +2,8 @@ package org.dew.xds.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,6 +40,7 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -58,6 +61,7 @@ class WSUtil
   
   public static
   AuthAssertion getBasicAuth(HttpServletRequest request)
+    throws Exception
   {
     String sAuthorization = request.getHeader("Authorization");
     if(sAuthorization == null || !sAuthorization.startsWith("Basic ")) {
@@ -78,12 +82,14 @@ class WSUtil
       
       assertion = new BasicAssertion(sUsername, sPassword);
     }
-    catch(Throwable th) {
-      System.err.println("getBasicAuth: " + th);
+    catch(Exception ex) {
+      System.err.println("getBasicAuth: " + ex);
+      throw ex;
     }
     return assertion;
   }
   
+  @SuppressWarnings("unchecked")
   public static
   SOAPMessage getSOAPMessage(HttpServletRequest request)
     throws Exception
@@ -255,12 +261,11 @@ class WSUtil
     return mapResult;
   }
   
-  @SuppressWarnings("rawtypes")
   public static
   byte[] getFirstAttachment(SOAPMessage soapMessage)
     throws Exception
   {
-    Iterator iterator = soapMessage.getAttachments();
+    Iterator<?> iterator = soapMessage.getAttachments();
     if(iterator == null) return null;
     while(iterator.hasNext()) {
       Object attachment = iterator.next();
@@ -371,6 +376,54 @@ class WSUtil
       sb.append("<detail></detail>");
     }
     sb.append("</soap:Fault></soap:Body></soap:Envelope>");
+    
+    response.addHeader("Content-Type",      "text/xml; charset=\"utf-8\"");
+    response.addHeader("Transfer-Encoding", "chunked");
+    PrintWriter out = response.getWriter();
+    out.write(sb.toString(), 0, sb.length());
+    out.flush();
+    
+    if(TRACE) System.out.println("[FAULT] " + sb);
+  }
+  
+  public static 
+  void sendFault(HttpServletResponse response, String sNsURIEnvelope, int code, String message, String detail, OutputStream outTrace)
+    throws IOException
+  {
+    if(message == null) message = "Service exception";
+    message = normalizeString(message);
+    if(detail == null) detail = "";
+    detail  = normalizeString(detail);
+    if(sNsURIEnvelope == null || sNsURIEnvelope.length() == 0) {
+      sNsURIEnvelope = SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE;
+    }
+    StringBuilder sb = new StringBuilder(555 + message.length() + detail.length());
+    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+    sb.append("<soap:Envelope xmlns:soap=\"" + sNsURIEnvelope + "\">");
+    sb.append("<soap:Header><To xmlns=\"http://www.w3.org/2005/08/addressing\">http://www.w3.org/2005/08/addressing/anonymous</To><Action xmlns=\"http://www.w3.org/2005/08/addressing\">http://www.w3.org/2005/08/addressing/fault</Action></soap:Header>");
+    sb.append("<soap:Body><soap:Fault><faultcode>");
+    sb.append(code);
+    sb.append("</faultcode><faultstring>");
+    sb.append(message);
+    sb.append("</faultstring>");
+    if(detail != null && detail.length() > 0) {
+      sb.append("<detail>");
+      sb.append(detail);
+      sb.append("</detail>");
+    }
+    else {
+      sb.append("<detail></detail>");
+    }
+    sb.append("</soap:Fault></soap:Body></soap:Envelope>");
+    
+    if(outTrace != null) {
+      try {
+        outTrace.write(sb.toString().getBytes());
+      }
+      catch(Exception ex) {
+        System.err.println("[WUtil.sendFault] Exception during write trace: " + ex);
+      }
+    }
     
     response.addHeader("Content-Type",      "text/xml; charset=\"utf-8\"");
     response.addHeader("Transfer-Encoding", "chunked");
@@ -519,6 +572,12 @@ class WSUtil
   {
     URL url = new URL(sURL);
     
+    boolean convertResponseToUTF8 = true;
+    if(sContentType != null && sContentType.equals("x")) {
+      convertResponseToUTF8 = false;
+      sContentType = null;
+    }
+    
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     if(sContentType != null && sContentType.length() > 0) {
       conn.addRequestProperty("Content-Type", sContentType);
@@ -533,7 +592,7 @@ class WSUtil
     if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
     if(readTimeout > 0) conn.setReadTimeout(readTimeout);
     
-    return sendRequest(conn, request);
+    return sendRequest(conn, request, convertResponseToUTF8);
   }
   
   public static
@@ -542,6 +601,12 @@ class WSUtil
   {
     URL url = new URL(sURL);
     
+    boolean convertResponseToUTF8 = true;
+    if(sContentType != null && sContentType.equals("x")) {
+      convertResponseToUTF8 = false;
+      sContentType = null;
+    }
+    
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     if(sContentType != null && sContentType.length() > 0) {
       conn.addRequestProperty("Content-Type", sContentType);
@@ -559,7 +624,7 @@ class WSUtil
     if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
     if(readTimeout > 0) conn.setReadTimeout(readTimeout);
     
-    return sendRequest(conn, request);
+    return sendRequest(conn, request, convertResponseToUTF8);
   }
   
   public static
@@ -568,6 +633,12 @@ class WSUtil
   {
     URL url = new URL(sURL);
     
+    boolean convertResponseToUTF8 = true;
+    if(sContentType != null && sContentType.equals("x")) {
+      convertResponseToUTF8 = false;
+      sContentType = null;
+    }
+    
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     if(sContentType != null && sContentType.length() > 0) {
       conn.addRequestProperty("Content-Type", sContentType);
@@ -584,7 +655,7 @@ class WSUtil
     if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
     if(readTimeout > 0) conn.setReadTimeout(readTimeout);
     
-    return sendRequest(conn, request);
+    return sendRequest(conn, request, convertResponseToUTF8);
   }
   
   public static
@@ -593,6 +664,12 @@ class WSUtil
   {
     URL url = new URL(sURL);
     
+    boolean convertResponseToUTF8 = true;
+    if(sContentType != null && sContentType.equals("x")) {
+      convertResponseToUTF8 = false;
+      sContentType = null;
+    }
+    
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     if(sContentType != null && sContentType.length() > 0) {
       conn.addRequestProperty("Content-Type", sContentType);
@@ -612,7 +689,7 @@ class WSUtil
     if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
     if(readTimeout > 0) conn.setReadTimeout(readTimeout);
     
-    return sendRequest(conn, request);
+    return sendRequest(conn, request, convertResponseToUTF8);
   }
   
   public static
@@ -621,6 +698,12 @@ class WSUtil
   {
     URL url = new URL(sURL);
     
+    boolean convertResponseToUTF8 = true;
+    if(sContentType != null && sContentType.equals("x")) {
+      convertResponseToUTF8 = false;
+      sContentType = null;
+    }
+    
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     if(sContentType != null && sContentType.length() > 0) {
       conn.addRequestProperty("Content-Type", sContentType);
@@ -640,7 +723,7 @@ class WSUtil
     if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
     if(readTimeout > 0) conn.setReadTimeout(readTimeout);
     
-    return sendRequest(conn, request);
+    return sendRequest(conn, request, convertResponseToUTF8);
   }
   
   public static
@@ -648,6 +731,12 @@ class WSUtil
     throws Exception
   {
     URL url = new URL(sURL);
+    
+    boolean convertResponseToUTF8 = true;
+    if(sContentType != null && sContentType.equals("x")) {
+      convertResponseToUTF8 = false;
+      sContentType = null;
+    }
     
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     if(sContentType != null && sContentType.length() > 0) {
@@ -671,11 +760,11 @@ class WSUtil
     if(connTimeout > 0) conn.setConnectTimeout(connTimeout);
     if(readTimeout > 0) conn.setReadTimeout(readTimeout);
     
-    return sendRequest(conn, request);
+    return sendRequest(conn, request, convertResponseToUTF8);
   }
   
   public static
-  SOAPMessage sendRequest(HttpURLConnection conn, byte[] request)
+  SOAPMessage sendRequest(HttpURLConnection conn, byte[] request, boolean convertResponseToUTF8)
     throws Exception
   {
     int statusCode = 0;
@@ -778,12 +867,14 @@ class WSUtil
     }
     
     // Conversione codifica UTF-8
-    try {
-      String sUTF8 = new String(response, StandardCharsets.UTF_8);
-      response = sUTF8.getBytes(StandardCharsets.UTF_8);
-    }
-    catch(Exception ex) {
-      System.err.println("Exception during convert response to UTF-8: " + ex);
+    if(convertResponseToUTF8) {
+      try {
+        String sUTF8 = new String(response, StandardCharsets.UTF_8);
+        response = sUTF8.getBytes(StandardCharsets.UTF_8);
+      }
+      catch(Exception ex) {
+        System.err.println("Exception during convert response to UTF-8: " + ex);
+      }
     }
     
     MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
@@ -826,7 +917,7 @@ class WSUtil
       else if(c == '&')  sb.append("&amp;");
       else if(c == '"')  sb.append("&quot;");
       else if(c == '\'') sb.append("&apos;");
-      if(c > 126) {
+      else if(c > 126) {
         int code = (int) c;
         sb.append("&#" + code + ";");
       }
@@ -856,6 +947,24 @@ class WSUtil
       result[index] = listOfAssertion.get(i);
     }
     return result;
+  }
+  
+  public static 
+  void trace(byte[] content, String fileName)
+  {
+    if(content == null || content.length == 0) return;
+    if(fileName == null || fileName.length() == 0) return;
+    FileOutputStream fos = null;
+    try {
+      fos = new FileOutputStream(System.getProperty("user.home") + File.separator + "log" + File.separator + fileName, false);
+      fos.write(content);
+    }
+    catch(Exception ex) {
+      System.err.println("Exception during write trace file " + fileName + ": " + ex);
+    }
+    finally {
+      if(fos != null) try { fos.close(); } catch(Exception ex) {}
+    }
   }
   
   public static 
