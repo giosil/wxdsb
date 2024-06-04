@@ -43,8 +43,11 @@ tasks.withType(Javadoc) {
     options.encoding = 'UTF-8'
 }
 
-task checkDest {
+// Custom tasks 'beforeBuild' and 'afterBuild' are defined to copy the artifacts into target folder.
+
+task beforeBuild {
     doFirst {
+        println("[beforeBuild] doFirst...")
         def destDir = new File("${buildDir}/../target")
         if (!destDir.exists()) {
             destDir.mkdirs()
@@ -52,13 +55,12 @@ task checkDest {
     }
 }
 
-build {
-    dependsOn checkDest
-}
-
-task copyLibs(type: Copy) {
+task afterBuild(type: Copy) {
     from("${buildDir}/libs")
     into("${buildDir}/../target")
 }
 
-build.finalizedBy(copyLibs)
+build {
+    dependsOn beforeBuild
+    finalizedBy afterBuild
+}
