@@ -89,7 +89,7 @@ Other commands:
 - `kubectl rollout undo deployment/wxdsb` - Rollback to the previous deployment
 - `kubectl rollout undo deployment/wxdsb --to-revision=2` - Rollback to a specific revision
 - `kubectl rollout status -w deployment/wxdsb` - Watch rolling update status of `wxdsb` deployment until completion
-- `kubectl rollout restart deployment/sira-drupal` - Rolling restart of the `wxdsb` deployment
+- `kubectl rollout restart deployment/wxdsb` - Rolling restart of the `wxdsb` deployment
 
 ## Install Ingress-Nginx to your Docker Desktop Kubernetes
 
