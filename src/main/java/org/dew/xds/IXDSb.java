@@ -26,4 +26,7 @@ interface IXDSb
   
   // ITI-62
   public RegistryResponse    deleteDocumentSet(ObjectRefList objectRefList, AuthAssertion[] arrayOfAssertion);
+  
+  // ITI-86
+  public RegistryResponse    removeDocumentSet(RemoveDocumentsRequest removeDocumentsRequest, AuthAssertion[] arrayOfAssertion);
 }

@@ -39,8 +39,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfAssertion = null");
       return new AdhocQueryResponse("Missing identification assertion");
     }
-    else
-    if(arrayOfAssertion.length == 0) {
+    else if(arrayOfAssertion.length == 0) {
       System.out.println("   arrayOfAssertion has 0 items");
       return new AdhocQueryResponse("Missing identification assertion");
     }
@@ -92,8 +91,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfXDSDocument = null");
       return new RegistryResponse(false, "Missing metdata");
     }
-    else
-    if(arrayOfXDSDocument.length == 0) {
+    else if(arrayOfXDSDocument.length == 0) {
       System.out.println("   arrayOfXDSDocument has 0 items");
       return new RegistryResponse(false, "Missing metdata");
     }
@@ -111,8 +109,7 @@ class XDSbTest implements IXDSb
             System.out.println("   " + i + ") xdsdocument = " + xdsDocument.toMap() + " content is null");
             return new RegistryResponse(false, "Missing document content");
           }
-          else
-          if(content.length == 0) {
+          else if(content.length == 0) {
             System.out.println("   " + i + ") xdsdocument = " + xdsDocument.toMap() + " content is empty");
             return new RegistryResponse(false, "Missing document content");
           }
@@ -130,8 +127,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfAssertion = null");
       return new RegistryResponse(false, "Missing identification assertion");
     }
-    else
-    if(arrayOfAssertion.length == 0) {
+    else if(arrayOfAssertion.length == 0) {
       System.out.println("   arrayOfAssertion has 0 items");
       return new RegistryResponse(false, "Missing identification assertion");
     }
@@ -161,8 +157,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfXDSDocument = null");
       return new RegistryResponse(false, "Missing metdata");
     }
-    else
-    if(arrayOfXDSDocument.length == 0) {
+    else if(arrayOfXDSDocument.length == 0) {
       System.out.println("   arrayOfXDSDocument has 0 items");
       return new RegistryResponse(false, "Missing metdata");
     }
@@ -191,8 +186,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfAssertion = null");
       return new RegistryResponse(false, "Missing identification assertion");
     }
-    else
-    if(arrayOfAssertion.length == 0) {
+    else if(arrayOfAssertion.length == 0) {
       System.out.println("   arrayOfAssertion has 0 items");
       return new RegistryResponse(false, "Missing identification assertion");
     }
@@ -223,8 +217,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfAssertion = null");
       return new XDSDocumentResponse(new RegistryResponse(false, "Missing identification assertion"));
     }
-    else
-    if(arrayOfAssertion.length == 0) {
+    else if(arrayOfAssertion.length == 0) {
       System.out.println("   arrayOfAssertion has 0 items");
       return new XDSDocumentResponse(new RegistryResponse(false, "Missing identification assertion"));
     }
@@ -273,8 +266,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfXDSDocument = null");
       return new RegistryResponse(false, "Missing metadata");
     }
-    else
-    if(arrayOfXDSDocument.length == 0) {
+    else if(arrayOfXDSDocument.length == 0) {
       System.out.println("   arrayOfXDSDocument has 0 items");
       return new RegistryResponse(false, "Missing metadata");
     }
@@ -290,8 +282,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfAssertion = null");
       return new RegistryResponse(false, "Missing identification assertion");
     }
-    else
-    if(arrayOfAssertion.length == 0) {
+    else if(arrayOfAssertion.length == 0) {
       System.out.println("   arrayOfAssertion has 0 items");
       return new RegistryResponse(false, "Missing identification assertion");
     }
@@ -320,8 +311,7 @@ class XDSbTest implements IXDSb
       System.out.println("   objectRefList = null");
       return new RegistryResponse(false, "Missing ObjectRefList");
     }
-    else
-    if(objectRefList.size() == 0) {
+    else if(objectRefList.size() == 0) {
       System.out.println("   objectRefList has 0 items");
       return new RegistryResponse(false, "ObjectRefList is empty");
     }
@@ -335,8 +325,7 @@ class XDSbTest implements IXDSb
       System.out.println("   arrayOfAssertion = null");
       return new RegistryResponse(false, "Missing identification assertion");
     }
-    else
-    if(arrayOfAssertion.length == 0) {
+    else if(arrayOfAssertion.length == 0) {
       System.out.println("   arrayOfAssertion has 0 items");
       return new RegistryResponse(false, "Missing identification assertion");
     }
@@ -355,6 +344,48 @@ class XDSbTest implements IXDSb
     
     System.out.println("deleteDocumentSet -> Success");
     
+    return new RegistryResponse(true);
+  }
+  
+  public 
+  RegistryResponse removeDocumentSet(RemoveDocumentsRequest removeDocumentsRequest, AuthAssertion[] arrayOfAssertion) 
+  {
+    System.out.println("removeDocumentSet");
+    if(removeDocumentsRequest == null) {
+      System.out.println("   removeDocumentsRequest = null");
+      return new RegistryResponse(false, "Missing RemoveDocumentsRequest");
+    }
+    else if(removeDocumentsRequest.size() == 0) {
+      System.out.println("   removeDocumentsRequest has 0 items");
+      return new RegistryResponse(false, "RemoveDocumentsRequest is empty");
+    }
+    else {
+      for(int i = 0; i < removeDocumentsRequest.size(); i++) {
+        XDSDocumentRequest xdsDocumentRequest = removeDocumentsRequest.getXDSDocumentRequest(i);
+        System.out.println("   " + i + ") " + xdsDocumentRequest);
+      }
+    }
+    if(arrayOfAssertion == null) {
+      System.out.println("   arrayOfAssertion = null");
+      return new RegistryResponse(false, "Missing identification assertion");
+    }
+    else if(arrayOfAssertion.length == 0) {
+      System.out.println("   arrayOfAssertion has 0 items");
+      return new RegistryResponse(false, "Missing identification assertion");
+    }
+    else {
+      for(int i = 0; i < arrayOfAssertion.length; i++) {
+        System.out.println("   " + i + ") assertion = " + arrayOfAssertion[i]);
+        if(arrayOfAssertion[i].isSigned()) {
+          System.out.println("      signed by " + arrayOfAssertion[i].getCertificate().getSubjectDN().getName());
+        }
+        else {
+          return new RegistryResponse(false, "Invalid assertion");
+        }
+      }
+    }
+    
+    System.out.println("removeDocumentSet -> Success");
     return new RegistryResponse(true);
   }
   
