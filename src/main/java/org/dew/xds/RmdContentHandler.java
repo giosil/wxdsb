@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 
 import java.util.Stack;
 
-import org.dew.xds.util.Base64Coder;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -16,7 +14,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 public
-class XDRContentHandler implements ContentHandler
+class RmdContentHandler implements ContentHandler
 {
   protected String sCurrentTag;
   protected String sCurrentValue;
@@ -25,8 +23,7 @@ class XDRContentHandler implements ContentHandler
   protected String homeCommunityId;
   protected String repositoryUniqueId;
   protected String documentUniqueId;
-  protected String mimeType;
-  protected byte[] document;
+  protected RemoveDocumentsRequest removeDocumentsRequest;
   
   public
   void load(byte[] content)
@@ -44,7 +41,7 @@ class XDRContentHandler implements ContentHandler
   {
     int iTag = sFile.indexOf('<');
     InputSource inputSource = null;
-    if(iTag >= 0) {
+    if (iTag >= 0) {
       inputSource = new InputSource(new ByteArrayInputStream(sFile.getBytes()));
     }
     else {
@@ -56,22 +53,9 @@ class XDRContentHandler implements ContentHandler
   }
   
   public
-  XDSDocumentRequest getXDSDocumentRequest()
+  RemoveDocumentsRequest getRemoveDocumentsRequest()
   {
-    return new XDSDocumentRequest(homeCommunityId, repositoryUniqueId, documentUniqueId);
-  }
-  
-  public
-  XDSDocumentResponse getXDSDocumentResponse()
-  {
-    XDSDocumentResponse xdsDocumentResponse = new XDSDocumentResponse(homeCommunityId, repositoryUniqueId, documentUniqueId);
-    if(mimeType != null && mimeType.length() > 0) {
-      xdsDocumentResponse.setMimeType(mimeType);
-    }
-    if(document != null && document.length > 0) {
-      xdsDocumentResponse.setDocument(document);
-    }
-    return xdsDocumentResponse;
+    return removeDocumentsRequest;
   }
   
   public
@@ -80,11 +64,10 @@ class XDRContentHandler implements ContentHandler
   {
     stackElements = new Stack<String>();
     
-    homeCommunityId    = null;
-    repositoryUniqueId = null;
-    documentUniqueId   = null;
-    mimeType           = null;
-    document           = null;
+    homeCommunityId        = null;
+    repositoryUniqueId     = null;
+    documentUniqueId       = null;
+    removeDocumentsRequest = new RemoveDocumentsRequest();
   }
   
   public
@@ -111,7 +94,10 @@ class XDRContentHandler implements ContentHandler
   void endElement(String uri, String localName, String qName)
     throws SAXException
   {
-    if(localName.equalsIgnoreCase("HomeCommunityId")) {
+    if (localName.equalsIgnoreCase("DocumentRequest")) {
+      removeDocumentsRequest.add(homeCommunityId, repositoryUniqueId, documentUniqueId);
+    }
+    else if(localName.equalsIgnoreCase("HomeCommunityId")) {
       homeCommunityId = sCurrentValue;
     }
     else if(localName.equalsIgnoreCase("RepositoryUniqueId")) {
@@ -120,17 +106,8 @@ class XDRContentHandler implements ContentHandler
     else if(localName.equalsIgnoreCase("DocumentUniqueId")) {
       documentUniqueId = sCurrentValue;
     }
-    else if(localName.equalsIgnoreCase("mimeType")) {
-      mimeType = sCurrentValue;
-    }
-    else if(localName.equalsIgnoreCase("Document")) {
-      String sBase64 = sCurrentValue != null ? sCurrentValue.trim() : "";
-      if(sBase64 != null && sBase64.length() > 3) {
-        try{ document = Base64Coder.decodeLines(sCurrentValue); } catch(Throwable th) {} 
-      }
-    }
     
-    if(!stackElements.isEmpty()) stackElements.pop();
+    if (!stackElements.isEmpty()) stackElements.pop();
     sCurrentTag = "";
     for (int i = 0; i < stackElements.size(); i++) {
       sCurrentTag += "|" + stackElements.get(i);

@@ -48,6 +48,10 @@
 		<servlet-name>ITI62Service</servlet-name>
 		<servlet-class>org.dew.services.ITI62Service</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>ITI86Service</servlet-name>
+		<servlet-class>org.dew.services.ITI86Service</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>InitBackEnd</servlet-name>
@@ -77,6 +81,10 @@
 	<servlet-mapping>
 		<servlet-name>ITI62Service</servlet-name>
 		<url-pattern>/XDSDocumentRegistryDelete/DeleteDocumentSet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ITI86Service</servlet-name>
+		<url-pattern>/XDSDocumentRepositoryRemove/RemoveDocumentSet</url-pattern>
 	</servlet-mapping>
 
 </web-app>

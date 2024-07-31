@@ -38,6 +38,9 @@ class ObjectRefList implements IElement, Serializable
   public ObjectRefList(List<ObjectRef> listOfObjectRef)
   {
     this.listOfObjectRef = listOfObjectRef;
+    if(this.listOfObjectRef == null) {
+      this.listOfObjectRef = new ArrayList<ObjectRef>();
+    }
   }
   
   public void addObjectRef(String registryObjectId) {
@@ -49,7 +52,6 @@ class ObjectRefList implements IElement, Serializable
   
   public void addObjectRef(ObjectRef objectRef) {
     if(objectRef == null) return;
-    if(listOfObjectRef == null) listOfObjectRef = new ArrayList<ObjectRef>();
     if(listOfObjectRef.contains(objectRef)) return;
     listOfObjectRef.add(objectRef);
   }
@@ -59,8 +61,29 @@ class ObjectRefList implements IElement, Serializable
     return listOfObjectRef.get(i);
   }
   
+  public boolean removeObjectRef(String registryObjectId) {
+    if(registryObjectId == null || registryObjectId.length() == 0) {
+      return false;
+    }
+    return listOfObjectRef.remove(new ObjectRef(registryObjectId));
+  }
+  
+  public boolean removeObjectRef(ObjectRef objectRef) {
+    if(objectRef == null) return false;
+    return listOfObjectRef.remove(objectRef);
+  }
+  
+  public ObjectRef removeObjectRef(int i) {
+    if(listOfObjectRef == null || listOfObjectRef.size() <= i) return null;
+    return listOfObjectRef.get(i);
+  }
+  
   public List<ObjectRef> getListOfObjectRef() {
     return listOfObjectRef;
+  }
+  
+  public void clear() {
+    listOfObjectRef.clear();
   }
   
   public int size() {
