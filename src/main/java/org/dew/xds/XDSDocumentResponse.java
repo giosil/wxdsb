@@ -39,24 +39,52 @@ class XDSDocumentResponse implements IElement, Serializable
   public XDSDocumentResponse(String repositoryUniqueId, String documentUniqueId)
   {
     this.repositoryUniqueId = repositoryUniqueId;
-    this.documentUniqueId = documentUniqueId;
+    this.documentUniqueId   = documentUniqueId;
   }
   
   public XDSDocumentResponse(String homeCommunityId, String repositoryUniqueId, String documentUniqueId)
   {
-    this.homeCommunityId = homeCommunityId;
+    this.homeCommunityId    = homeCommunityId;
     this.repositoryUniqueId = repositoryUniqueId;
-    this.documentUniqueId = documentUniqueId;
+    this.documentUniqueId   = documentUniqueId;
   }
   
   public XDSDocumentResponse(XDSDocument xdsDocument)
   {
     if(xdsDocument == null) return;
-    this.homeCommunityId = xdsDocument.getHomeCommunityId();
-    this.repositoryUniqueId = xdsDocument.getRepositoryUniqueId();
-    this.documentUniqueId = xdsDocument.getUniqueId();
-    this.mimeType = xdsDocument.getMimeType();
-    this.document = xdsDocument.getContent();
+    homeCommunityId    = xdsDocument.getHomeCommunityId();
+    repositoryUniqueId = xdsDocument.getRepositoryUniqueId();
+    documentUniqueId   = xdsDocument.getUniqueId();
+    mimeType           = xdsDocument.getMimeType();
+    document           = xdsDocument.getContent();
+    
+    String sRegistryObjectId = xdsDocument.getRegistryObjectId();
+    if(sRegistryObjectId == null || sRegistryObjectId.length() == 0) {
+      sRegistryObjectId = UUID.randomUUID().toString();
+    }
+    xopIncludeHref = "cid:" + sRegistryObjectId + "@urn%3Aihe%3Aiti%3Axds-b%3A2007";
+  }
+  
+  public XDSDocumentResponse(XDSDocumentRequest request, XDSDocument xdsDocument)
+  {
+    if(request != null) {
+      homeCommunityId    = request.getHomeCommunityId();
+      repositoryUniqueId = request.getRepositoryUniqueId();
+      documentUniqueId   = request.getDocumentUniqueId();
+    }
+    if(xdsDocument == null) return;
+    
+    if(request == null) {
+      homeCommunityId = xdsDocument.getHomeCommunityId();
+    }
+    if(repositoryUniqueId == null || repositoryUniqueId.length() == 0) {
+      repositoryUniqueId = xdsDocument.getRepositoryUniqueId();
+    }
+    if(documentUniqueId == null || documentUniqueId.length() == 0) {
+      documentUniqueId   = xdsDocument.getUniqueId();
+    }
+    mimeType = xdsDocument.getMimeType();
+    document = xdsDocument.getContent();
     
     String sRegistryObjectId = xdsDocument.getRegistryObjectId();
     if(sRegistryObjectId == null || sRegistryObjectId.length() == 0) {
