@@ -19,7 +19,9 @@ See this [Docker Cheat Sheet](README_docker.md) for more info.
 
 ### Trace HTTP traffic
 
-`tcpdump -i eth0 -A port 8080 -s 65535 -w tcpdump.log &`
+`tcpdump --list-interfaces` (to show interfaces) or `ip link show`
+`tcpdump -i eth0 -A port 8080 -s 65535 -w tcpdump.log &` (-i interface, -A Print each packet in ASCII, -s snaplen, -w file in binary pcap format)
+`tcpdump -r tcpdump.log -A` (to read pcap file, -A include ASCII content)
 
 ### Enabling SSL debugging
 
