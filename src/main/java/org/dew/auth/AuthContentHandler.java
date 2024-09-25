@@ -2,12 +2,21 @@ package org.dew.auth;
 
 import java.io.ByteArrayInputStream;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Stack;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import org.dew.ebxml.Utils;
+
 import org.dew.xds.util.Base64Coder;
 
 public
@@ -168,7 +177,10 @@ class AuthContentHandler implements ContentHandler
       }
     }
     else if(localName.equals("AttributeValue")) {
-      if(attributeName.indexOf("List") >= 0 || attributeName.indexOf("list") >= 0) {
+      if(attributeName == null) {
+        listName = null;
+      }
+      else if(attributeName.indexOf("List") >= 0 || attributeName.indexOf("list") >= 0) {
         if(attributeName.equals(listName)) {
           indexListItem++;
         }
