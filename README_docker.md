@@ -1,5 +1,19 @@
 # Docker Cheat Sheet
 
+## Check local Docker installation
+
+`docker info`
+
+http://localhost:2375/info
+
+## Check local Kubernetes installation
+
+`kubectl cluster-info`
+
+https://localhost:6443/
+
+https://kubernetes.docker.internal:6443/
+
 ## Create a Docker image
 
 - `docker build -t <image_name> .` this will create a Docker image named <image_name>
