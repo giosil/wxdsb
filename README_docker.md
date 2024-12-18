@@ -138,12 +138,15 @@ The file `wxdsb.yaml` contains:
 Other commands:
 
 - `kubectl config view` - Displays merged kubeconfig settings or a specified kubeconfig file
+- `kubectl config get-contexts` - Displays contexts defined in kubeconfig
+- `kubectl config use-context <context-name>` - Set current-context
 - `kubectl cluster-info` - Display addresses of the master and services
 - `kubectl get nodes` - Provides essential information about the nodes in your Kubernetes cluster 
 - `kubectl get nodes -o wide` - Provides more information about the nodes in your Kubernetes cluster
 - `kubectl get namespaces --show-labels` - To view namespaces
 - `kubectl get all -l app.kubernetes.io/managed-by=Helm'` - To view all objects with label app.kubernetes.io/managed-by=Helm
 - `kubectl get pods` - To view pods
+- `kubectl --context=<context-name> get pods` - To view pods of `context-name` context
 - `kubectl get pods -l app.kubernetes.io/name=wxdsb` - To view pods with label app.kubernetes.io/name=wxdsb
 - `kubectl get pods -o yaml` - To view pods information in yaml format
 - `kubectl get pods -o json` - To view pods information in json format
