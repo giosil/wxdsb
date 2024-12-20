@@ -294,7 +294,7 @@ Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboar
 
 `helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard`
 
-To create Ingress:
+To create Ingress write `kubernetes-dashboard-ingress.yaml` file:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -320,6 +320,10 @@ spec:
             port:
               number: 443
 ```
+
+and apply:
+
+`kubectl apply -f kubernetes-dashboard-ingress.yaml`
 
 Alternatively, to access Dashboard by port-forward:
 
