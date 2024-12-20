@@ -286,17 +286,46 @@ Other commands:
 
 ### Kubernetes Dashboard
 
-Add kubernetes-dashboard repository
+Add kubernetes-dashboard repository:
 
 `helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/`
 
-Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
+Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart:
 
 `helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard`
 
-To access Dashboard run:
+To create Ingress:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: kubernetes-dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kubernetes.isedev.it
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: kubernetes-dashboard-kong-proxy
+            port:
+              number: 443
+```
+
+Alternatively, to access Dashboard by port-forward:
 
 `kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443`
+
+### Generate Bearer Token
 
 To bind role `admin` to service account `default`
 
@@ -306,7 +335,9 @@ To create token for service account `default` in namespace (-n) `default`
 
 `kubectl -n default create token default`
 
-To configure local nginx to proxy 8443:
+### Configure local nginx proxy instead of create an Ingress
+
+To configure local nginx to proxy (on 6443) kubernetes dashboard exposed by port-forward (on 8443):
 
 ```
 http {
