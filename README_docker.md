@@ -337,7 +337,7 @@ To bind role `admin` to service account `default`
 
 To create token for service account `default` in namespace (-n) `default`
 
-`kubectl -n default create token default --duration=0s`
+`kubectl -n default create token default --duration=200000h`
 
 ### Configure local nginx proxy instead of create an Ingress
 
