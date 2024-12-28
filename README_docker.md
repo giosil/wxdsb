@@ -20,7 +20,10 @@ https://kubernetes.docker.internal:6443/
 
 ## Run locally on Docker
 
-- `docker run --rm -it -p 8080:8080 --name=<container_name> -d <image_name>` - To run image creating container named <container_name>
+- `docker run --name=<container_name> -p 8080:8080 -d <image_name>` - To run image creating container named <container_name> (-d = detach)
+- `docker run --rm -it --name=<container_name> -p 8080:8080 -d <image_name>` - To run image creating container named <container_name> (-rm = remove, -i = interactive, -t = tty)
+- `docker run -v <host_directory>:<container_directory> --name=<container_name> -p 8080:8080 -d <image_name>` - To run image with volume
+- `docker run -e APP_PROFILE=test --name=<container_name> -p 8080:8080 -d <image_name>` - To run image with environment variables
 - `docker rename <container_name> <new_container_name>` - To rename the container
 - `docker ps` - To see the running container
 - `docker ps -a -q -f name=<container_name> -f status=running` - To see all (-a) the ids/names (-q) of running container by <container_name>
@@ -171,6 +174,7 @@ Other commands:
 - `kubectl label pods wxdsb group=test` - # Add a Label
 - `kubectl label pods wxdsb group=test --overwrite` - # Overwrite a Label
 - `kubectl label pods wxdsb group-` - # Remove a label
+- `kubectl describe pods` - To describe pds
 - `kubectl describe deployment wxdsb` - To describe deployment
 - `kubectl describe service wxdsb-service` - To describe service
 - `kubectl describe ingress wxdsb-ingress` - To describe ingress
@@ -185,6 +189,8 @@ Other commands:
 - `kubectl scale --replicas=3 rs/wxdsb` - Scale a replicaset named `wxdsb` to 3
 - `kubectl cp test.txt wxdsb:/data01` - Copy local file `test.txt` to remote directory `/data01` of pod named `wxdsb`
 - `kubectl cp wxdsb:/data01/test.txt .` - Copy remote file `/data01/test.txt` of pod named `wxdsb` in local current (.) directory
+- `kubectl create deployment wxdsb-dep --image=wxdsb:latest` - Simple way to create a deployment 
+- `kubectl run wxdsb-dep --image=wxdsb:latest --port=8080` - Alternative way to create a deployment 
 
 ## Update Kubernetes deployment
 
@@ -242,6 +248,8 @@ See https://github.com/kubernetes/ingress-nginx for more information.
 	- http://localhost:8080/api/v1/namespaces/default/serviceaccounts
 - Namespaces:
 	- http://localhost:8080/api/v1/namespaces
+- Exposed port pod:
+	. http://localhost:8080/api/v1/namespaces/default/pods/$POD_NAME:8080/proxy/
 
 ## Deploy application with Helm
 
