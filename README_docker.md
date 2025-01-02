@@ -290,7 +290,10 @@ Other commands:
 	- detach vdisk
 	- exit
 - Start Docker Desktop
-- \\wsl$ (to view data)
+- \\wsl$           (to view data)
+- \\wsl.localhost  (alterative path)
+- \\wsl.localhost\docker-desktop\mnt\docker-desktop-disk\data\docker\containers
+- \\wsl.localhost\docker-desktop\mnt\docker-desktop-disk\data\docker\volumes
 
 ### Kubernetes Dashboard
 
