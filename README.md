@@ -13,8 +13,6 @@ A programmable server and client IHE-XDSb.
 
 - `docker build -t <image_name> .` this will create a Docker image named <image_name>
 
-See this [Docker Cheat Sheet](README_docker.md) for more info.
-
 ## Debug network issues
 
 ### Trace HTTP traffic
