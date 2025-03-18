@@ -998,7 +998,7 @@ class XDSbClient implements IXDSb
 		sbRequest.append("<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">");
 		sbRequest.append("<soap:Header>");
 		sbRequest.append("<To xmlns=\"http://www.w3.org/2005/08/addressing\">" + urlITI57 + "</To>");
-		sbRequest.append("<Action xmlns=\"http://www.w3.org/2005/08/addressing\">urn:ihe:iti:xds-b:2010:urn:ihe:iti:2010:UpdateDocumentSet</Action>");
+		sbRequest.append("<Action xmlns=\"http://www.w3.org/2005/08/addressing\">urn:ihe:iti:2010:UpdateDocumentSet</Action>");
 		sbRequest.append("<ReplyTo xmlns=\"http://www.w3.org/2005/08/addressing\">");
 		sbRequest.append("<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>");
 		sbRequest.append("</ReplyTo>");
