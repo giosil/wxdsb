@@ -248,6 +248,24 @@ class AdhocQuery extends RegistryObject
     return listValues;
   }
   
+  public void setEventCodes(List<String> listValues) {
+    if(listValues == null || listValues.size() == 0) return;
+    String sValues = "";
+    for(int i = 0; i < listValues.size(); i++) {
+      String value = listValues.get(i);
+      if(value == null || value.length() == 0) continue;
+      if(value.charAt(0) == '\'' && value.charAt(value.length()-1) == '\'') {
+        value = value.substring(1, value.length()-1).trim();
+      }
+      if(value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {
+        value = value.substring(1, value.length()-1).trim();
+      }
+      sValues += ",'" + value;
+    }
+    if(sValues.length() == 0) return;
+    addSlot(new Slot("$XDSDocumentEntryEventCodeList", "(" + sValues.substring(1) + ")"));
+  }
+  
   public void setClassCodes(List<String> listValues) {
     if(listValues == null || listValues.size() == 0) return;
     String sValues = "";
