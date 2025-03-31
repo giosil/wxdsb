@@ -465,7 +465,7 @@ class AffinityDomainIT implements IAffinityDomain
         return defaultValue;
       }
     }
-    if(mimeType != null && mimeType.indexOf("pdf") >= 0) {
+    if(mimeType != null && mimeType.indexOf("pdf") >= 0 && mimeType.indexOf("xml") < 0) {
       return "PDF";
     }
     if(mimeType != null && mimeType.equals("text/plain")) {
