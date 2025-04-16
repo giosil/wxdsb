@@ -38,6 +38,17 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_CERTIFICATO_GUARIGIONE = "97499-8";
   public static final String sDOC_RESOCONTO_SICUREZZA    = "55750-4";
   public static final String sDOC_BILANCIO_DI_SALUTE     = "68814-3";
+  // 2024
+  public static final String sDOC_TACCUINO               = "103140-0";
+  public static final String sDOC_RETI_DI_PATOLOGIE      = "102033-8";
+  public static final String sDOC_MED_EQUIP_DISP_BRIEF   = "103144-2";
+  public static final String sDOC_MED_EQUIP_DISP_EXTEND  = "103145-9";
+  public static final String sDOC_SPEC_CARE_DISP_BRIEF   = "103146-7";
+  public static final String sDOC_SPEC_CARE_DISP_EXTEND  = "103147-5";
+  public static final String sDOC_LETTERA_FINE_TRATTAM   = "101136-0";
+  public static final String sDOC_PROM_APPUNTAMENTO      = "101134-5";
+  public static final String sDOC_CONSENSO_DONAZIONE     = "101133-7";
+  public static final String sDOC_CARTELLA_CLINICA       = "100971-1";
   // Documenti aggiunti / gestiti da Regione Lazio
   public static final String sDOC_PROMEMORIA_PREN_CUP    = "86530-3"; // (28636-9 Obsoleto)
   public static final String sDOC_ANNULLAMENTO           = "11506-3";
@@ -56,7 +67,6 @@ class AffinityDomainIT implements IAffinityDomain
   public String getClassDisplayName(String code, String defaultValue) {
     if(defaultValue == null) defaultValue = "";
     if(code == null || code.length() == 0) return defaultValue;
-    if(code.equals("CON")) return "Documento di consenso";
     if(code.equals("WOR")) return "Documento di workflow";
     if(code.equals("REF")) return "Referto";
     if(code.equals("LDO")) return "Lettera di dimissione ospedaliera";
@@ -70,6 +80,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("VAC")) return "Vaccino";
     if(code.equals("CER")) return "Certificato";
     if(code.equals("VRB")) return "Verbale";
+    if(code.equals("CON")) return "Documento di consenso";
     if(code.equals("CNT")) return "Documento di controllo";
     return defaultValue;
   }
@@ -91,18 +102,24 @@ class AffinityDomainIT implements IAffinityDomain
   public String getFormatDisplayName(String code, String defaultValue) {
     if(defaultValue == null) defaultValue = "";
     if(code == null || code.length() == 0) return defaultValue;
+    if(code.equals("2.16.840.1.113883.2.9.10.1.13.1.1")) return "Erogato Sistema TS farmaceutica";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.13.1.2")) return "Erogato Sistema TS specialistica";
     if(code.equals("2.16.840.1.113883.10.20.1"))         return "Documento CCD";
     if(code.equals("2.16.840.1.113883.2.9.10.1.2"))      return "Prescrizione";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.2.1"))    return "Prescrizione farmaceutica Sistema TS";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.2.2"))    return "Prescrizione specialistica Sistema TS";
     if(code.equals("1.3.6.1.4.1.19376.1.5.3.1.1.7"))     return "Documento di Consenso BPPC";
     if(code.equals("2.16.840.1.113883.2.9.10.1.1"))      return "Referto di Laboratorio";
     if(code.equals("2.16.840.1.113883.2.9.10.2.4.1.1"))  return "Profilo Sanitario Sintetico";
     if(code.equals("2.16.840.1.113883.2.9.10.1.5"))      return "Lettera di Dimissione Ospedaliera";
-    if(code.equals("2.16.840.1.113883.2.9.10.1.7"))      return "Referto di Radiologia";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.7"))      return "Referto di Radiologia"; // Obsoleto
+    if(code.equals("2.16.840.1.113883.2.9.10.1.7.1"))    return "Referto di Radiologia";
     if(code.equals("2.16.840.1.113883.2.9.4.3.14"))      return "Piano Terapeutico";
     if(code.equals("2.16.840.1.113883.2.9.10.1.11.1.1")) return "Scheda Vaccinale";
     if(code.equals("2.16.840.1.113883.2.9.10.1.11.1.2")) return "Certificato Vaccinale";
     if(code.equals("2.16.840.1.113883.2.9.10.1.6.1"))    return "Verbale di Pronto Soccorso";
     if(code.equals("2.16.840.1.113883.2.9.10.1.9.1"))    return "Referto di Specialistica Ambulatoriale";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.12.1"))   return "Documento generico";
     if(code.equals("SistemaTS-Prestazione"))             return "Prestazione";
     if(code.equals("SistemaTS-Prescrizione"))            return "Prescrizione";
     if(code.equals("SistemaTS-Esenzione"))               return "Esenzione";
@@ -147,6 +164,16 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_RESOCONTO_SICUREZZA))    return "Resoconto sicurezza del paziente";
     if(code.equals(sDOC_BILANCIO_DI_SALUTE))     return "Bilancio di salute pediatrico";
     if(code.equals(sDOC_PIANO_TERAPEUTICO))      return "Piano terapeutico";
+    if(code.equals(sDOC_TACCUINO))               return "Documento di taccuino";
+    if(code.equals(sDOC_RETI_DI_PATOLOGIE))      return "Documento da reti di patologie";
+    if(code.equals(sDOC_MED_EQUIP_DISP_BRIEF))   return "Medical equipment dispensed.brief";
+    if(code.equals(sDOC_MED_EQUIP_DISP_EXTEND))  return "Medical equipment dispensed.extended";
+    if(code.equals(sDOC_SPEC_CARE_DISP_BRIEF))   return "Specialist care dispensed.brief";
+    if(code.equals(sDOC_SPEC_CARE_DISP_EXTEND))  return "Specialist care dispensed.extended";
+    if(code.equals(sDOC_LETTERA_FINE_TRATTAM))   return "Lettera di fine trattamento";
+    if(code.equals(sDOC_PROM_APPUNTAMENTO))      return "Promemoria di appuntamento";
+    if(code.equals(sDOC_CONSENSO_DONAZIONE))     return "Consenso alla donazione di organo";
+    if(code.equals(sDOC_CARTELLA_CLINICA))       return "Cartella clinica";
     if(defaultValue != null && defaultValue.equalsIgnoreCase("document")) {
       return "Documento sanitario";
     }
@@ -388,6 +415,12 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
       return "AD_PSC130"; // Medicina di Base
     }
+    if(sDOC_EROGAZIONE_FARM.equals(type)) {
+      return "AD_PSC130"; // Medicina di Base
+    }
+    if(sDOC_EROGAZIONE_SPEC.equals(type)) {
+      return "AD_PSC130"; // Medicina di Base
+    }
     if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
       return "AD_PSC130"; // Medicina di Base
     }
@@ -432,6 +465,15 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
       return "Territorio";
     }
+    if(sDOC_EROGAZIONE_FARM.equals(type)) {
+      return "Territorio";
+    }
+    if(sDOC_EROGAZIONE_SPEC.equals(type)) {
+      return "Territorio";
+    }
+    if(sDOC_DIGITAL_GREEN_CERT.equals(type)) {
+      return "MdsPN-DGC";
+    }
     if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
       return "Territorio";
     }
@@ -455,7 +497,16 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_LETTERA_DIM_OSP.equals(type)) {
       return "DIS";
     }
-    return "ERP";
+    if(sDOC_DIGITAL_GREEN_CERT.equals(type)) {
+      return "PN-DGC";
+    }
+    if(sDOC_EROGAZIONE_FARM.equals(type)) {
+      return "ERP";
+    }
+    if(sDOC_EROGAZIONE_SPEC.equals(type)) {
+      return "ERP";
+    }
+    return "CON";
   }
   
   @Override
@@ -475,13 +526,14 @@ class AffinityDomainIT implements IAffinityDomain
       return "2.16.840.1.113883.2.9.10.1.1";
     }
     if(sDOC_REFERTO_RADIOLOGIA.equals(type)) {
-      return "2.16.840.1.113883.2.9.10.1.7";
+      // return "2.16.840.1.113883.2.9.10.1.7";
+      return "2.16.840.1.113883.2.9.10.1.7.1";
     }
     if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
-      return "2.16.840.1.113883.2.9.10.1.2";
+      return "2.16.840.1.113883.2.9.10.1.2.1";
     }
     if(sDOC_PRESCRIZIONE_SPEC.equals(type)) {
-      return "2.16.840.1.113883.2.9.10.1.2";
+      return "2.16.840.1.113883.2.9.10.1.2.2";
     }
     if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.2";
