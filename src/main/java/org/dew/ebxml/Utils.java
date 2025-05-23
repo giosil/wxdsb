@@ -1003,12 +1003,46 @@ class Utils
     return iResult;
   }
   
+  public static 
+  boolean isNumeric(String text)
+  {
+    if(text == null || text.length() == 0) {
+      return false;
+    }
+    for(int i = 0; i < text.length(); i++) {
+      if(!Character.isDigit(text.charAt(i))) return false;
+    }
+    return true;
+  }
+  
   public static
   java.util.Calendar stringToCalendar(String sTime)
   {
     if(sTime == null) return null;
+    
     int iLength = sTime.length();
-    if(iLength ==  0) return null;
+    if(iLength < 4) return null;
+    
+    if(isNumeric(sTime)) {
+      // 4    6  8  10 12 14
+      // YYYY[MM[DD[hh[mm[ss]]]]]
+      if(iLength == 4) {
+        sTime += "0101000000";
+      }
+      else if(iLength == 6) {
+        sTime += "01000000";
+      }
+      else if(iLength >= 8 && iLength < 14) {
+        int diff = 14 - iLength;
+        for(int i = 0; i < diff; i++) {
+          sTime += "0";
+        }
+      }
+      else if(sTime.length() > 14) {
+        sTime = sTime.substring(0, 14);
+      }
+    }
+    
     if(iLength > 19 && sTime.endsWith("Z")) {
       int iYear  = Integer.parseInt(sTime.substring( 0,  4));
       int iMonth = Integer.parseInt(sTime.substring( 5,  7));
