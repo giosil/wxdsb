@@ -16,7 +16,7 @@ import org.dew.xds.XDS;
 public 
 class AdhocQuery extends RegistryObject 
 {
-  private static final long serialVersionUID = 702561134528023178L;
+  private static final long serialVersionUID = -161284069260211880L;
   
   protected List<String> patientIdAlt;
   
@@ -158,6 +158,14 @@ class AdhocQuery extends RegistryObject
     return result;
   }
   
+  public List<String> getUniqueIds() {
+    List<String> result = getValues("$XDSDocumentEntryUniqueId");
+    if(result == null || result.size() == 0) {
+      result = getValues("uniqueId");
+    }
+    return result;
+  }
+  
   public void setUniqueId(String value) {
     if(value == null || value.length() == 0) return;
     if(value.startsWith("'")) {
@@ -172,6 +180,10 @@ class AdhocQuery extends RegistryObject
     return getValue("$XDSDocumentEntryEntryUUID");
   }
   
+  public List<String> getUUIDs() {
+    return getValues("$XDSDocumentEntryEntryUUID");
+  }
+  
   public void setUUID(String value) {
     if(value == null || value.length() == 0) return;
     if(value.startsWith("'")) {
@@ -179,6 +191,24 @@ class AdhocQuery extends RegistryObject
     }
     else {
       addSlot(new Slot("$XDSDocumentEntryEntryUUID", "('" + value.replace(",", "','") + "')"));
+    }
+  }
+  
+  public String getReferenceIdListFirst() {
+    return getValue("$XDSDocumentEntryReferenceIdList");
+  }
+  
+  public List<String> getReferenceIdList() {
+    return getValues("$XDSDocumentEntryReferenceIdList");
+  }
+  
+  public void setReferenceIdList(String value) {
+    if(value == null || value.length() == 0) return;
+    if(value.startsWith("'")) {
+      addSlot(new Slot("$XDSDocumentEntryReferenceIdList", "(" + value + ")"));
+    }
+    else {
+      addSlot(new Slot("$XDSDocumentEntryReferenceIdList", "('" + value.replace(",", "','") + "')"));
     }
   }
   
@@ -260,7 +290,7 @@ class AdhocQuery extends RegistryObject
       if(value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {
         value = value.substring(1, value.length()-1).trim();
       }
-      sValues += ",'" + value;
+      sValues += ",'" + value + "'";
     }
     if(sValues.length() == 0) return;
     addSlot(new Slot("$XDSDocumentEntryEventCodeList", "(" + sValues.substring(1) + ")"));
@@ -391,77 +421,101 @@ class AdhocQuery extends RegistryObject
     return getValue("$XDSDocumentEntryEventCodeListScheme");
   }
   
+  public void setEventCodeList(String value) {
+    if(value == null || value.length() == 0) return;
+    if(value.startsWith("'")) {
+      addSlot(new Slot("$XDSDocumentEntryEventCodeList", "(" + value + ")"));
+    }
+    else {
+      addSlot(new Slot("$XDSDocumentEntryEventCodeList", "('" + value.replace(",", "','") + "')"));
+    }
+  }
+  
   public Date getDateValue(String slotName) {
     String result = getSlotFirstValue(slotName);
+    result = firstValue(result);
     if(result == null) return null;
-    if(result.charAt(0) == '(' && result.charAt(result.length()-1) == ')') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    if(result.charAt(0) == '\'' && result.charAt(result.length()-1) == '\'') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    if(result.charAt(0) == '"' && result.charAt(result.length()-1) == '"') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    int iSep = result.indexOf("','");
-    if(iSep < 0) {
-      iSep = result.indexOf("\",\"");
-    }
-    if(iSep > 0) {
-      result = result.substring(0, iSep).trim();
-    }
-    Calendar calendar = Utils.stringToCalendar(result.trim());
+    Calendar calendar = Utils.stringToCalendar(result);
     if(calendar == null) return null;
     return calendar.getTime();
   }
   
   public String getValue(String slotName) {
     String result = getSlotFirstValue(slotName);
-    if(result == null) return null;
-    if(result.charAt(0) == '(' && result.charAt(result.length()-1) == ')') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    if(result.charAt(0) == '\'' && result.charAt(result.length()-1) == '\'') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    if(result.charAt(0) == '"' && result.charAt(result.length()-1) == '"') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    int iSep = result.indexOf("','");
-    if(iSep < 0) {
-      iSep = result.indexOf("\",\"");
-    }
-    if(iSep > 0) {
-      result = result.substring(0, iSep).trim();
-    }
-    return result.trim();
+    return firstValue(result);
   }
   
   public String getValueContains(String slotName) {
     String result = getSlotFirstValueContains(slotName);
-    if(result == null) return null;
-    if(result.charAt(0) == '(' && result.charAt(result.length()-1) == ')') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    if(result.charAt(0) == '\'' && result.charAt(result.length()-1) == '\'') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    if(result.charAt(0) == '"' && result.charAt(result.length()-1) == '"') {
-      result = result.substring(1, result.length()-1).trim();
-    }
-    int iSep = result.indexOf("','");
-    if(iSep < 0) {
-      iSep = result.indexOf("\",\"");
-    }
-    if(iSep > 0) {
-      result = result.substring(0, iSep).trim();
-    }
-    return result.trim();
+    return firstValue(result);
   }
   
   public void setValue(String slotName, String value) {
     if(slotName == null || slotName.length() == 0) return;
     if(value == null || value.length() == 0) return;
+    value = firstValue(value);
+    addSlot(new Slot(slotName, "'" + value.trim() + "'"));
+  }
+  
+  /**
+   * Get slot values.
+   * 
+   * <Slot name="multiValues">
+   *  <ValueList>
+   *   <Value>('val00','val01','val02')</Value>
+   *   <Value>('val10','val11','val12')</Value>
+   *   <Value>('val20','val21','val22')</Value>
+   *  <ValueList>
+   * <Slot>
+   *
+   * -> [val00,val01,val02,val10,val11,val12,val20,val21,val22]
+   *
+   * @param slotName slot name
+   * @return List<String>
+   */
+  public List<String> getValues(String slotName) {
+    List<String> result = new ArrayList<String>();
+    String[] slotValues = getSlotValues(slotName);
+    if(slotValues == null || slotValues.length == 0) {
+      return result;
+    }
+    for(int i = 0; i < slotValues.length; i++) {
+      String slotValue = slotValues[i];
+      if(slotValue == null || slotValue.length() == 0) {
+        continue;
+      }
+      if(slotValue.charAt(0) == '(' && slotValue.charAt(slotValue.length()-1) == ')') {
+        slotValue = slotValue.substring(1, slotValue.length()-1).trim();
+      }
+      int begin = 0;
+      int index = slotValue.indexOf(',');
+      while(index >= 0) {
+        String singleValue = Utils.unwrapp(slotValue.substring(begin, index));
+        result.add(singleValue.trim());
+        begin = index + 1;
+        index = slotValue.indexOf(',', begin);
+      }
+      String singleValue = Utils.unwrapp(slotValue.substring(begin));
+      result.add(singleValue.trim());
+    }
+    return result;
+  }
+  
+  public void setValues(String slotName, List<String> values) {
+    if(slotName == null || slotName.length() == 0) return;
+    if(values   == null || values.size()     == 0) return;
+    String sValues = "";
+    for(int i = 0; i < values.size(); i++) {
+      String value = Utils.unwrapp(values.get(i));
+      if(value == null || value.length() == 0) continue;
+      sValues += ",'" + value.trim() + "'";
+    }
+    if(sValues.length() == 0) return;
+    addSlot(new Slot(slotName, "(" + sValues.substring(1) + ")"));
+  }
+  
+  protected String firstValue(String value) {
+    if(value == null) return null;
     if(value.charAt(0) == '(' && value.charAt(value.length()-1) == ')') {
       value = value.substring(1, value.length()-1).trim();
     }
@@ -478,61 +532,7 @@ class AdhocQuery extends RegistryObject
     if(iSep > 0) {
       value = value.substring(0, iSep).trim();
     }
-    addSlot(new Slot(slotName, "'" + value.trim() + "'"));
-  }
-  
-  public List<String> getValues(String slotName) {
-    List<String> result = new ArrayList<String>();
-    String sValues = getSlotFirstValue(slotName);
-    if(sValues == null || sValues.length() == 0) {
-      return result;
-    }
-    if(sValues.charAt(0) == '(' && sValues.charAt(sValues.length()-1) == ')') {
-      sValues = sValues.substring(1, sValues.length()-1).trim();
-    }
-    int iIndexOf = 0;
-    int iBegin   = 0;
-    iIndexOf     = sValues.indexOf(',');
-    while(iIndexOf >= 0) {
-      String sValue = sValues.substring(iBegin, iIndexOf);
-      if(sValue.charAt(0) == '\'' && sValue.charAt(sValue.length()-1) == '\'') {
-        sValue = sValue.substring(1, sValue.length()-1).trim();
-      }
-      if(sValue.charAt(0) == '"' && sValue.charAt(sValue.length()-1) == '"') {
-        sValue = sValue.substring(1, sValue.length()-1).trim();
-      }
-      result.add(sValue.trim());
-      iBegin = iIndexOf + 1;
-      iIndexOf = sValues.indexOf(',', iBegin);
-    }
-    String sValue = sValues.substring(iBegin);
-    if(sValue.charAt(0) == '\'' && sValue.charAt(sValue.length()-1) == '\'') {
-      sValue = sValue.substring(1, sValue.length()-1).trim();
-    }
-    if(sValue.charAt(0) == '"' && sValue.charAt(sValue.length()-1) == '"') {
-      sValue = sValue.substring(1, sValue.length()-1).trim();
-    }
-    result.add(sValue.trim());
-    return result;
-  }
-  
-  public void setValues(String slotName, List<String> values) {
-    if(slotName == null || slotName.length() == 0) return;
-    if(values   == null || values.size()     == 0) return;
-    String sValues = "";
-    for(int i = 0; i < values.size(); i++) {
-      String value = values.get(i);
-      if(value == null || value.length() == 0) continue;
-      if(value.charAt(0) == '\'' && value.charAt(value.length()-1) == '\'') {
-        value = value.substring(1, value.length()-1).trim();
-      }
-      if(value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {
-        value = value.substring(1, value.length()-1).trim();
-      }
-      sValues += ",'" + value.trim() + "'";
-    }
-    if(sValues.length() == 0) return;
-    addSlot(new Slot(slotName, "(" + sValues.substring(1) + "'"));
+    return value.trim();
   }
   
   @Override

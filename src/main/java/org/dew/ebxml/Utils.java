@@ -522,6 +522,37 @@ class Utils
     return "";
   }
   
+  public static
+  boolean matchListsForFilter(List<String> listDoc, List<String> listFlt)
+  {
+    boolean listDocIsEmpty = listDoc == null || listDoc.size() == 0;
+    boolean listFltIsEmpty = listFlt == null || listFlt.size() == 0;
+    if(listDocIsEmpty  && listFltIsEmpty)  return true;
+    if(!listDocIsEmpty && listFltIsEmpty)  return true;
+    if(listDocIsEmpty  && !listFltIsEmpty) return false;
+    List<String> listDocNorm = new ArrayList<String>(listDoc.size());
+    List<String> listFltNorm = new ArrayList<String>(listFlt.size());
+    for(int i = 0; i < listDoc.size(); i++) {
+      String val = listDoc.get(i);
+      if(val == null || val.length() == 0) continue;
+      int sep = val.indexOf('^');
+      if(sep > 0) val = val.substring(0, sep).trim();
+      listDocNorm.add(val.toUpperCase());
+    }
+    for(int i = 0; i < listFlt.size(); i++) {
+      String val = listFlt.get(i);
+      if(val == null || val.length() == 0) continue;
+      int sep = val.indexOf('^');
+      if(sep > 0) val = val.substring(0, sep).trim();
+      listFltNorm.add(val.toUpperCase());
+    }
+    for(int i = 0; i < listFltNorm.size(); i++) {
+      String valFlt = listFltNorm.get(i);
+      if(!listDocNorm.contains(valFlt)) return false;
+    }
+    return true;
+  }
+  
   public static 
   String normalizeAttributeName(String sName) 
   {
@@ -1469,5 +1500,23 @@ class Utils
       sb.append(hex);
     }
     return sb.toString();
+  }
+  
+  public static
+  String unwrapp(String text)
+  {
+    if(text == null) return text;
+    
+    if(text.equals("\"\"")) return "";
+    if(text.equals("''"))   return "";
+    
+    if(text.startsWith("\"") && text.endsWith("\"")) {
+      return text.substring(1, text.length()-1);
+    }
+    if(text.startsWith("'") && text.endsWith("'")) {
+      return text.substring(1, text.length()-1);
+    }
+    
+    return text;
   }
 }
