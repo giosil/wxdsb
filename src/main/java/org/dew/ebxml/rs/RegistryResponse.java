@@ -125,6 +125,14 @@ class RegistryResponse implements IElement, Serializable
     return false;
   }
   
+  public String getFirstErrorCode() {
+    if(registryErrorList == null || registryErrorList.size() == 0) return "";
+    RegistryError registryError0 = registryErrorList.get(0);
+    String result = registryError0.getErrorCode();
+    if(result == null) return "";
+    return result;
+  }
+  
   public String getFirstErrorMessage() {
     if(registryErrorList == null || registryErrorList.size() == 0) return "";
     RegistryError registryError0 = registryErrorList.get(0);
