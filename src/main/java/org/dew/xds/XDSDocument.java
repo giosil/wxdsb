@@ -1184,7 +1184,10 @@ class XDSDocument implements Serializable
         author.setEmail(sAuthorEmail);
       }
     }
-    this.versionNumber = registryObject.getSlotFirstValue("versionNumber");
+    this.versionNumber = registryObject.getVersionInfo();
+    if(this.versionNumber == null || this.versionNumber.length() == 0) {
+      this.versionNumber = registryObject.getSlotFirstValue("versionNumber");
+    }
     this.originalConfidenzialityCode = registryObject.getSlotFirstValue("originalConfidenzialityCode");
     // This is not status of Registry Object
     Classification clsStatusCode = registryObject.getClassification("*:statuscode");
@@ -1626,7 +1629,8 @@ class XDSDocument implements Serializable
       result.addSlot(new Slot("legalAuthenticator", legalAuthenticator.getITI_TF3_Id()));
     }
     if(versionNumber != null && versionNumber.length() > 0) {
-      result.addSlot(new Slot("versionNumber", versionNumber));
+      result.setVersionInfo(versionNumber);
+      // result.addSlot(new Slot("versionNumber", versionNumber));
     }
     if(originalConfidenzialityCode != null && originalConfidenzialityCode.length() > 0) {
       result.addSlot(new Slot("originalConfidenzialityCode", originalConfidenzialityCode));
