@@ -49,6 +49,7 @@ interface XDS
   public static final String SQ_GET_SUBMISSION_SETS  = "urn:uuid:51224314-5390-4169-9b91-b1980040715a";
   public static final String SQ_GET_FOLDERS          = "urn:uuid:5737b14c-8a1a-4539-b659-e03a34a5e1e4";
   public static final String SQ_GET_ASSOCIATIONS     = "urn:uuid:a7ae438b-4bc2-4642-93e9-be891f7bb155";
+  public static final String SQ_FIND_BY_REFERENCE_ID = "urn:uuid:12941a89-e02e-4be5-967c-ce4bfc8fe492";
   
   public static final String ERR_SEVERITY_ERROR      = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Error";
   public static final String ERR_SEVERITY_WARNING    = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning";
