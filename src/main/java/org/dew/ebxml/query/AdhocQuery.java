@@ -82,6 +82,44 @@ class AdhocQuery extends RegistryObject
     }
   }
   
+  public String getAuthorId() {
+    String value = getValue("$XDSDocumentEntryAuthorPerson");
+    return Utils.normalizePersonId(value);
+  }
+  
+  public void setAuthorId(String value) {
+    if(value == null || value.length() == 0) return;
+    boolean wrapped = value.startsWith("'") && value.endsWith("'");
+    if(wrapped) value = value.substring(1, value.length()-1);
+    String codingScheme = Utils.extractCodingScheme(value);
+    if(codingScheme == null || codingScheme.length() < 2) {
+      codingScheme = OID.PERSON_ID;
+    }
+    value = Utils.normalizePersonId(value);
+    if(wrapped) {
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", "'" + value + "^^^^^^^^&" + codingScheme + "&ISO'"));
+    }
+    else {
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value + "^^^^^^^^&" + codingScheme + "&ISO"));
+    }
+  }
+  
+  public void setAuthorId(String value, String codingScheme) {
+    if(value == null || value.length() == 0) return;
+    boolean wrapped = value.startsWith("'") && value.endsWith("'");
+    if(wrapped) value = value.substring(1, value.length()-1);
+    value = Utils.normalizePersonId(value);
+    if(codingScheme == null || codingScheme.length() < 2) {
+      codingScheme = OID.PERSON_ID;
+    }
+    if(wrapped) {
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", "'" + value + "^^^^^^^^&" + codingScheme + "&ISO'"));
+    }
+    else {
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value + "^^^^^^^^&" + codingScheme + "&ISO"));
+    }
+  }
+  
   public List<String> getPatientIdAlt() {
     return patientIdAlt;
   }
