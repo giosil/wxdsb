@@ -14,6 +14,11 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sROOT_OID_ICD9_DIAGNOSIS    = "2.16.840.1.113883.6.103";
   public static final String sROOT_OID_ICD9_PROCEDURES   = "2.16.840.1.113883.6.104";
   
+  // [fse-ejb]        it.ised.fse.validation.ValidationUtils
+  // [fse-portlets]   it.ised.fse.portal.Options
+  // [fse-control]    it.ised.fse.ws.WSStatistiche
+  // [fse-xds]        it.ised.xds.AffinityDomainIT
+  // [fse-ini-client] it.ised.xds.AffinityDomainIT
   // Affinity Domain INI
   public static final String sDOC_PRESCRIZIONE_FARM      = "57833-6";
   public static final String sDOC_PROFILO_SANITARIO_SIN  = "60591-5";
@@ -210,6 +215,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC001")) return "Allergologia";
     if(code.equals("AD_PSC002")) return "Day Hospital";
     if(code.equals("AD_PSC003")) return "Anatomia e Istologia Patologica";
+    if(code.equals("AD_PSC004")) return "Osservazione breve intensiva (OBI) e Pronto Soccorso";
     if(code.equals("AD_PSC005")) return "Angiologia";
     if(code.equals("AD_PSC006")) return "Cardiochirurgia Pediatrica";
     if(code.equals("AD_PSC007")) return "Cardiochirurgia";
@@ -262,6 +268,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC064")) return "Oncologia";
     if(code.equals("AD_PSC065")) return "Oncoematologia Pediatrica";
     if(code.equals("AD_PSC066")) return "Oncoematologia";
+    if(code.equals("AD_PSC067")) return "Pensionanti";
     if(code.equals("AD_PSC068")) return "Pneumologia, Fisiopatologia Respiratoria, Tisiologia";
     if(code.equals("AD_PSC069")) return "Radiologia";
     if(code.equals("AD_PSC070")) return "Radioterapia";
@@ -272,15 +279,16 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("AD_PSC076")) return "Neurochirurgia Pediatrica";
     if(code.equals("AD_PSC077")) return "Nefrologia Pediatrica";
     if(code.equals("AD_PSC078")) return "Urologia Pediatrica";
-    if(code.equals("AD_PSC082")) return "Anestesia e Rianimazione";
+    if(code.equals("AD_PSC082")) return "Anestesia e Rianimazione"; // Obsoleto
     if(code.equals("AD_PSC097")) return "Detenuti";
-    if(code.equals("AD_PSC098")) return "Day Surgery Plurispecialistica";
+    if(code.equals("AD_PSC098")) return "Day Surgery";
+    if(code.equals("AD_PSC099")) return "Cure palliative";
     if(code.equals("AD_PSC100")) return "Laboratorio Analisi Chimico Cliniche";
     if(code.equals("AD_PSC101")) return "Microbiologia e Virologia";
     if(code.equals("AD_PSC102")) return "Centro Trasfusionale e Immunoematologico";
     if(code.equals("AD_PSC103")) return "Radiodiagnostica";
     if(code.equals("AD_PSC104")) return "Neuroradiologia";
-    if(code.equals("AD_PSC106")) return "Pronto Soccorso e OBI";
+    if(code.equals("AD_PSC106")) return "Pronto Soccorso e OBI"; // Obsoleto (AD_PSC004)
     if(code.equals("AD_PSC107")) return "Poliambulatorio";
     if(code.equals("AD_PSC109")) return "Centrale Operativa 118";
     if(code.equals("AD_PSC121")) return "Comparti Operatori - Degenza Ordinaria";
@@ -317,7 +325,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equalsIgnoreCase("P99"))        return "Oscuramento del documento";
     if(code.equalsIgnoreCase("P97"))        return "Oscuramento al genitore";
     if(code.equalsIgnoreCase("P98"))        return "Oscuramento all'assistito";
-    if(code.equalsIgnoreCase("J07BX03"))    return "Vaccino per Covid-19";
+    if(code.equalsIgnoreCase("J07BN"))      return "Vaccino per Covid-19";
     if(code.equalsIgnoreCase("LP418019-8")) return "Tampone antigenico per Covid-19";
     if(code.equalsIgnoreCase("LP417541-2")) return "Tampone molecolare per Covid-19";
     if(code.equalsIgnoreCase("96118-5"))    return "Test Sierologico qualitativo";
@@ -327,6 +335,19 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equalsIgnoreCase("LP267463-0")) return "Reddito";
     if(code.equalsIgnoreCase("LP199190-2")) return "Patologia";
     if(code.equalsIgnoreCase("90768-3"))    return "Analisi sangue donatore";
+    return defaultValue;
+  }
+  
+  @Override
+  public String getAdministrativeRequest(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() < 3)  return defaultValue;
+    String c3 = code.substring(0, 3).toUpperCase();
+    if(c3.equals("SSN")) return "SSN^Regime SSN";
+    if(c3.equals("INP")) return "INPATIENT^Regime di ricovero";
+    if(c3.equals("NOS")) return "NOSSN^Regime privato";
+    if(c3.equals("SSR")) return "SSR^Regime SSR";
+    if(c3.equals("DON")) return "DONOR^Regime donatori";
     return defaultValue;
   }
   
@@ -443,7 +464,8 @@ class AffinityDomainIT implements IAffinityDomain
       return "AD_PSC026"; // Medicina Generale
     }
     if(sDOC_VERBALE_PRONTO_SOCC.equals(type)) {
-      return "AD_PSC106"; // Pronto Soccorso e OBI
+      // return "AD_PSC106"; // Pronto Soccorso e OBI (Obsoleto)
+      return "AD_PSC004"; // Osservazione breve intensiva (OBI) e Pronto Soccorso
     }
     if(sDOC_PDTA.equals(type)) {
       return "AD_PSC131"; // Assistenza Territoriale
@@ -483,8 +505,14 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_CERTIFICATO_VACCINALE.equals(type)) {
       return "Prevenzione";
     }
+    if(sDOC_DIGITAL_GREEN_CERT.equals(type)) {
+      return "MdsPN-DGC";
+    }
     if(sDOC_SCHEDA_VACCINALE.equals(type)) {
       return "Prevenzione";
+    }
+    if(sDOC_TACCUINO.equals(type)) {
+      return "Cittadino";
     }
     return "Ospedale";
   }
@@ -506,6 +534,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_EROGAZIONE_SPEC.equals(type)) {
       return "ERP";
     }
+    if(sDOC_TACCUINO.equals(type)) {
+      return "PHR";
+    }
     return "CON";
   }
   
@@ -526,8 +557,10 @@ class AffinityDomainIT implements IAffinityDomain
       return "2.16.840.1.113883.2.9.10.1.1";
     }
     if(sDOC_REFERTO_RADIOLOGIA.equals(type)) {
-      // return "2.16.840.1.113883.2.9.10.1.7";
       return "2.16.840.1.113883.2.9.10.1.7.1";
+    }
+    if(sDOC_REFERTO_ANATOMIA_PAT.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.8.1";
     }
     if(sDOC_PRESCRIZIONE_FARM.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.2.1";
@@ -542,7 +575,7 @@ class AffinityDomainIT implements IAffinityDomain
       return "1.3.6.1.4.1.19376.1.5.3.1.1.7";
     }
     if(sDOC_PROFILO_SANITARIO_SIN.equals(type)) {
-      return "2.16.840.1.113883.2.9.10.2.4.1.1";
+      return "2.16.840.1.113883.2.9.10.1.4.1.1";
     }
     if(sDOC_LETTERA_DIM_OSP.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.5";
@@ -556,8 +589,14 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_VERBALE_PRONTO_SOCC.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.6.1";
     }
-    if(sDOC_REFERTO_AMBULATORIALE.equals(type) || sDOC_REFERTO_SPECIALISTICO.equals(type) || sDOC_REFERTO_GENERICO.equals(type)) {
+    if(sDOC_PIANO_TERAPEUTICO.equals(type)) {
+      return "2.16.840.1.113883.2.9.4.3.14";
+    }
+    if(sDOC_REFERTO_AMBULATORIALE.equals(type) || sDOC_REFERTO_SPECIALISTICO.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.9.1";
+    }
+    if(sDOC_REFERTO_GENERICO.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.12.1";
     }
     return defaultValue;
   }
