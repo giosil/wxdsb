@@ -15,13 +15,19 @@ import java.security.Principal;
 import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.security.cert.CertPath;
+import java.security.cert.CertPathValidator;
 import java.security.cert.CertificateFactory;
+import java.security.cert.PKIXParameters;
+import java.security.cert.TrustAnchor;
 import java.security.cert.X509Certificate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
@@ -63,6 +69,39 @@ class AuthUtil
       System.err.println("getX509Certificate 1: " + th);
     }
     return x509certificate;
+  }
+  
+    public static
+  boolean validateCA(X509Certificate cert, X509Certificate certCA)
+  {
+    if(cert == null || certCA == null) return false;
+    
+    try {
+      List<X509Certificate> certChain = new ArrayList<X509Certificate>();
+      certChain.add(cert);
+      
+      CertificateFactory cf = CertificateFactory.getInstance("X.509");
+      
+      CertPath certPath = cf.generateCertPath(certChain);
+      
+      TrustAnchor trustAnchor = new TrustAnchor(certCA, null);
+      
+      Set<TrustAnchor> setOfTrustAnchor = new HashSet<TrustAnchor>();
+      setOfTrustAnchor.add(trustAnchor);
+      
+      PKIXParameters params = new PKIXParameters(setOfTrustAnchor);
+      params.setRevocationEnabled(false);
+      
+      CertPathValidator validator = CertPathValidator.getInstance("PKIX");
+      validator.validate(certPath, params);
+      
+      return true;
+    }
+    catch(Exception ex) {
+      ex.printStackTrace();
+    }
+    
+    return false;
   }
   
   public static
