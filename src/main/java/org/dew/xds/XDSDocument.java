@@ -392,7 +392,10 @@ class XDSDocument implements Serializable
       mapResult.put("patientId", null);
     }
     if(author != null) {
-      mapResult.put("authorId", author.getId());
+      mapResult.put("authorId",              author.getId());
+      mapResult.put("authorRole",            author.getRole());
+      mapResult.put("authorInstitution",     author.getInstitution());
+      mapResult.put("authorInstitutionName", author.getInstitutionName());
     }
     else {
       mapResult.put("authorId", null);
