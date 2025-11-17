@@ -1192,10 +1192,14 @@ class XDSDocument implements Serializable
       this.versionNumber = registryObject.getSlotFirstValue("versionNumber");
     }
     this.originalConfidenzialityCode = registryObject.getSlotFirstValue("originalConfidenzialityCode");
-    // This is not status of Registry Object
+    this.statusCode = registryObject.getStatus();
+    // Custom statusCode overwrite.
     Classification clsStatusCode = registryObject.getClassification("*:statuscode");
     if(clsStatusCode != null) {
-      this.statusCode = clsStatusCode.getNodeRepresentation();
+      String statusCodeVal = clsStatusCode.getNodeRepresentation();
+      if(statusCodeVal != null && statusCodeVal.length() > 0) {
+        this.statusCode = statusCodeVal;
+      }
     }
     // Classification Confidentiality
     Classification clsConfidentiality = registryObject.getClassification(XDS.CLS_CONFIDENTIALITY);
