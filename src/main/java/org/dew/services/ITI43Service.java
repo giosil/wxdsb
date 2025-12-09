@@ -148,17 +148,12 @@ class ITI43Service extends HttpServlet
     
     StringBuilder sbResponse = new StringBuilder();
     if(xdsDocumentResponse.getDocument() == null) {
-      String codeContext = "Document not found";
       RegistryResponse registryResponse = xdsDocumentResponse.getRegistryResponse();
-      if(registryResponse != null && registryResponse.getFirstErrorMessage() != null) {
-        codeContext = registryResponse.getFirstErrorMessage();
+      if(registryResponse == null) {
+        registryResponse = new RegistryResponse("Document not available");
       }
       sbResponse.append("<ns2:RetrieveDocumentSetResponse xmlns:ns6=\"urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0\" xmlns:ns5=\"urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0\" xmlns:ns4=\"urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0\" xmlns:ns3=\"urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0\" xmlns:ns2=\"urn:ihe:iti:xds-b:2007\">");
-      sbResponse.append("<ns4:RegistryResponse status=\"urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Failure\"/>");
-      sbResponse.append("<ns4:RegistryErrorList>");
-      sbResponse.append("<ns4:RegistryError codeContext=\"" + codeContext + "\" errorCode=\"DNF\" severity=\"urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Error\">");
-      sbResponse.append("</ns4:RegistryError>");
-      sbResponse.append("</ns4:RegistryErrorList>");
+      sbResponse.append(registryResponse.toXML("ns4"));
       sbResponse.append("</ns2:RetrieveDocumentSetResponse>");
     }
     else {

@@ -203,8 +203,7 @@ class XDSDocumentResponse implements IElement, Serializable
     if(namespace == null || namespace.length() == 0) {
       namespace = "";
     }
-    else 
-    if(!namespace.endsWith(":")) {
+    else if(!namespace.endsWith(":")) {
       namespace += ":";
     }
     StringBuffer sb = new StringBuffer(500);

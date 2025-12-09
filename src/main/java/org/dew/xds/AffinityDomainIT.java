@@ -410,6 +410,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_VERBALE_PRONTO_SOCC.equals(type)) {
       return "VRB";
     }
+    if(sDOC_EROGAZIONE_FARM.equals(type) || sDOC_EROGAZIONE_SPEC.equals(type)) {
+      return "PRE";
+    }
     return defaultValue;
   }
   
