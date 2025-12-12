@@ -3,6 +3,7 @@ package org.dew.ebxml;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,15 @@ class Slot implements IElement, Serializable
     }
   }
   
+  public Slot(String name, Calendar value)
+  {
+    this.name   = name;
+    this.values = new ArrayList<String>();
+    if(value != null) {
+      this.values.add(Utils.formatDateTime(value));
+    }
+  }
+  
   public Slot(String name, Boolean value)
   {
     this.name   = name;
@@ -87,6 +97,15 @@ class Slot implements IElement, Serializable
   }
   
   public Slot(String name, Date value, boolean hhmm, boolean ss)
+  {
+    this.name   = name;
+    this.values = new ArrayList<String>();
+    if(value != null) {
+      this.values.add(Utils.formatDateTime(value, hhmm, ss));
+    }
+  }
+  
+  public Slot(String name, Calendar value, boolean hhmm, boolean ss)
   {
     this.name   = name;
     this.values = new ArrayList<String>();
