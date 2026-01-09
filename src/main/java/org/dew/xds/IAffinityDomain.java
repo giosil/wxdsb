@@ -19,6 +19,8 @@ interface IAffinityDomain
   
   public String getEventDisplayName(String code, String defaultValue);
   
+  public String getEventCodingScheme(String code, String defaultValue);
+  
   public String getAdministrativeRequest(String code, String defaultValue);
   
   public String getAdministrativeRequestDisplayName(String code, String defaultValue);

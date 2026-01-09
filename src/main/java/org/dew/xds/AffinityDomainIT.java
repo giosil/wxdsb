@@ -4,7 +4,14 @@ public
 class AffinityDomainIT implements IAffinityDomain 
 {
   public static final String sROOT_OID_HL7_IT            = "2.16.840.1.113883.2.9.2.";
+  // hl7:recordTarget/hl7:patientRole/hl7:id
   public static final String sROOT_OID_TAXCODE           = "2.16.840.1.113883.2.9.4.3.2";
+  public static final String sROOT_OID_TEAM              = "2.16.840.1.113883.2.9.4.3.7";
+  public static final String sROOT_OID_TEAM_2            = "2.16.840.1.113883.2.9.4.3.3";
+  public static final String sROOT_OID_ANA               = "2.16.840.1.113883.2.9.4.3.15";
+  public static final String sROOT_OID_STP               = "2.16.840.1.113883.2.9.4.3.17";
+  public static final String sROOT_OID_ENI               = "2.16.840.1.113883.2.9.4.3.18";
+  
   public static final String sROOT_OID_CONFIDENTIALITY   = "2.16.840.1.113883.5.25";
   public static final String sROOT_OID_TYPE_CODE         = "2.16.840.1.113883.6.1";
   public static final String sROOT_OID_ICD9_CM           = "2.16.840.1.113883.6.2";
@@ -19,6 +26,7 @@ class AffinityDomainIT implements IAffinityDomain
   // [fse-control]    it.ised.fse.ws.WSStatistiche
   // [fse-xds]        it.ised.xds.AffinityDomainIT
   // [fse-ini-client] it.ised.xds.AffinityDomainIT
+  // [fse-middleware] it.ised.xds.AffinityDomainIT
   // Affinity Domain INI
   public static final String sDOC_PRESCRIZIONE_FARM      = "57833-6";
   public static final String sDOC_PROFILO_SANITARIO_SIN  = "60591-5";
@@ -54,6 +62,12 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_PROM_APPUNTAMENTO      = "101134-5";
   public static final String sDOC_CONSENSO_DONAZIONE     = "101133-7";
   public static final String sDOC_CARTELLA_CLINICA       = "100971-1";
+  // 2025
+  public static final String sDOC_DATI_TACCUINO          = "53576-5";
+  public static final String sDOC_TESSERA_PORT_IMPIANTO  = "101881-1";
+  public static final String sDOC_LETT_INVITO_SCREENING  = "108276-7";
+  public static final String sDOC_REFERTO_TELEVISITA     = "75496-0";
+  public static final String sDOC_REFERTO_TELECONSULTO   = "85208-7";
   // Documenti aggiunti / gestiti da Regione Lazio
   public static final String sDOC_PROMEMORIA_PREN_CUP    = "86530-3"; // (28636-9 Obsoleto)
   public static final String sDOC_ANNULLAMENTO           = "11506-3";
@@ -87,6 +101,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("VRB")) return "Verbale";
     if(code.equals("CON")) return "Documento di consenso";
     if(code.equals("CNT")) return "Documento di controllo";
+    if(code.equals("CRT")) return "Certificato Amministrativo Generico";
     return defaultValue;
   }
   
@@ -97,9 +112,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("U")) return "Unrestricted";
     if(code.equals("L")) return "Low";
     if(code.equals("M")) return "Moderate";
-    if(code.equals("N")) return "Normal";           // *
-    if(code.equals("R")) return "Restricted";
-    if(code.equals("V")) return "Very Restricted";  // *
+    if(code.equals("N")) return "Normal";           // FSE
+    if(code.equals("R")) return "Restricted";       // FSE
+    if(code.equals("V")) return "Very Restricted";  // FSE
     return defaultValue;
   }
   
@@ -107,13 +122,18 @@ class AffinityDomainIT implements IAffinityDomain
   public String getFormatDisplayName(String code, String defaultValue) {
     if(defaultValue == null) defaultValue = "";
     if(code == null || code.length() == 0) return defaultValue;
+    if(code.equals("TXT"))                               return "TXT";
+    if(code.equals("PDF"))                               return "PDF";
+    if(code.equals("ScanDocument"))                      return "Scansione Documento Cartaceo";
+    if(code.equals("FHIRDocumentTaccuino"))              return "Documento on-demand";
+    if(code.equals("SistemaTS-Prestazione"))             return "Prestazione";
     if(code.equals("2.16.840.1.113883.2.9.10.1.13.1.1")) return "Erogato Sistema TS farmaceutica";
     if(code.equals("2.16.840.1.113883.2.9.10.1.13.1.2")) return "Erogato Sistema TS specialistica";
-    if(code.equals("2.16.840.1.113883.10.20.1"))         return "Documento CCD";
-    if(code.equals("2.16.840.1.113883.2.9.10.1.2"))      return "Prescrizione";
+    if(code.equals("SistemaTS-Prescrizione"))            return "Prescrizione";
     if(code.equals("2.16.840.1.113883.2.9.10.1.2.1"))    return "Prescrizione farmaceutica Sistema TS";
     if(code.equals("2.16.840.1.113883.2.9.10.1.2.2"))    return "Prescrizione specialistica Sistema TS";
-    if(code.equals("1.3.6.1.4.1.19376.1.5.3.1.1.7"))     return "Documento di Consenso BPPC";
+    if(code.equals("SistemaTS-Esenzione"))               return "Esenzione da reddito Sistema TS";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.2"))      return "Prescrizione";
     if(code.equals("2.16.840.1.113883.2.9.10.1.1"))      return "Referto di Laboratorio";
     if(code.equals("2.16.840.1.113883.2.9.10.2.4.1.1"))  return "Profilo Sanitario Sintetico";
     if(code.equals("2.16.840.1.113883.2.9.10.1.5"))      return "Lettera di Dimissione Ospedaliera";
@@ -125,11 +145,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("2.16.840.1.113883.2.9.10.1.6.1"))    return "Verbale di Pronto Soccorso";
     if(code.equals("2.16.840.1.113883.2.9.10.1.9.1"))    return "Referto di Specialistica Ambulatoriale";
     if(code.equals("2.16.840.1.113883.2.9.10.1.12.1"))   return "Documento generico";
-    if(code.equals("SistemaTS-Prestazione"))             return "Prestazione";
-    if(code.equals("SistemaTS-Prescrizione"))            return "Prescrizione";
-    if(code.equals("SistemaTS-Esenzione"))               return "Esenzione";
-    if(code.equals("PDF")) return "PDF";
-    if(code.equals("TXT")) return "TXT";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.8.1"))    return "Referto di Anatomia Patologica";
+    if(code.equals("1.3.6.1.4.1.19376.1.5.3.1.1.7"))     return "Documento di Consenso BPPC"; // Obsoleto
+    if(code.equals("2.16.840.1.113883.10.20.1"))         return "Documento CCD";              // Obsoleto
     return defaultValue;
   }
   
@@ -179,6 +197,11 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_PROM_APPUNTAMENTO))      return "Promemoria di appuntamento";
     if(code.equals(sDOC_CONSENSO_DONAZIONE))     return "Consenso alla donazione di organo";
     if(code.equals(sDOC_CARTELLA_CLINICA))       return "Cartella clinica";
+    if(code.equals(sDOC_DATI_TACCUINO))          return "Dati Taccuino";
+    if(code.equals(sDOC_TESSERA_PORT_IMPIANTO))  return "Tessera portatori di impianto";
+    if(code.equals(sDOC_LETT_INVITO_SCREENING))  return "Lettera di invito per screening";
+    if(code.equals(sDOC_REFERTO_TELEVISITA))     return "Referto Televisita";
+    if(code.equals(sDOC_REFERTO_TELECONSULTO))   return "Referto Teleconsulto";
     if(defaultValue != null && defaultValue.equalsIgnoreCase("document")) {
       return "Documento sanitario";
     }
@@ -323,6 +346,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(defaultValue == null) defaultValue = "";
     if(code == null || code.length() == 0)  return defaultValue;
     if(code.equalsIgnoreCase("P99"))        return "Oscuramento del documento";
+    if(code.equalsIgnoreCase("P00"))        return "De-Oscuramento in alimentazione";
     if(code.equalsIgnoreCase("P97"))        return "Oscuramento al genitore";
     if(code.equalsIgnoreCase("P98"))        return "Oscuramento all'assistito";
     if(code.equalsIgnoreCase("J07BN"))      return "Vaccino per Covid-19";
@@ -339,6 +363,13 @@ class AffinityDomainIT implements IAffinityDomain
   }
   
   @Override
+  public String getEventCodingScheme(String code, String defaultValue) {
+    if(defaultValue == null) defaultValue = "";
+    if(code == null || code.length() == 0)  return defaultValue;
+    return "2.16.840.1.113883.2.9.3.3.6.1.3";
+  }
+  
+  @Override
   public String getAdministrativeRequest(String code, String defaultValue) {
     if(defaultValue == null) defaultValue = "";
     if(code == null || code.length() < 3)  return defaultValue;
@@ -348,6 +379,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(c3.equals("NOS")) return "NOSSN^Regime privato";
     if(c3.equals("SSR")) return "SSR^Regime SSR";
     if(c3.equals("DON")) return "DONOR^Regime donatori";
+    if(c3.equals("AUT")) return "AUTO^Autoprodotto";
     return defaultValue;
   }
   
@@ -360,6 +392,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equalsIgnoreCase("NOSSN"))      return "Regime privato";
     if(code.equalsIgnoreCase("SSR"))        return "Regime SSR";
     if(code.equalsIgnoreCase("DONOR"))      return "Regime donatori";
+    if(code.equalsIgnoreCase("AUTO"))       return "Autoprodotto";
     return defaultValue;
   }
   
