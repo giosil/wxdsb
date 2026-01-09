@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.dew.xds.AffinityDomainIT;
 import org.dew.xds.XDS;
 import org.dew.xds.util.Base64Coder;
 
@@ -276,7 +277,7 @@ class Utils
           String sCode = result.substring(iSepL+1);
           int iSepF = result.indexOf('^');
           if(iSepF < 0) iSepF = iSepL;
-          String sName = result.substring(0,iSepF);
+          String sName = normalizeText(result.substring(0,iSepF));
           return new String[] { sCode, sName };
         }
         if(result.indexOf(' ') > 0) {
@@ -318,7 +319,7 @@ class Utils
       if(result != null && result.length() > 0) {
         int iSep = result.indexOf('^');
         if(iSep >= 0) result = result.substring(0, iSep);
-        return result;
+        return normalizeText(result);
       }
     }
     return null;
@@ -423,11 +424,16 @@ class Utils
       return documentUniqueId;
     }
     // 2.16.840.1.113883.2.9.2.999.4.4^012345
-    int iSep = documentUniqueId.lastIndexOf('^');
+    // Possono capitare piu' ^ come successo per la Regione Veneto:
+    // 2.16.840.1.113883.2.9.2.50.4.4^2.16.840.1.113883.2.9.2.50912.4.4.6^FENIX@71892857@0
+    int iSep = documentUniqueId.indexOf('^');
     if(iSep > 0) {
       return documentUniqueId.substring(iSep+1);
     }
     // 2.16.840.1.113883.2.9.2.999.4.4.012345
+    if(!documentUniqueId.startsWith(AffinityDomainIT.sROOT_OID_HL7_IT)) {
+      return documentUniqueId;
+    }
     iSep = documentUniqueId.lastIndexOf('.');
     if(iSep > 0) {
       return documentUniqueId.substring(iSep+1);
@@ -447,6 +453,9 @@ class Utils
       return documentUniqueId.substring(0, iSep);
     }
     // 2.16.840.1.113883.2.9.2.999.4.4.012345
+    if(!documentUniqueId.startsWith(AffinityDomainIT.sROOT_OID_HL7_IT)) {
+      return documentUniqueId;
+    }
     iSep = documentUniqueId.lastIndexOf('.');
     if(iSep > 0) {
       return documentUniqueId.substring(0, iSep);
@@ -705,9 +714,9 @@ class Utils
     String sHour  = iHour  < 10 ? "0" + iHour  : String.valueOf(iHour);
     String sMin   = iMin   < 10 ? "0" + iMin   : String.valueOf(iMin);
     String sSec   = iSec   < 10 ? "0" + iSec   : String.valueOf(iSec);
-    if(iHour == 0 && iMin == 0 && iSec == 0) {
-      return iYear + sMonth + sDay;
-    }
+//    if(iHour == 0 && iMin == 0 && iSec == 0) {
+//      return iYear + sMonth + sDay;
+//    }
     return iYear + sMonth + sDay + sHour + sMin + sSec;
   }
   
@@ -734,9 +743,9 @@ class Utils
       }
       return iYear + sMonth + sDay + sHour + sMin;
     }
-    if(iHour == 0 && iMin == 0 && iSec == 0) {
-      return iYear + sMonth + sDay;
-    }
+//    if(iHour == 0 && iMin == 0 && iSec == 0) {
+//      return iYear + sMonth + sDay;
+//    }
     return iYear + sMonth + sDay + sHour + sMin + sSec;
   }
   
@@ -1412,6 +1421,50 @@ class Utils
       return sHH + sMM + sSS + sMillis;
     }
     return sHH + sMM + sSS;
+  }
+  
+  public static
+  String normalizeText(String text)
+  {
+    if(text == null || text.length() == 0) return text;
+    int length = text.length();
+    StringBuilder sb = new StringBuilder(length);
+    for(int i = 0; i < length; i++) {
+      char c = text.charAt(i);
+      if(c == '\340') sb.append("a'");
+      else if(c == '\350') sb.append("e'");
+      else if(c == '\354') sb.append("i'");
+      else if(c == '\362') sb.append("o'");
+      else if(c == '\371') sb.append("u'");
+      else if(c == '\341') sb.append("a`");
+      else if(c == '\351') sb.append("e`");
+      else if(c == '\355') sb.append("i`");
+      else if(c == '\363') sb.append("o`");
+      else if(c == '\372') sb.append("u`");
+      else if(c == '\347') sb.append("c~");
+      else if(c == '\361') sb.append("n~");
+      else if(c == '\300') sb.append("A'");
+      else if(c == '\310') sb.append("E'");
+      else if(c == '\314') sb.append("I'");
+      else if(c == '\322') sb.append("O'");
+      else if(c == '\331') sb.append("U'");
+      else if(c == '\301') sb.append("A`");
+      else if(c == '\311') sb.append("E`");
+      else if(c == '\315') sb.append("I`");
+      else if(c == '\323') sb.append("O`");
+      else if(c == '\332') sb.append("U`");
+      else if(c == '\307') sb.append("C~");
+      else if(c == '\342') sb.append("a^");
+      else if(c == '\352') sb.append("e^");
+      else if(c == '\356') sb.append("i^");
+      else if(c == '\364') sb.append("o^");
+      else if(c == '\373') sb.append("u^");
+      else if(c == '\241') sb.append("!^");
+      else if(c == '\277') sb.append("?^");
+      else if(c > 126) sb.append(" ");
+      else sb.append(c);
+    }
+    return sb.toString();
   }
   
   private static 

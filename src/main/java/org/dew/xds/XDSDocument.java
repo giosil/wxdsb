@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.dew.auth.SAMLAttributeAssertion;
+
 import org.dew.ebxml.Association;
 import org.dew.ebxml.Classification;
 import org.dew.ebxml.Utils;
@@ -91,11 +93,13 @@ class XDSDocument implements Serializable
   protected RegistryObject  registryObject;
   protected RegistryPackage registryPackage;
   protected Association     association;
+  protected String          previousVersion;
   
   protected Map<String, Object> attributes;
   
   protected byte[] content;
   // extra
+  protected SAMLAttributeAssertion assertion;
   protected String servicePath;
   protected String contentURI;
   protected Date   insertTime;
@@ -206,6 +210,7 @@ class XDSDocument implements Serializable
     this.documentSigned        = Utils.toBooleanObj(map.get("documentSigned"), null);
     this.descriptionContent    = (String) map.get("descriptionContent");
     this.administrativeRequest = (String) map.get("administrativeRequest");
+    this.previousVersion       = (String) map.get("previousVersion");
     
     setReferenceIdList(map.get("referenceIdList"));
     
@@ -242,7 +247,7 @@ class XDSDocument implements Serializable
       }
       String authorInstitutionName = (String) map.get("authorInstitutionName");
       if(authorInstitutionName != null && authorInstitutionName.length() > 0) {
-        this.author.setInstitutionName(authorInstitutionName);
+        this.author.setInstitutionName(Utils.normalizeText(authorInstitutionName));
       }
     }
     String legalAuthenticatorId = (String) map.get("legalAuthenticatorId");
@@ -1357,12 +1362,28 @@ class XDSDocument implements Serializable
     }
   }
   
+  public String getPreviousVersion() {
+    return previousVersion;
+  }
+  
+  public void setPreviousVersion(String previousVersion) {
+    this.previousVersion = previousVersion;
+  }
+  
   public boolean checkAssociationDeprecate() {
     Association oAssociation = getAssociation();
     if(oAssociation == null) return false;
     String sAssociationType = oAssociation.getAssociationType();
     if(sAssociationType == null || sAssociationType.length() == 0) return false;
     return sAssociationType.endsWith("Deprecate") || sAssociationType.endsWith("deprecate");
+  }
+  
+  public SAMLAttributeAssertion getAssertion() {
+    return assertion;
+  }
+  
+  public void setAssertion(SAMLAttributeAssertion assertion) {
+    this.assertion = assertion;
   }
   
   public String getServicePath() {
@@ -1797,13 +1818,27 @@ class XDSDocument implements Serializable
     }
     if(eventCodeList != null && eventCodeList.size() > 0) {
       for(int i = 0; i < eventCodeList.size(); i++) {
+        String eventCode = eventCodeList.get(i);
+        if(eventCode == null || eventCode.length() == 0) continue;
+        String eventName = affinityDomain.getEventDisplayName(eventCode, null);
         Classification classification = new Classification(XDS.CLS_EVENT_CODE_LIST, registryObjectId);
         classification.setHome(home);
         if(eventCodeSchemeList != null && eventCodeSchemeList.size() > i) {
           classification.addSlot(new Slot("codingScheme", eventCodeSchemeList.get(i)));
         }
-        classification.setName(eventCodeList.get(i));
-        classification.setNodeRepresentation(eventCodeList.get(i));
+        else {
+          String eventCodingScheme = affinityDomain.getEventCodingScheme(eventCode, null);
+          if(eventCodingScheme != null && eventCodingScheme.length() > 0) {
+            classification.addSlot(new Slot("codingScheme", eventCodingScheme));
+          }
+        }
+        if(eventName != null && eventName.length() > 0) {
+          classification.setName(eventName);
+        }
+        else {
+          classification.setName(eventCode);
+        }
+        classification.setNodeRepresentation(eventCode);
         result.addClassification(classification);
       }
     }
