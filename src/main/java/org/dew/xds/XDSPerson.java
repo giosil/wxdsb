@@ -362,7 +362,7 @@ class XDSPerson implements Serializable
     StringBuffer sbResult = new StringBuffer(55);
     String sId = Utils.normalizePersonId(id);
     if(sId != null) {
-      sbResult.append(id + "^"); 
+      sbResult.append(sId + "^"); 
     }
     else {
       sbResult.append("^");
@@ -371,6 +371,9 @@ class XDSPerson implements Serializable
     sbResult.append("^");
     if(codingScheme != null && codingScheme.length() > 0) {
       sbResult.append("&" + codingScheme + "&ISO");
+    }
+    else if(sId != null && sId.length() < 13) {
+      sbResult.append("&" + OID.VAT_NUMBER + "&ISO");
     }
     else {
       sbResult.append("&" + OID.PERSON_ID + "&ISO");
@@ -390,7 +393,7 @@ class XDSPerson implements Serializable
     StringBuffer sbResult = new StringBuffer(60);
     String sId = Utils.normalizePersonId(id);
     if(sId != null) {
-      sbResult.append(id + "^"); // XCN.1 (Identifier)
+      sbResult.append(sId + "^"); // XCN.1 (Identifier)
     }
     else {
       sbResult.append("^");
@@ -419,6 +422,9 @@ class XDSPerson implements Serializable
     sbResult.append("^"); // XCN.8 (Empty component)
     if(codingScheme != null && codingScheme.length() > 0) {
       sbResult.append("&" + codingScheme + "&ISO"); // XCN.9 (codingScheme)
+    }
+    else if(sId != null && sId.length() < 13) {
+      sbResult.append("&" + OID.VAT_NUMBER + "&ISO");
     }
     else {
       sbResult.append("&" + OID.PERSON_ID + "&ISO");

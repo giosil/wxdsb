@@ -4,6 +4,7 @@ public
 interface OID 
 {
   public static final String PERSON_ID      = "2.16.840.1.113883.2.9.4.3.2";
+  public static final String VAT_NUMBER     = "2.16.840.1.113883.2.9.6.3.2";
   public static final String GENDERS        = "2.16.840.1.113883.5.1";
   
   public static final String LOINC          = "2.16.840.1.113883.6.1";
