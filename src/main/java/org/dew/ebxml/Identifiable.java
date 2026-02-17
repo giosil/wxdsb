@@ -137,6 +137,18 @@ class Identifiable implements IElement, Serializable
     return true;
   }
   
+  public Slot getSlot(String name) {
+    if(name  == null || name.length() == 0) return null;
+    if(slots == null || slots.size()  == 0) return null;
+    for(int i = 0; i < slots.size(); i++) {
+      Slot slot = slots.get(i);
+      if(name.equals(slot.getName())) {
+        return slot;
+      }
+    }
+    return null;
+  }
+  
   public String[] getSlotNames() {
     if(slots == null || slots.size() == 0) return new String[0];
     String[] result = new String[slots.size()];

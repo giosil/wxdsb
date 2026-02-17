@@ -566,6 +566,63 @@ class AuthUtil
   }
   
   public static
+  String getSubjectRole(AuthAssertion[] arrayOfAssertion, String defaultValue) 
+  {
+    if(arrayOfAssertion == null || arrayOfAssertion.length == 0) {
+      return defaultValue;
+    }
+    String result = "";
+    for(int i = 0; i < arrayOfAssertion.length; i++) {
+      AuthAssertion assertion = arrayOfAssertion[i];
+      if(assertion instanceof SAMLAttributeAssertion) {
+        result = ((SAMLAttributeAssertion) assertion).getSubjectRole();
+      }
+    }
+    if(result == null || result.length() == 0) {
+      return defaultValue;
+    }
+    return result;
+  }
+  
+  public static
+  String getPurposeOfUse(AuthAssertion[] arrayOfAssertion, String defaultValue) 
+  {
+    if(arrayOfAssertion == null || arrayOfAssertion.length == 0) {
+      return defaultValue;
+    }
+    String result = "";
+    for(int i = 0; i < arrayOfAssertion.length; i++) {
+      AuthAssertion assertion = arrayOfAssertion[i];
+      if(assertion instanceof SAMLAttributeAssertion) {
+        result = ((SAMLAttributeAssertion) assertion).getPurposeOfUse();
+      }
+    }
+    if(result == null || result.length() == 0) {
+      return defaultValue;
+    }
+    return result;
+  }
+  
+  public static
+  String getDocumentType(AuthAssertion[] arrayOfAssertion, String defaultValue) 
+  {
+    if(arrayOfAssertion == null || arrayOfAssertion.length == 0) {
+      return defaultValue;
+    }
+    String result = "";
+    for(int i = 0; i < arrayOfAssertion.length; i++) {
+      AuthAssertion assertion = arrayOfAssertion[i];
+      if(assertion instanceof SAMLAttributeAssertion) {
+        result = ((SAMLAttributeAssertion) assertion).getDocumentType();
+      }
+    }
+    if(result == null || result.length() == 0) {
+      return defaultValue;
+    }
+    return result;
+  }
+  
+  public static
   String getPatientId(AuthAssertion[] arrayOfAssertion) 
   {
     String resourceId = getXACMLResourceId(arrayOfAssertion);

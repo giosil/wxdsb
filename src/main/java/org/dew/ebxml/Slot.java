@@ -207,6 +207,36 @@ class Slot implements IElement, Serializable
     this.hidden = hidden;
   }
   
+  public void setValue(String value) {
+    if(value  == null) value  = "";
+    if(values == null) {
+      values = new ArrayList<String>();
+    }
+    else {
+      values.clear();
+    }
+    values.add(value);
+  }
+  
+  public void setFirstValue(String value) {
+    if(value  == null) value  = "";
+    if(values == null) {
+      values = new ArrayList<String>();
+      values.add(value);
+    }
+    else if(values.size() == 0) {
+      values.add(value);
+    }
+    else {
+      values.set(0, value);
+    }
+  }
+  
+  public String getFirstValue() {
+    if(values == null || values.size() == 0) return null;
+    return values.get(0);
+  }
+  
   public boolean hasName(String slotName) {
     if(slotName == null) {
       return name == null;
