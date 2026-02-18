@@ -338,6 +338,52 @@ class AdhocQueryResponse implements IElement, Serializable
     return result;
   }
   
+  public String getFirstErrorMessage() {
+    if(registryErrorList == null || registryErrorList.size() == 0) {
+      return null;
+    }
+    for(int i = 0; i < registryErrorList.size(); i++) {
+      RegistryError registryError = registryErrorList.get(i);
+      if(registryError == null) continue;
+      String severity = registryError.getSeverity();
+      if(severity == null || severity.length() == 0) continue;
+      if(severity.equals(XDS.ERR_SEVERITY_ERROR)) {
+        String result = registryError.getCodeContext();
+        if(result == null || result.length() == 0) {
+          result = registryError.getErrorCode();
+        }
+        if(result == null || result.length() == 0) {
+          result = "-";
+        }
+        return result;
+      }
+    }
+    return null;
+  }
+  
+  public String getFirstWarningMessage() {
+    if(registryErrorList == null || registryErrorList.size() == 0) {
+      return null;
+    }
+    for(int i = 0; i < registryErrorList.size(); i++) {
+      RegistryError registryError = registryErrorList.get(i);
+      if(registryError == null) continue;
+      String severity = registryError.getSeverity();
+      if(severity == null || severity.length() == 0) continue;
+      if(severity.equals(XDS.ERR_SEVERITY_WARNING)) {
+        String result = registryError.getCodeContext();
+        if(result == null || result.length() == 0) {
+          result = registryError.getErrorCode();
+        }
+        if(result == null || result.length() == 0) {
+          result = "-";
+        }
+        return result;
+      }
+    }
+    return null;
+  }
+  
   @Override
   public boolean equals(Object object) {
     if(object instanceof AdhocQueryResponse) {
