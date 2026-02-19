@@ -531,6 +531,46 @@ class Utils
     return "";
   }
   
+  public static 
+  String getFirstComponent(String value) 
+  {
+    if(value == null || value.length() == 0) return value;
+    int iSep = value.indexOf('^');
+    if(iSep >= 0) {
+      value = value.substring(0, iSep).trim();
+    }
+    else {
+      value = value.trim();
+    }
+    if(value.startsWith("\"") && value.endsWith("\"")) {
+      value = value.substring(1, value.length()-1).trim();
+    }
+    if(value.startsWith("'") && value.endsWith("'")) {
+      value = value.substring(1, value.length()-1).trim();
+    }
+    return value;
+  }
+  
+  public static 
+  String getLastComponent(String value) 
+  {
+    if(value == null || value.length() == 0) return value;
+    int iSep = value.lastIndexOf('^');
+    if(iSep >= 0) {
+      value = value.substring(iSep+1).trim();
+    }
+    else {
+      value = value.trim();
+    }
+    if(value.startsWith("\"") && value.endsWith("\"")) {
+      value = value.substring(1, value.length()-1).trim();
+    }
+    if(value.startsWith("'") && value.endsWith("'")) {
+      value = value.substring(1, value.length()-1).trim();
+    }
+    return value;
+  }
+  
   public static
   boolean matchListsForFilter(List<String> listDoc, List<String> listFlt)
   {
