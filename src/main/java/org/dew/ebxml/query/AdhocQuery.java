@@ -55,14 +55,19 @@ class AdhocQuery extends RegistryObject
     if(wrapped) value = value.substring(1, value.length()-1);
     String codingScheme = Utils.extractCodingScheme(value);
     if(codingScheme == null || codingScheme.length() < 2) {
-      codingScheme = OID.PERSON_ID;
+      if(value.length() < 13) {
+        codingScheme = OID.VAT_NUMBER;
+      }
+      else {
+        codingScheme = OID.PERSON_ID;
+      }
     }
     value = Utils.normalizePersonId(value);
     if(wrapped) {
-      addSlot(new Slot("$XDSDocumentEntryPatientId", "'" + value + "^^^&" + codingScheme + "&ISO'"));
+      addSlot(new Slot("$XDSDocumentEntryPatientId", "'" + value + "^^^&" + codingScheme + "&ISO'"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryPatientId", value + "^^^&" + codingScheme + "&ISO"));
+      addSlot(new Slot("$XDSDocumentEntryPatientId", value + "^^^&" + codingScheme + "&ISO"), true);
     }
   }
   
@@ -72,13 +77,18 @@ class AdhocQuery extends RegistryObject
     if(wrapped) value = value.substring(1, value.length()-1);
     value = Utils.normalizePersonId(value);
     if(codingScheme == null || codingScheme.length() < 2) {
-      codingScheme = OID.PERSON_ID;
+      if(value.length() < 13) {
+        codingScheme = OID.VAT_NUMBER;
+      }
+      else {
+        codingScheme = OID.PERSON_ID;
+      }
     }
     if(wrapped) {
-      addSlot(new Slot("$XDSDocumentEntryPatientId", "'" + value + "^^^&" + codingScheme + "&ISO'"));
+      addSlot(new Slot("$XDSDocumentEntryPatientId", "'" + value + "^^^&" + codingScheme + "&ISO'"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryPatientId", value + "^^^&" + codingScheme + "&ISO"));
+      addSlot(new Slot("$XDSDocumentEntryPatientId", value + "^^^&" + codingScheme + "&ISO"), true);
     }
   }
   
@@ -93,14 +103,19 @@ class AdhocQuery extends RegistryObject
     if(wrapped) value = value.substring(1, value.length()-1);
     String codingScheme = Utils.extractCodingScheme(value);
     if(codingScheme == null || codingScheme.length() < 2) {
-      codingScheme = OID.PERSON_ID;
+      if(value.length() < 13) {
+        codingScheme = OID.VAT_NUMBER;
+      }
+      else {
+        codingScheme = OID.PERSON_ID;
+      }
     }
     value = Utils.normalizePersonId(value);
     if(wrapped) {
-      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", "'" + value + "^^^^^^^^&" + codingScheme + "&ISO'"));
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", "'" + value + "^^^^^^^^&" + codingScheme + "&ISO'"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value + "^^^^^^^^&" + codingScheme + "&ISO"));
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value + "^^^^^^^^&" + codingScheme + "&ISO"), true);
     }
   }
   
@@ -110,13 +125,18 @@ class AdhocQuery extends RegistryObject
     if(wrapped) value = value.substring(1, value.length()-1);
     value = Utils.normalizePersonId(value);
     if(codingScheme == null || codingScheme.length() < 2) {
-      codingScheme = OID.PERSON_ID;
+      if(value.length() < 13) {
+        codingScheme = OID.VAT_NUMBER;
+      }
+      else {
+        codingScheme = OID.PERSON_ID;
+      }
     }
     if(wrapped) {
-      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", "'" + value + "^^^^^^^^&" + codingScheme + "&ISO'"));
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", "'" + value + "^^^^^^^^&" + codingScheme + "&ISO'"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value + "^^^^^^^^&" + codingScheme + "&ISO"));
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value + "^^^^^^^^&" + codingScheme + "&ISO"), true);
     }
   }
   
@@ -135,7 +155,7 @@ class AdhocQuery extends RegistryObject
   public void setCreationTime(Object value) {
     if(value == null) return;
     Date dateTime = Utils.toDate(value);
-    addSlot(new Slot("creationTime", Utils.formatTime(dateTime)));
+    addSlot(new Slot("creationTime", Utils.formatTime(dateTime)), true);
   }
   
   public Date getCreationTimeFrom() {
@@ -145,7 +165,7 @@ class AdhocQuery extends RegistryObject
   public void setCreationTimeFrom(Object value) {
     if(value == null) return;
     Date dateTime = Utils.toDate(value);
-    addSlot(new Slot("$XDSDocumentEntryCreationTimeFrom", Utils.formatTime(dateTime)));
+    addSlot(new Slot("$XDSDocumentEntryCreationTimeFrom", Utils.formatTime(dateTime)), true);
   }
   
   public Date getCreationTimeTo() {
@@ -155,7 +175,7 @@ class AdhocQuery extends RegistryObject
   public void setCreationTimeTo(Object value) {
     if(value == null) return;
     Date dateTime = Utils.toDate(value);
-    addSlot(new Slot("$XDSDocumentEntryCreationTimeTo", Utils.formatTime(dateTime)));
+    addSlot(new Slot("$XDSDocumentEntryCreationTimeTo", Utils.formatTime(dateTime)), true);
   }
   
   public List<String> getStatusValues() {
@@ -172,7 +192,7 @@ class AdhocQuery extends RegistryObject
       sValues += ",'" + value + "'";
     }
     if(sValues.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryStatus", "(" + sValues.substring(1) + ")"));
+    addSlot(new Slot("$XDSDocumentEntryStatus", "(" + sValues.substring(1) + ")"), true);
   }
   
   public void setStatusValues(String... arrayOfString) {
@@ -185,7 +205,7 @@ class AdhocQuery extends RegistryObject
       sValues += ",'" + value + "'";
     }
     if(sValues.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryStatus", "(" + sValues.substring(1) + ")"));
+    addSlot(new Slot("$XDSDocumentEntryStatus", "(" + sValues.substring(1) + ")"), true);
   }
   
   public String getUniqueId() {
@@ -207,10 +227,10 @@ class AdhocQuery extends RegistryObject
   public void setUniqueId(String value) {
     if(value == null || value.length() == 0) return;
     if(value.startsWith("'")) {
-      addSlot(new Slot("$XDSDocumentEntryUniqueId", "(" + value + ")"));
+      addSlot(new Slot("$XDSDocumentEntryUniqueId", "(" + value + ")"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryUniqueId", "('" + value.replace(",", "','") + "')"));
+      addSlot(new Slot("$XDSDocumentEntryUniqueId", "('" + value.replace(",", "','") + "')"), true);
     }
   }
   
@@ -225,10 +245,10 @@ class AdhocQuery extends RegistryObject
   public void setUUID(String value) {
     if(value == null || value.length() == 0) return;
     if(value.startsWith("'")) {
-      addSlot(new Slot("$XDSDocumentEntryEntryUUID", "(" + value + ")"));
+      addSlot(new Slot("$XDSDocumentEntryEntryUUID", "(" + value + ")"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryEntryUUID", "('" + value.replace(",", "','") + "')"));
+      addSlot(new Slot("$XDSDocumentEntryEntryUUID", "('" + value.replace(",", "','") + "')"), true);
     }
   }
   
@@ -243,10 +263,10 @@ class AdhocQuery extends RegistryObject
   public void setReferenceIdList(String value) {
     if(value == null || value.length() == 0) return;
     if(value.startsWith("'")) {
-      addSlot(new Slot("$XDSDocumentEntryReferenceIdList", "(" + value + ")"));
+      addSlot(new Slot("$XDSDocumentEntryReferenceIdList", "(" + value + ")"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryReferenceIdList", "('" + value.replace(",", "','") + "')"));
+      addSlot(new Slot("$XDSDocumentEntryReferenceIdList", "('" + value.replace(",", "','") + "')"), true);
     }
   }
   
@@ -331,7 +351,7 @@ class AdhocQuery extends RegistryObject
       sValues += ",'" + value + "'";
     }
     if(sValues.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryEventCodeList", "(" + sValues.substring(1) + ")"));
+    addSlot(new Slot("$XDSDocumentEntryEventCodeList", "(" + sValues.substring(1) + ")"), true);
   }
   
   public void setClassCodes(List<String> listValues) {
@@ -357,7 +377,7 @@ class AdhocQuery extends RegistryObject
       }
     }
     if(sValues.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryClassCode", "(" + sValues.substring(1) + ")"));
+    addSlot(new Slot("$XDSDocumentEntryClassCode", "(" + sValues.substring(1) + ")"), true);
   }
   
   public void setClassCodes(String... arrayOfString) {
@@ -388,7 +408,7 @@ class AdhocQuery extends RegistryObject
       }
     }
     if(sValues.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryFormatCode", "(" + sValues.substring(1) + ")"));
+    addSlot(new Slot("$XDSDocumentEntryFormatCode", "(" + sValues.substring(1) + ")"), true);
   }
   
   public void setFormatCodes(String... arrayOfString) {
@@ -419,7 +439,7 @@ class AdhocQuery extends RegistryObject
       }
     }
     if(sValues.length() == 0) return;
-    addSlot(new Slot("$XDSDocumentEntryTypeCode", "(" + sValues.substring(1) + ")"));
+    addSlot(new Slot("$XDSDocumentEntryTypeCode", "(" + sValues.substring(1) + ")"), true);
   }
   
   public void setTypeCodes(String... arrayOfString) {
@@ -462,10 +482,10 @@ class AdhocQuery extends RegistryObject
   public void setEventCodeList(String value) {
     if(value == null || value.length() == 0) return;
     if(value.startsWith("'")) {
-      addSlot(new Slot("$XDSDocumentEntryEventCodeList", "(" + value + ")"));
+      addSlot(new Slot("$XDSDocumentEntryEventCodeList", "(" + value + ")"), true);
     }
     else {
-      addSlot(new Slot("$XDSDocumentEntryEventCodeList", "('" + value.replace(",", "','") + "')"));
+      addSlot(new Slot("$XDSDocumentEntryEventCodeList", "('" + value.replace(",", "','") + "')"), true);
     }
   }
   
@@ -492,7 +512,7 @@ class AdhocQuery extends RegistryObject
     if(slotName == null || slotName.length() == 0) return;
     if(value == null || value.length() == 0) return;
     value = firstValue(value);
-    addSlot(new Slot(slotName, "'" + value.trim() + "'"));
+    addSlot(new Slot(slotName, "'" + value.trim() + "'"), true);
   }
   
   /**
@@ -549,7 +569,7 @@ class AdhocQuery extends RegistryObject
       sValues += ",'" + value.trim() + "'";
     }
     if(sValues.length() == 0) return;
-    addSlot(new Slot(slotName, "(" + sValues.substring(1) + ")"));
+    addSlot(new Slot(slotName, "(" + sValues.substring(1) + ")"), true);
   }
   
   protected String firstValue(String value) {

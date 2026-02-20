@@ -101,7 +101,7 @@ class Identifiable implements IElement, Serializable
   }
   
   public boolean addSlot(Slot slot) {
-    if(slot  == null) return false;
+    if(slot == null) return false;
     String slotName = slot.getName();
     if(slotName == null || slotName.length() == 0) return false;
     if(slots == null) slots = new ArrayList<Slot>();
@@ -109,6 +109,28 @@ class Identifiable implements IElement, Serializable
       Slot slot_i = slots.get(i);
       String name = slot_i.getName();
       if(slotName.equals(name)) return false;
+    }
+    slots.add(slot);
+    return true;
+  }
+  
+  public boolean addSlot(Slot slot, boolean replaceIfExists) {
+    if(slot == null) return false;
+    String slotName = slot.getName();
+    if(slotName == null || slotName.length() == 0) return false;
+    if(slots == null) slots = new ArrayList<Slot>();
+    for(int i = 0; i < slots.size(); i++) {
+      Slot slot_i = slots.get(i);
+      String name = slot_i.getName();
+      if(slotName.equals(name)) {
+        if(replaceIfExists) {
+          slots.set(i, slot);
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
     }
     slots.add(slot);
     return true;
