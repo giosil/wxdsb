@@ -21,12 +21,6 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sROOT_OID_ICD9_DIAGNOSIS    = "2.16.840.1.113883.6.103";
   public static final String sROOT_OID_ICD9_PROCEDURES   = "2.16.840.1.113883.6.104";
   
-  // [fse-ejb]        it.ised.fse.validation.ValidationUtils
-  // [fse-portlets]   it.ised.fse.portal.Options
-  // [fse-control]    it.ised.fse.ws.WSStatistiche
-  // [fse-xds]        it.ised.xds.AffinityDomainIT
-  // [fse-ini-client] it.ised.xds.AffinityDomainIT
-  // [fse-middleware] it.ised.xds.AffinityDomainIT
   // Affinity Domain INI
   public static final String sDOC_PRESCRIZIONE_FARM      = "57833-6";
   public static final String sDOC_PROFILO_SANITARIO_SIN  = "60591-5";
@@ -38,7 +32,7 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_REFERTO_RADIOLOGIA     = "68604-8";
   public static final String sDOC_REFERTO_ANATOMIA_PAT   = "11526-1";
   public static final String sDOC_REGISTRAZIONE_CONSENSO = "59284-0";
-  public static final String sDOC_CERTIFICATO_MALATTIA   = "28653-4";
+  public static final String sDOC_CERTIFICATO_MALATTIA   = "104531-9";
   public static final String sDOC_PRESCRIZIONE_SPEC      = "57832-8";
   public static final String sDOC_EROGAZIONE_FARM        = "29304-3";
   public static final String sDOC_REFERTO_SPECIALISTICO  = "11488-4";
@@ -66,8 +60,13 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_DATI_TACCUINO          = "53576-5";
   public static final String sDOC_TESSERA_PORT_IMPIANTO  = "101881-1";
   public static final String sDOC_LETT_INVITO_SCREENING  = "108276-7";
+  public static final String sDOC_LETT_INVITO_VACCINAZ   = "111490-9";
+  public static final String sDOC_RELAZ_TELEMONITORAGGIO = "112062-5";
   public static final String sDOC_REFERTO_TELEVISITA     = "75496-0";
   public static final String sDOC_REFERTO_TELECONSULTO   = "85208-7";
+  // 2026
+  public static final String sDOC_REFERTO_TELEASSISTENZA = "112063-3";
+  public static final String sDOC_REP_TELEMONITORAGGIO   = "111827-2";
   // Documenti aggiunti / gestiti da Regione Lazio
   public static final String sDOC_PROMEMORIA_PREN_CUP    = "86530-3"; // (28636-9 Obsoleto)
   public static final String sDOC_ANNULLAMENTO           = "11506-3";
@@ -79,6 +78,7 @@ class AffinityDomainIT implements IAffinityDomain
   public static final String sDOC_RICHIESTA_DI_RICOVERO  = "57830-2";
   public static final String sDOC_RICHIESTA_TRASPORTO    = "57834-4";
   public static final String sDOC_VACCINAZIONI           = "11369-6"; // Obsoleto
+  public static final String sDOC_CERT_MALATTIA_OBS      = "28653-4"; // Obsoleto
   // Tipologie "virtuali"
   public static final String sDOC_MESSAGGIO_INFORMATIVO  = "45504-8";
   
@@ -102,6 +102,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("CON")) return "Documento di consenso";
     if(code.equals("CNT")) return "Documento di controllo";
     if(code.equals("CRT")) return "Certificato Amministrativo Generico";
+    if(code.equals("LET")) return "Lettera";
+    if(code.equals("PRO")) return "Promemoria";
+    if(code.equals("COL")) return "Collezione documentale";
     return defaultValue;
   }
   
@@ -166,6 +169,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "Referto di Anatomia Patologica";
     if(code.equals(sDOC_REGISTRAZIONE_CONSENSO)) return "Registrazione consenso";
     if(code.equals(sDOC_CERTIFICATO_MALATTIA))   return "Certificato di malattia";
+    if(code.equals(sDOC_CERT_MALATTIA_OBS))      return "Certificato di malattia";
     if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "Prescrizione specialistica";
     if(code.equals(sDOC_EROGAZIONE_FARM))        return "Erogazione farmaceutica";
     if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "Referto specialistico";
@@ -200,8 +204,12 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_DATI_TACCUINO))          return "Dati Taccuino";
     if(code.equals(sDOC_TESSERA_PORT_IMPIANTO))  return "Tessera portatori di impianto";
     if(code.equals(sDOC_LETT_INVITO_SCREENING))  return "Lettera di invito per screening";
+    if(code.equals(sDOC_LETT_INVITO_VACCINAZ))   return "Lettera di invito per vaccinazione";
+    if(code.equals(sDOC_RELAZ_TELEMONITORAGGIO)) return "Relazione di Telemonitoraggio";
     if(code.equals(sDOC_REFERTO_TELEVISITA))     return "Referto Televisita";
     if(code.equals(sDOC_REFERTO_TELECONSULTO))   return "Referto Teleconsulto";
+    if(code.equals(sDOC_REFERTO_TELEASSISTENZA)) return "Referto Teleassistenza";
+    if(code.equals(sDOC_REP_TELEMONITORAGGIO))   return "Report settimanale di telemonitoraggio";
     if(defaultValue != null && defaultValue.equalsIgnoreCase("document")) {
       return "Documento sanitario";
     }
@@ -416,10 +424,10 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_PRESCRIZIONE_APPAR_MED.equals(type)) {
       return "RIC";
     }
-    if(sDOC_REGISTRAZIONE_CONSENSO.equals(type)) {
+    if(sDOC_REGISTRAZIONE_CONSENSO.equals(type) || sDOC_CONSENSO_DONAZIONE.equals(type)) {
       return "CON";
     }
-    if(sDOC_PROFILO_SANITARIO_SIN.equals(type)) {
+    if(sDOC_PROFILO_SANITARIO_SIN.equals(type) || sDOC_RESOCONTO_SICUREZZA.equals(type) || sDOC_TESSERA_PORT_IMPIANTO.equals(type)) {
       return "SUM";
     }
     if(sDOC_VACCINAZIONI.equals(type)) {
@@ -431,13 +439,13 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_SCHEDA_VACCINALE.equals(type)) {
       return "VAC";
     }
-    if(sDOC_LETTERA_DIM_OSP.equals(type)) {
+    if(sDOC_LETTERA_DIM_OSP.equals(type) || sDOC_LETTERA_DIM_NON_OSP.equals(type)) {
       return "LDO";
     }
     if(sDOC_PDTA.equals(type)) {
       return "WOR";
     }
-    if(sDOC_DIGITAL_GREEN_CERT.equals(type)) {
+    if(sDOC_DIGITAL_GREEN_CERT.equals(type) || sDOC_CERTIFICATO_GUARIGIONE.equals(type)) {
       return "CER";
     }
     if(sDOC_VERBALE_PRONTO_SOCC.equals(type)) {
@@ -445,6 +453,42 @@ class AffinityDomainIT implements IAffinityDomain
     }
     if(sDOC_EROGAZIONE_FARM.equals(type) || sDOC_EROGAZIONE_SPEC.equals(type)) {
       return "PRE";
+    }
+    if(sDOC_MED_EQUIP_DISP_BRIEF.equals(type) || sDOC_MED_EQUIP_DISP_EXTEND.equals(type)) {
+      return "PRE";
+    }
+    if(sDOC_SPEC_CARE_DISP_BRIEF.equals(type) || sDOC_SPEC_CARE_DISP_EXTEND.equals(type)) {
+      return "PRE";
+    }
+    if(sDOC_REFERTO_TELEVISITA.equals(type) || sDOC_REFERTO_TELECONSULTO.equals(type) || sDOC_REFERTO_TELEASSISTENZA.equals(type)) {
+      return "REF";
+    }
+    if(sDOC_LETTERA_FINE_TRATTAM.equals(type) || sDOC_LETT_INVITO_SCREENING.equals(type) || sDOC_LETT_INVITO_VACCINAZ.equals(type)) {
+      return "LET";
+    }
+    if(sDOC_BILANCIO_DI_SALUTE.equals(type) || sDOC_RELAZ_TELEMONITORAGGIO.equals(type) || sDOC_REP_TELEMONITORAGGIO.equals(type)) {
+      return "CNT";
+    }
+    if(sDOC_ESENZIONE.equals(type)) {
+      return "ESE";
+    }
+    if(sDOC_PIANO_TERAPEUTICO.equals(type)) {
+      return "PDC";
+    }
+    if(sDOC_CERTIFICATO_MALATTIA.equals(type) || sDOC_CERT_MALATTIA_OBS.equals(type)) {
+      return "CRT";
+    }
+    if(sDOC_PROM_APPUNTAMENTO.equals(type) || sDOC_PROMEMORIA_PREN_CUP.equals(type)) {
+      return "PRO";
+    }
+    if(sDOC_CARTELLA_CLINICA.equals(type)) {
+      return "COL";
+    }
+    if(sDOC_TACCUINO.equals(type) || sDOC_DATI_TACCUINO.equals(type)) {
+      return "TAC";
+    }
+    if(sDOC_REFERTO_TELEVISITA.equals(type) || sDOC_REFERTO_TELECONSULTO.equals(type) || sDOC_REFERTO_TELEASSISTENZA.equals(type)) {
+      return "REF";
     }
     return defaultValue;
   }
@@ -631,6 +675,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(sDOC_REFERTO_AMBULATORIALE.equals(type) || sDOC_REFERTO_SPECIALISTICO.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.9.1";
     }
+    if(sDOC_REFERTO_TELEVISITA.equals(type) || sDOC_REFERTO_TELECONSULTO.equals(type) || sDOC_REFERTO_TELEASSISTENZA.equals(type)) {
+      return "2.16.840.1.113883.2.9.10.1.9.1";
+    }
     if(sDOC_REFERTO_GENERICO.equals(type)) {
       return "2.16.840.1.113883.2.9.10.1.12.1";
     }
@@ -653,6 +700,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "2.16.840.1.113883.2.9.10.2.16";
     if(code.equals(sDOC_REGISTRAZIONE_CONSENSO)) return "2.16.840.1.113883.2.9.10.2.27";
     if(code.equals(sDOC_CERTIFICATO_MALATTIA))   return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_CERT_MALATTIA_OBS))      return "2.16.840.1.113883.2.9.10.2.4";
     if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "2.16.840.1.113883.2.9.10.2.7";
     if(code.equals(sDOC_EROGAZIONE_FARM))        return "2.16.840.1.113883.2.9.10.2.6";
     if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "2.16.840.1.113883.2.9.10.2.19";
@@ -672,6 +720,9 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_CERTIFICATO_GUARIGIONE)) return "2.16.840.1.113883.2.9.10.1.6.1";
     if(code.equals(sDOC_RESOCONTO_SICUREZZA))    return "2.16.840.1.113883.2.9.10.2.4";
     if(code.equals(sDOC_PIANO_TERAPEUTICO))      return "2.16.840.1.113883.2.9.10.2.4";
+    if(code.equals(sDOC_REFERTO_TELEVISITA))     return "2.16.840.1.113883.2.9.10.2.6";
+    if(code.equals(sDOC_REFERTO_TELECONSULTO))   return "2.16.840.1.113883.2.9.10.2.6";
+    if(code.equals(sDOC_REFERTO_TELEASSISTENZA)) return "2.16.840.1.113883.2.9.10.2.6";
     return "";
   }
   
@@ -691,6 +742,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals(sDOC_REFERTO_ANATOMIA_PAT))   return "ITPRF_REF_LABIST-001";
     if(code.equals(sDOC_REGISTRAZIONE_CONSENSO)) return "ITPRF_GEST_CONS-001";
     if(code.equals(sDOC_CERTIFICATO_MALATTIA))   return "ITPRF_CERT_INPS-001";
+    if(code.equals(sDOC_CERT_MALATTIA_OBS))      return "ITPRF_CERT_INPS-001";
     if(code.equals(sDOC_PRESCRIZIONE_SPEC))      return "ITPRF_PRESC_SPEC-001";
     if(code.equals(sDOC_EROGAZIONE_FARM))        return "ITPRF_EROG_FARMA-001";
     if(code.equals(sDOC_REFERTO_SPECIALISTICO))  return "ITPRF_REF_SPEC-001";
