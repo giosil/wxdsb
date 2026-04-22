@@ -103,6 +103,7 @@ class XDSDocument implements Serializable
   protected String servicePath;
   protected String contentURI;
   protected Date   insertTime;
+  protected String externalId;
   // FSE 2.0
   protected String  repositoryType;        // urn:ita:2017:repository-type
   protected Boolean documentSigned;        // urn:ita:2022:documentSigned
@@ -204,6 +205,7 @@ class XDSDocument implements Serializable
     this.servicePath           = (String) map.get("servicePath");
     this.contentURI            = (String) map.get("contentURI");
     this.insertTime            = Utils.toDate(map.get("insertTime"));
+    this.externalId            = (String) map.get("externalId");
     
     // FSE 2.0
     this.repositoryType        = (String) map.get("repositoryType");
@@ -360,6 +362,7 @@ class XDSDocument implements Serializable
     mapResult.put("servicePath",               servicePath);
     mapResult.put("contentURI",                contentURI);
     mapResult.put("insertTime",                insertTime);
+    mapResult.put("externalId",                externalId);
     
     // FSE 2.0
     mapResult.put("repositoryType",            repositoryType);
@@ -1408,6 +1411,14 @@ class XDSDocument implements Serializable
   
   public void setInsertTime(Date insertTime) {
     this.insertTime = insertTime;
+  }
+  
+  public String getExternalId() {
+    return externalId;
+  }
+  
+  public void setExternalId(String externalId) {
+    this.externalId = externalId;
   }
   
   public Boolean getDocumentSigned() {
