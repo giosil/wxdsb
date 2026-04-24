@@ -50,7 +50,10 @@ class AdhocQuery extends RegistryObject
   }
   
   public void setPatientId(String value) {
-    if(value == null || value.length() == 0) return;
+    if(value == null || value.length() == 0) {
+      removeSlot("$XDSDocumentEntryPatientId");
+      return;
+    }
     boolean wrapped = value.startsWith("'") && value.endsWith("'");
     if(wrapped) value = value.substring(1, value.length()-1);
     String codingScheme = Utils.extractCodingScheme(value);
@@ -72,7 +75,10 @@ class AdhocQuery extends RegistryObject
   }
   
   public void setPatientId(String value, String codingScheme) {
-    if(value == null || value.length() == 0) return;
+    if(value == null || value.length() == 0) {
+      removeSlot("$XDSDocumentEntryPatientId");
+      return;
+    }
     boolean wrapped = value.startsWith("'") && value.endsWith("'");
     if(wrapped) value = value.substring(1, value.length()-1);
     value = Utils.normalizePersonId(value);
@@ -98,7 +104,14 @@ class AdhocQuery extends RegistryObject
   }
   
   public void setAuthorId(String value) {
-    if(value == null || value.length() == 0) return;
+    if(value == null || value.length() == 0) {
+      removeSlot("$XDSDocumentEntryAuthorPerson");
+      return;
+    }
+    if(value.indexOf('%') > 0) {
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value), true);
+      return;
+    }
     boolean wrapped = value.startsWith("'") && value.endsWith("'");
     if(wrapped) value = value.substring(1, value.length()-1);
     String codingScheme = Utils.extractCodingScheme(value);
@@ -120,7 +133,14 @@ class AdhocQuery extends RegistryObject
   }
   
   public void setAuthorId(String value, String codingScheme) {
-    if(value == null || value.length() == 0) return;
+    if(value == null || value.length() == 0) {
+      removeSlot("$XDSDocumentEntryAuthorPerson");
+      return;
+    }
+    if(value.indexOf('%') > 0) {
+      addSlot(new Slot("$XDSDocumentEntryAuthorPerson", value), true);
+      return;
+    }
     boolean wrapped = value.startsWith("'") && value.endsWith("'");
     if(wrapped) value = value.substring(1, value.length()-1);
     value = Utils.normalizePersonId(value);
