@@ -537,6 +537,31 @@ class AuthUtil
   }
   
   public static
+  SAMLAttributeAssertion getSAMLAttributeAssertion(AuthAssertion[] arrayOfAssertion) 
+  {
+    if(arrayOfAssertion == null || arrayOfAssertion.length == 0) {
+      return null;
+    }
+    SAMLAttributeAssertion result = null;
+    SAMLAssertion samlAssertion   = null;
+    for(int i = 0; i < arrayOfAssertion.length; i++) {
+      AuthAssertion assertion = arrayOfAssertion[i];
+      if(assertion instanceof SAMLAttributeAssertion) {
+        result = (SAMLAttributeAssertion) assertion;
+        break;
+      }
+      else if(assertion instanceof SAMLAssertion) {
+        samlAssertion = (SAMLAssertion) assertion;
+      }
+    }
+    if(result != null) return result;
+    if(samlAssertion != null) {
+      return new SAMLAttributeAssertion(samlAssertion);
+    }
+    return result;
+  }
+  
+  public static
   String getUserId(AuthAssertion[] arrayOfAssertion) 
   {
     if(arrayOfAssertion == null || arrayOfAssertion.length == 0) return null;

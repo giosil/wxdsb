@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.dew.xds.AffinityDomainIT;
 import org.dew.xds.XDS;
+import org.dew.xds.XDSDocument;
 import org.dew.xds.util.Base64Coder;
 
 public 
@@ -1611,5 +1612,54 @@ class Utils
     }
     
     return text;
+  }
+
+  public static
+  XDSDocument[] filter(XDSDocument[] arrayOfXDSDocument, String uniqueIdStartsWith)
+  {
+    return filter(arrayOfXDSDocument, uniqueIdStartsWith, null);
+  }
+  
+  public static
+  XDSDocument[] filter(XDSDocument[] arrayOfXDSDocument, String uniqueIdStartsWith, List<String> listDiscarded)
+  {
+    if(arrayOfXDSDocument == null || arrayOfXDSDocument.length == 0) {
+      return arrayOfXDSDocument;
+    }
+    if(uniqueIdStartsWith == null || uniqueIdStartsWith.length() == 0) {
+      return arrayOfXDSDocument;
+    }
+    boolean not = uniqueIdStartsWith.startsWith("!");
+    if(not) {
+      uniqueIdStartsWith = uniqueIdStartsWith.substring(1);
+    }
+    List<XDSDocument> listOfXDSDocument = new ArrayList<XDSDocument>();
+    for(int i = 0; i < arrayOfXDSDocument.length; i++) {
+      XDSDocument xdsDocument = arrayOfXDSDocument[i];
+      if(xdsDocument == null) continue;
+      String uniqueId = xdsDocument.getUniqueId();
+      if(uniqueId == null || uniqueId.length() == 0) continue;
+      if(not) {
+        if(!uniqueId.startsWith(uniqueIdStartsWith)) {
+          listOfXDSDocument.add(xdsDocument);
+        }
+        else {
+          if(listDiscarded != null) listDiscarded.add(uniqueId);
+        }
+      }
+      else {
+        if(uniqueId.startsWith(uniqueIdStartsWith)) {
+          listOfXDSDocument.add(xdsDocument);
+        }
+        else {
+          if(listDiscarded != null) listDiscarded.add(uniqueId);
+        }
+      }
+    }
+    XDSDocument[] result = new XDSDocument[listOfXDSDocument.size()];
+    for(int i = 0; i < listOfXDSDocument.size(); i++) {
+      result[i] = listOfXDSDocument.get(i);
+    }
+    return result;
   }
 }
