@@ -173,6 +173,6 @@ class ITI57Service extends HttpServlet
       return;
     }
     
-    WSUtil.sendResponse(response, result.toXML(null), sNsURIEnvelope, "urn:ihe:iti:xds-b:2010:XDSDeletetWS:DocumentRegistry_DeleteDocumentSetResponse", sMessageID);
+    WSUtil.sendResponse(response, result.toXML(null), sNsURIEnvelope, "urn:ihe:iti:2010:UpdateDocumentSetResponse", sMessageID);
   }
 }
