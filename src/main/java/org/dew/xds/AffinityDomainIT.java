@@ -138,7 +138,7 @@ class AffinityDomainIT implements IAffinityDomain
     if(code.equals("SistemaTS-Esenzione"))               return "Esenzione da reddito Sistema TS";
     if(code.equals("2.16.840.1.113883.2.9.10.1.2"))      return "Prescrizione";
     if(code.equals("2.16.840.1.113883.2.9.10.1.1"))      return "Referto di Laboratorio";
-    if(code.equals("2.16.840.1.113883.2.9.10.2.4.1.1"))  return "Profilo Sanitario Sintetico";
+    if(code.equals("2.16.840.1.113883.2.9.10.1.4.1.1"))  return "Profilo Sanitario Sintetico";
     if(code.equals("2.16.840.1.113883.2.9.10.1.5"))      return "Lettera di Dimissione Ospedaliera";
     if(code.equals("2.16.840.1.113883.2.9.10.1.7"))      return "Referto di Radiologia"; // Obsoleto
     if(code.equals("2.16.840.1.113883.2.9.10.1.7.1"))    return "Referto di Radiologia";
