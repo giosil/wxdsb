@@ -16,6 +16,7 @@ interface OID
   public static final String SNOMED_CT      = "2.16.840.1.113883.6.96";
   public static final String ICD9CM_NEW     = "2.16.840.1.113883.6.103";
   
+  public static final String FLS11          = "2.16.840.1.113883.2.9.4.1.1";
   public static final String HSP11          = "2.16.840.1.113883.2.9.4.1.2";
   public static final String STS11          = "2.16.840.1.113883.2.9.4.1.3";
   public static final String RIA11          = "2.16.840.1.113883.2.9.4.1.5";
