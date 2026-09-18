@@ -256,6 +256,11 @@ class AuthContentHandler implements ContentHandler
         assertion.setSubjectId(sCurrentValue);
       }
     }
+    else if(sCurrentTag.endsWith("|authncontext|authncontextclassref")) {
+      if(assertion != null) {
+        assertion.setAuthnContextClassRef(sCurrentValue);
+      }
+    }
     else if(sCurrentTag.endsWith("|attributestatement|attribute|attributevalue")) {
       if(assertion != null && attributeName != null && attributeName.length() > 0) {
         if(attributeName.startsWith("urn:oasis:names:tc:xacml") || attributeName.startsWith("urn:oasis:names:tc:xspa")) {
