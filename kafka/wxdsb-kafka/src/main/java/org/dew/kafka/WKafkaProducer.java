@@ -108,7 +108,7 @@ class WKafkaProducer
         
         ProducerRecord<String, String> record = new ProducerRecord<String, String>(KAFKA_TOPIC, value);
         
-        System.out.println("consumer.send(new ProducerRecord(" + KAFKA_TOPIC + "," + value + "))...");
+        System.out.println("producer.send(new ProducerRecord(" + KAFKA_TOPIC + "," + value + "))...");
         
         producer.send(record);
         
